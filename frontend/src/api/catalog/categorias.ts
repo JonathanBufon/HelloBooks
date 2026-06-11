@@ -21,3 +21,9 @@ export async function atualizarCategoria(
 }
 
 export const atualizar = atualizarCategoria
+
+export async function removerCategoria(idCategoria: number): Promise<void> {
+  await apiClient.delete(`/categorias/${idCategoria}`)
+}
+
+export const remover = removerCategoria

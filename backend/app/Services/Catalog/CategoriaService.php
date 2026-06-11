@@ -3,6 +3,7 @@
 namespace App\Services\Catalog;
 
 use App\Domain\Exceptions\DomainException;
+use App\Domain\Exceptions\RecursoEmUsoException;
 use App\Models\Categoria;
 use App\Repositories\Catalog\CategoriaRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -43,5 +44,29 @@ class CategoriaService
         }
 
         return $categoria->refresh();
+    }
+
+    public function remover(int $id): void
+    {
+        $categoria = $this->detalhe($id);
+        $totalLivros = $categoria->livros()->count();
+
+        if ($totalLivros > 0) {
+            throw new RecursoEmUsoException(
+                'Categoria ainda esta associada a livros.',
+                ['livros' => $totalLivros],
+                'CATEGORIA_REFERENCIADA',
+            );
+        }
+
+        try {
+            $categoria->delete();
+        } catch (QueryException $exception) {
+            if ($exception->getCode() === '23503') {
+                throw new RecursoEmUsoException('Categoria ainda esta associada a livros.', ['livros' => $totalLivros], 'CATEGORIA_REFERENCIADA', $exception);
+            }
+
+            throw $exception;
+        }
     }
 }

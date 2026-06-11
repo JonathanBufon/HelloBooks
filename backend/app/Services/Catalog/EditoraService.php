@@ -2,9 +2,11 @@
 
 namespace App\Services\Catalog;
 
+use App\Domain\Exceptions\RecursoEmUsoException;
 use App\Models\Editora;
 use App\Repositories\Catalog\EditoraRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\QueryException;
 
 class EditoraService
 {
@@ -32,5 +34,29 @@ class EditoraService
         $editora->update(['nome' => $nome]);
 
         return $editora->refresh();
+    }
+
+    public function remover(int $id): void
+    {
+        $editora = $this->detalhe($id);
+        $totalLivros = $editora->livros()->count();
+
+        if ($totalLivros > 0) {
+            throw new RecursoEmUsoException(
+                'Editora ainda esta associada a livros.',
+                ['livros' => $totalLivros],
+                'EDITORA_REFERENCIADA',
+            );
+        }
+
+        try {
+            $editora->delete();
+        } catch (QueryException $exception) {
+            if ($exception->getCode() === '23503') {
+                throw new RecursoEmUsoException('Editora ainda esta associada a livros.', ['livros' => $totalLivros], 'EDITORA_REFERENCIADA', $exception);
+            }
+
+            throw $exception;
+        }
     }
 }

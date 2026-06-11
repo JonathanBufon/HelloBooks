@@ -33,6 +33,13 @@ class AutorController extends Controller
         return new JsonResponse((new AutorResource($this->autores->atualizar($id, $request->validated('nome'))))->resolve($request));
     }
 
+    public function destroy(int $id): JsonResponse
+    {
+        $this->autores->remover($id);
+
+        return new JsonResponse(null, 204);
+    }
+
     private function pagina(Request $request, LengthAwarePaginator $pagina): JsonResponse
     {
         return new JsonResponse([

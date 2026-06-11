@@ -144,6 +144,10 @@ cd frontend && npm run test
 
 ## Critérios de "smoke OK"
 
+Smoke executado em 2026-06-11 no Docker Compose local: `smoke_ok` com criação de livro,
+3 exemplares, busca/detalhe, atualização de exemplar, `DELETE /editoras/{id}` retornando
+`409` e `logs_atividades >= 5`.
+
 Considere o ambiente saudável quando:
 - ✅ `4.1` retorna `201` com o livro criado e ids de editora/autor/categoria preenchidos.
 - ✅ `4.2` retorna `201` com 3 exemplares, todos `disponivel` / `intacto`.

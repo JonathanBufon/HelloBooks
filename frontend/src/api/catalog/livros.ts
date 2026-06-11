@@ -34,3 +34,9 @@ export async function atualizarLivro(idLivro: number, payload: LivroUpdate): Pro
 }
 
 export const atualizar = atualizarLivro
+
+export async function removerLivro(idLivro: number): Promise<void> {
+  await apiClient.delete(`/livros/${idLivro}`)
+}
+
+export const remover = removerLivro

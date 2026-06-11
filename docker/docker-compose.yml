@@ -42,7 +42,7 @@ services:
       DB_USERNAME: ${POSTGRES_USER:-hellobooks}
       DB_PASSWORD: ${POSTGRES_PASSWORD:-hellobooks}
       REDIS_HOST: redis
-      JWT_SECRET: ${JWT_SECRET:-change-me}
+      JWT_SECRET: ${JWT_SECRET:-hellobooks-dev-jwt-secret-32-bytes-minimum}
     ports:
       - "8015:8015"
     depends_on:

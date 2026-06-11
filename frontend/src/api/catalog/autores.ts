@@ -18,3 +18,9 @@ export async function atualizarAutor(idAutor: number, payload: Pick<Autor, 'nome
 }
 
 export const atualizar = atualizarAutor
+
+export async function removerAutor(idAutor: number): Promise<void> {
+  await apiClient.delete(`/autores/${idAutor}`)
+}
+
+export const remover = removerAutor

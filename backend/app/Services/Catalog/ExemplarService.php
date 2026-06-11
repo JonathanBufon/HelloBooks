@@ -2,6 +2,7 @@
 
 namespace App\Services\Catalog;
 
+use App\Domain\Exceptions\RecursoEmUsoException;
 use App\Domain\Exemplar\CondicaoFisica;
 use App\Domain\Exemplar\StatusExemplar;
 use App\Domain\Exemplar\StatusTransition;
@@ -65,5 +66,20 @@ class ExemplarService
         $exemplar->save();
 
         return $exemplar->refresh();
+    }
+
+    public function remover(int $id): void
+    {
+        $exemplar = $this->detalhe($id);
+
+        if (in_array($exemplar->status, [StatusExemplar::Emprestado, StatusExemplar::Reservado], true)) {
+            throw new RecursoEmUsoException(
+                'Exemplar esta emprestado ou reservado.',
+                ['status' => $exemplar->status->value],
+                'EXEMPLAR_EM_USO',
+            );
+        }
+
+        $exemplar->delete();
     }
 }

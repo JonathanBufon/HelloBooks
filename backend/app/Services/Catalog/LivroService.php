@@ -3,6 +3,7 @@
 namespace App\Services\Catalog;
 
 use App\Domain\Exceptions\IsbnDuplicadoException;
+use App\Domain\Exceptions\RecursoEmUsoException;
 use App\Models\Livro;
 use App\Repositories\Catalog\AutorRepositoryInterface;
 use App\Repositories\Catalog\CategoriaRepositoryInterface;
@@ -117,6 +118,25 @@ class LivroService
             }
 
             return $this->detalhe($id);
+        });
+    }
+
+    public function remover(int $id): void
+    {
+        DB::transaction(function () use ($id): void {
+            $livro = $this->livros->comDetalhes($id);
+            abort_if($livro === null, 404, 'Livro nao encontrado.');
+
+            $totalExemplares = $livro->exemplares()->count();
+            if ($totalExemplares > 0) {
+                throw new RecursoEmUsoException(
+                    'Livro possui exemplares vinculados.',
+                    ['exemplares' => $totalExemplares],
+                    'LIVRO_COM_EXEMPLARES',
+                );
+            }
+
+            $livro->delete();
         });
     }
 }

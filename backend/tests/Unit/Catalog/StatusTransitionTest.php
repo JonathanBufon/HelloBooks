@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Catalog;
 
+use App\Domain\Exceptions\TransicaoInvalidaException;
 use App\Domain\Exemplar\StatusExemplar;
 use App\Domain\Exemplar\StatusTransition;
-use App\Domain\Exceptions\TransicaoInvalidaException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 

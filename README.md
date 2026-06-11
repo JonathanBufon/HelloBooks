@@ -9,6 +9,32 @@ HelloBooks e um sistema web de biblioteca em monorepo. O projeto entrega uma API
 - Infra local: Docker Compose.
 - Contratos: OpenAPI em `specs/001-gestao-catalogo/contracts/openapi.yaml`.
 
+## Como Rodar
+
+Suba a infraestrutura local:
+
+```bash
+cp docker/.env.example docker/.env
+docker compose -f docker/docker-compose.yml up -d
+```
+
+Prepare o banco e os dados de demo:
+
+```bash
+docker compose -f docker/docker-compose.yml exec backend php artisan migrate --seed
+```
+
+Se `backend/.env` ja existir de uma geracao anterior do Laravel, confirme que ele usa
+`DB_CONNECTION=pgsql`, `DB_HOST=postgres` e um `JWT_SECRET` com pelo menos 32 caracteres.
+
+Rode backend e frontend em modo desenvolvimento, se preferir executar fora do Compose:
+
+```bash
+npm run dev
+```
+
+O frontend fica em `http://localhost:5188` e a API em `http://localhost:8015/api/v1`.
+
 ## Estrutura
 
 ```text
@@ -42,10 +68,18 @@ Principais pastas:
 - `backend/database/seeders/`: dados iniciais, incluindo `UsuarioSeeder`.
 - `backend/routes/api.php`: rotas `/api/v1` protegidas por `auth:api` e `cargo:bibliotecario`.
 
-Rotas ja implementadas nesta etapa:
+Rotas principais implementadas nesta etapa:
 
 - `POST /api/v1/livros`
 - `POST /api/v1/livros/{id}/exemplares`
+- `GET /api/v1/livros`
+- `GET /api/v1/livros/{id}`
+- `PUT /api/v1/livros/{id}`
+- `DELETE /api/v1/livros/{id}`
+- `GET|PUT|DELETE /api/v1/exemplares/{id}`
+- `GET|PUT|DELETE /api/v1/autores/{id}`
+- `GET|PUT|DELETE /api/v1/editoras/{id}`
+- `GET|PUT|DELETE /api/v1/categorias/{id}`
 
 O endpoint de login/JWT ainda nao faz parte desta feature. Para testes manuais, gere o token via `php artisan tinker`, conforme `specs/001-gestao-catalogo/quickstart.md`.
 
@@ -60,9 +94,13 @@ Principais pastas:
 - `frontend/src/features/catalog/`: telas da feature de catalogo.
 - `frontend/src/routes.tsx`: rotas React Router.
 
-Rota ja implementada nesta etapa:
+Rotas ja implementadas nesta etapa:
 
+- `/catalogo`: listagem e busca do acervo.
 - `/catalogo/novo`: formulario de cadastro de livro e exemplares iniciais.
+- `/catalogo/:id`: detalhe, exemplares, manutencao e remocao.
+- `/catalogo/:id/editar`: edicao do livro.
+- `/catalogo/apoio`: remocao de autores, editoras e categorias livres.
 
 ## Infra Local
 
@@ -161,7 +199,7 @@ Arquivos importantes:
 
 ## Status Atual
 
-Ja foram implementadas a fundacao da API e a primeira parte do fluxo de cadastro de catalogo. As tarefas de teste de feature `T026` e `T027` ainda precisam ser criadas e executadas contra PostgreSQL, conforme a constituicao do projeto.
+A feature de gestao de catalogo cobre cadastro, consulta, edicao e remocao protegida de livros, exemplares, autores, editoras e categorias. A collection Postman e gerada a partir do OpenAPI com `npm run gen:postman`.
 
 ## Observacoes
 

@@ -231,22 +231,22 @@ quando há referências (FR-016, FR-017, FR-018).
 
 ### Tests for User Story 4
 
-- [ ] T096 [P] [US4] Feature test `backend/tests/Feature/Catalog/RemocaoCatalogoTest.php` cobrindo: bloqueio de editora/autor/categoria com livros, sucesso quando livre, bloqueio de exemplar emprestado/reservado, bloqueio de livro com exemplares, hard delete confirmado, log de delete em `logs_atividades`
+- [X] T096 [P] [US4] Feature test `backend/tests/Feature/Catalog/RemocaoCatalogoTest.php` cobrindo: bloqueio de editora/autor/categoria com livros, sucesso quando livre, bloqueio de exemplar emprestado/reservado, bloqueio de livro com exemplares, hard delete confirmado, log de delete em `logs_atividades`
 
 ### Implementation
 
-- [ ] T097 [US4] `LivroService::remover(id)` — verifica ausência de exemplares (e, no futuro, de `itens_emprestimo`); lança `RecursoEmUsoException` com `details: { exemplares: N }`
-- [ ] T098 [US4] `ExemplarService::remover(id)` — recusa se status ∈ `{emprestado, reservado}`; sucesso caso `disponivel`/`manutencao`
-- [ ] T099 [P] [US4] `AutorService::remover(id)` — captura `QueryException` 23503 (FK RESTRICT) e converte para `RecursoEmUsoException` com contagem de livros
-- [ ] T100 [P] [US4] `EditoraService::remover(id)` (idem)
-- [ ] T101 [P] [US4] `CategoriaService::remover(id)` (idem)
-- [ ] T102 [US4] Métodos `destroy` (`204 No Content`) em `LivroController`, `ExemplarController`, `AutorController`, `EditoraController`, `CategoriaController`
-- [ ] T103 [US4] Definir rotas `DELETE` em `backend/routes/api.php`
+- [X] T097 [US4] `LivroService::remover(id)` — verifica ausência de exemplares (e, no futuro, de `itens_emprestimo`); lança `RecursoEmUsoException` com `details: { exemplares: N }`
+- [X] T098 [US4] `ExemplarService::remover(id)` — recusa se status ∈ `{emprestado, reservado}`; sucesso caso `disponivel`/`manutencao`
+- [X] T099 [P] [US4] `AutorService::remover(id)` — captura `QueryException` 23503 (FK RESTRICT) e converte para `RecursoEmUsoException` com contagem de livros
+- [X] T100 [P] [US4] `EditoraService::remover(id)` (idem)
+- [X] T101 [P] [US4] `CategoriaService::remover(id)` (idem)
+- [X] T102 [US4] Métodos `destroy` (`204 No Content`) em `LivroController`, `ExemplarController`, `AutorController`, `EditoraController`, `CategoriaController`
+- [X] T103 [US4] Definir rotas `DELETE` em `backend/routes/api.php`
 
 ### Frontend
 
-- [ ] T104 [P] [US4] Estender módulos API com `remover(id)`
-- [ ] T105 [US4] Botões de remoção em `DetalheLivroPage` e telas de listagem de autores/editoras/categorias; tratamento do 409 mostrando a mensagem `error.message`
+- [X] T104 [P] [US4] Estender módulos API com `remover(id)`
+- [X] T105 [US4] Botões de remoção em `DetalheLivroPage` e telas de listagem de autores/editoras/categorias; tratamento do 409 mostrando a mensagem `error.message`
 
 **Checkpoint US4**: feature completa entregue conforme spec.
 
@@ -254,16 +254,16 @@ quando há referências (FR-016, FR-017, FR-018).
 
 ## Phase 7: Polish & Cross-Cutting Concerns
 
-- [ ] T106 Criar script `gen:postman` na raiz `package.json` que executa `openapi-to-postmanv2 -s specs/001-gestao-catalogo/contracts/openapi.yaml -o specs/001-gestao-catalogo/contracts/postman/HelloBooks.postman_collection.json -p` e gerar a collection inicial (entrega 3.3)
-- [ ] T107 Criar `backend/database/seeders/CatalogoSeeder.php` com dados de demo (5 editoras, 8 autores, 6 categorias, ~20 livros, ~60 exemplares) para suportar o smoke do `quickstart.md`
-- [ ] T108 [P] Criar `README.md` na raiz com seção "Como rodar" apontando para `docker compose up`, `php artisan migrate --seed` e `npm run dev`
-- [ ] T109 [P] Adicionar workflow CI `.github/workflows/backend.yml` rodando `php artisan test` em Postgres real (matriz PHP 8.3 + Postgres 16)
-- [ ] T110 [P] Adicionar workflow CI `.github/workflows/frontend.yml` rodando `npm run test` e `npm run build`
-- [ ] T111 Validar SC-002 com `EXPLAIN ANALYZE` em `BuscaCatalogoServiceTest`: garantir uso do índice `lower(unaccent(titulo))` em 10k linhas seedadas
-- [ ] T112 [P] Auditar cobertura de `logs_atividades`: rodar suíte completa e confirmar que toda operação `created/updated/deleted` deixou rastro (SC-003)
-- [ ] T113 Executar `quickstart.md` ponta a ponta e marcar todos os critérios "smoke OK"
-- [ ] T114 [P] Atualizar `CLAUDE.md` apenas se a estrutura de pastas final divergir do que está documentado
-- [ ] T115 Code review final contra a constituição: checar Princípios I–V em PR; preencher checklist na descrição
+- [X] T106 Criar script `gen:postman` na raiz `package.json` que executa `openapi-to-postmanv2 -s specs/001-gestao-catalogo/contracts/openapi.yaml -o specs/001-gestao-catalogo/contracts/postman/HelloBooks.postman_collection.json -p` e gerar a collection inicial (entrega 3.3)
+- [X] T107 Criar `backend/database/seeders/CatalogoSeeder.php` com dados de demo (5 editoras, 8 autores, 6 categorias, ~20 livros, ~60 exemplares) para suportar o smoke do `quickstart.md`
+- [X] T108 [P] Criar `README.md` na raiz com seção "Como rodar" apontando para `docker compose up`, `php artisan migrate --seed` e `npm run dev`
+- [X] T109 [P] Adicionar workflow CI `.github/workflows/backend.yml` rodando `php artisan test` em Postgres real (matriz PHP 8.3 + Postgres 16)
+- [X] T110 [P] Adicionar workflow CI `.github/workflows/frontend.yml` rodando `npm run test` e `npm run build`
+- [X] T111 Validar SC-002 com `EXPLAIN ANALYZE` em `BuscaCatalogoServiceTest`: garantir uso do índice `lower(unaccent(titulo))` em 10k linhas seedadas
+- [X] T112 [P] Auditar cobertura de `logs_atividades`: rodar suíte completa e confirmar que toda operação `created/updated/deleted` deixou rastro (SC-003)
+- [X] T113 Executar `quickstart.md` ponta a ponta e marcar todos os critérios "smoke OK"
+- [X] T114 [P] Atualizar `CLAUDE.md` apenas se a estrutura de pastas final divergir do que está documentado
+- [X] T115 Code review final contra a constituição: checar Princípios I–V em PR; preencher checklist na descrição
 
 ---
 

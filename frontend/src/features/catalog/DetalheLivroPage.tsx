@@ -1,7 +1,7 @@
 import { useEffect, useState, useTransition } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { atualizarExemplar } from '../../api/catalog/exemplares'
-import { detalheLivro } from '../../api/catalog/livros'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { atualizarExemplar, removerExemplar } from '../../api/catalog/exemplares'
+import { detalheLivro, removerLivro } from '../../api/catalog/livros'
 import type { Exemplar, LivroDetalhe } from '../../api/catalog/types'
 
 const statusLabels: Record<string, string> = {
@@ -13,6 +13,7 @@ const statusLabels: Record<string, string> = {
 
 export function DetalheLivroPage() {
   const { id } = useParams()
+  const navigate = useNavigate()
   const [livro, setLivro] = useState<LivroDetalhe | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
@@ -87,6 +88,32 @@ export function DetalheLivroPage() {
     })
   }
 
+  function removerLivroAtual() {
+    if (!livro) {
+      return
+    }
+
+    setError(null)
+    startTransition(() => {
+      void removerLivro(livro.id_livro)
+        .then(() => navigate('/catalogo'))
+        .catch((caught: { message?: string }) => {
+          setError(caught.message ?? 'Nao foi possivel remover o livro.')
+        })
+    })
+  }
+
+  function removerExemplarAtual(exemplar: Exemplar) {
+    setError(null)
+    startTransition(() => {
+      void removerExemplar(exemplar.id_exemplar)
+        .then(() => carregarLivro())
+        .catch((caught: { message?: string }) => {
+          setError(caught.message ?? 'Nao foi possivel remover o exemplar.')
+        })
+    })
+  }
+
   return (
     <main className="catalog-page catalog-page--wide">
       <section className="catalog-card catalog-card--wide">
@@ -101,12 +128,17 @@ export function DetalheLivroPage() {
           <>
             <div className="catalog-header">
               <div>
-            <p className="eyebrow">Livro #{livro.id_livro}</p>
-            <h1>{livro.titulo}</h1>
+                <p className="eyebrow">Livro #{livro.id_livro}</p>
+                <h1>{livro.titulo}</h1>
               </div>
-              <Link className="catalog-link-button" to={`/catalogo/${livro.id_livro}/editar`}>
-                Editar livro
-              </Link>
+              <div className="catalog-actions">
+                <Link className="catalog-link-button" to={`/catalogo/${livro.id_livro}/editar`}>
+                  Editar livro
+                </Link>
+                <button type="button" onClick={removerLivroAtual} disabled={isPending}>
+                  Remover livro
+                </button>
+              </div>
             </div>
             <dl className="detail-grid">
               <div>
@@ -171,9 +203,14 @@ export function DetalheLivroPage() {
                       </td>
                       <td>
                         {exemplar.status === 'disponivel' || exemplar.status === 'manutencao' ? (
-                          <button type="button" onClick={() => mudarStatus(exemplar)}>
-                            {exemplar.status === 'manutencao' ? 'Marcar disponivel' : 'Marcar manutencao'}
-                          </button>
+                          <div className="catalog-actions catalog-actions--row">
+                            <button type="button" onClick={() => mudarStatus(exemplar)}>
+                              {exemplar.status === 'manutencao' ? 'Marcar disponivel' : 'Marcar manutencao'}
+                            </button>
+                            <button type="button" onClick={() => removerExemplarAtual(exemplar)}>
+                              Remover
+                            </button>
+                          </div>
                         ) : (
                           '-'
                         )}

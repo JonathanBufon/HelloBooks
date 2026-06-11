@@ -53,9 +53,14 @@ export function ListaCatalogoPage() {
             <h1>Obras do acervo</h1>
             <p className="lede">Busque por titulo, ISBN, autor ou categoria.</p>
           </div>
-          <Link className="catalog-link-button" to="/catalogo/novo">
-            Novo livro
-          </Link>
+          <div className="catalog-actions">
+            <Link className="catalog-link-button" to="/catalogo/apoio">
+              Apoio
+            </Link>
+            <Link className="catalog-link-button" to="/catalogo/novo">
+              Novo livro
+            </Link>
+          </div>
         </div>
 
         <label className="search-field">

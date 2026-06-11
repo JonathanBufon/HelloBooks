@@ -33,6 +33,13 @@ class CategoriaController extends Controller
         return new JsonResponse((new CategoriaResource($this->categorias->atualizar($id, $request->validated('nome'))))->resolve($request));
     }
 
+    public function destroy(int $id): JsonResponse
+    {
+        $this->categorias->remover($id);
+
+        return new JsonResponse(null, 204);
+    }
+
     private function pagina(Request $request, LengthAwarePaginator $pagina): JsonResponse
     {
         return new JsonResponse([

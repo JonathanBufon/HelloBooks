@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { CadastrarLivroPage } from './features/catalog/CadastrarLivroPage'
+import { CatalogoApoioPage } from './features/catalog/CatalogoApoioPage'
 import { DetalheLivroPage } from './features/catalog/DetalheLivroPage'
 import { EditarLivroPage } from './features/catalog/EditarLivroPage'
 import { ListaCatalogoPage } from './features/catalog/ListaCatalogoPage'
@@ -16,6 +17,10 @@ export const router = createBrowserRouter([
   {
     path: '/catalogo/novo',
     element: <CadastrarLivroPage />,
+  },
+  {
+    path: '/catalogo/apoio',
+    element: <CatalogoApoioPage />,
   },
   {
     path: '/catalogo/:id',

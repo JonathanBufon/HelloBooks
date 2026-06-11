@@ -39,4 +39,11 @@ class ExemplarController extends Controller
 
         return new JsonResponse((new ExemplarResource($exemplar))->resolve($request));
     }
+
+    public function destroy(int $id): JsonResponse
+    {
+        $this->exemplares->remover($id);
+
+        return new JsonResponse(null, 204);
+    }
 }

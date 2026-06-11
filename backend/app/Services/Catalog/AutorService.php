@@ -2,9 +2,11 @@
 
 namespace App\Services\Catalog;
 
+use App\Domain\Exceptions\RecursoEmUsoException;
 use App\Models\Autor;
 use App\Repositories\Catalog\AutorRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\QueryException;
 
 class AutorService
 {
@@ -32,5 +34,29 @@ class AutorService
         $autor->update(['nome' => $nome]);
 
         return $autor->refresh();
+    }
+
+    public function remover(int $id): void
+    {
+        $autor = $this->detalhe($id);
+        $totalLivros = $autor->livros()->count();
+
+        if ($totalLivros > 0) {
+            throw new RecursoEmUsoException(
+                'Autor ainda esta associado a livros.',
+                ['livros' => $totalLivros],
+                'AUTOR_REFERENCIADO',
+            );
+        }
+
+        try {
+            $autor->delete();
+        } catch (QueryException $exception) {
+            if ($exception->getCode() === '23503') {
+                throw new RecursoEmUsoException('Autor ainda esta associado a livros.', ['livros' => $totalLivros], 'AUTOR_REFERENCIADO', $exception);
+            }
+
+            throw $exception;
+        }
     }
 }

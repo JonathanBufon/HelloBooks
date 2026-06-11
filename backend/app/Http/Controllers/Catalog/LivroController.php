@@ -42,6 +42,13 @@ class LivroController extends Controller
         return new JsonResponse((new LivroDetalheResource($livro))->resolve($request));
     }
 
+    public function destroy(int $id): JsonResponse
+    {
+        $this->livros->remover($id);
+
+        return new JsonResponse(null, 204);
+    }
+
     private function pagina(Request $request, LengthAwarePaginator $pagina): JsonResponse
     {
         return new JsonResponse([

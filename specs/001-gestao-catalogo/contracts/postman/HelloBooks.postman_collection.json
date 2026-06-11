@@ -5,7 +5,7 @@
             "description": "",
             "item": [
                 {
-                    "id": "40567def-686a-4afe-a780-715b26143bec",
+                    "id": "ae6a9669-1546-4f8a-aa34-a57b6fe9036a",
                     "name": "Lista paginada de livros",
                     "request": {
                         "name": "Lista paginada de livros",
@@ -60,7 +60,7 @@
                     },
                     "response": [
                         {
-                            "id": "853d66e0-f5f7-4221-8ed4-482a5ec383d4",
+                            "id": "cc65e879-f199-42e0-94de-c0944a9d3dcd",
                             "name": "Página de livros",
                             "originalRequest": {
                                 "url": {
@@ -131,7 +131,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "b44024d3-53f2-4881-8305-1fbde7e9f30d",
+                            "id": "f711f861-20e7-4160-abf8-6c11448e5eab",
                             "name": "Não autenticado",
                             "originalRequest": {
                                 "url": {
@@ -197,12 +197,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "edf43160-aa35-4230-b4d0-59b744f299ed",
+                            "id": "51df5559-7a09-4592-bc42-ed698578a76e",
                             "name": "Cargo insuficiente (apenas bibliotecario)",
                             "originalRequest": {
                                 "url": {
@@ -268,7 +268,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -279,7 +279,7 @@
                     }
                 },
                 {
-                    "id": "6fbb67fc-dbf8-43ca-b3f7-64a0774528bf",
+                    "id": "9338f40d-f93e-4d06-951c-d99ed393fa61",
                     "name": "Cria um livro novo",
                     "request": {
                         "name": "Cria um livro novo",
@@ -319,7 +319,7 @@
                     },
                     "response": [
                         {
-                            "id": "e6754bc9-c184-4ab4-9e7b-9b402c9e7a0c",
+                            "id": "7b43bd9f-a96d-4bf3-ae01-8ae7ee6f96e4",
                             "name": "Livro criado",
                             "originalRequest": {
                                 "url": {
@@ -375,7 +375,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "b3caf472-3892-41d1-8eaa-d9e0ad7f7274",
+                            "id": "6f68d7c3-2d57-4b6b-858c-2386b3c1fab2",
                             "name": "Erro de validação",
                             "originalRequest": {
                                 "url": {
@@ -426,12 +426,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "a3f9ef36-28be-4722-a1c5-7b9284fe9770",
+                            "id": "bc2a03fa-02fd-4744-9414-dfa00aa544ba",
                             "name": "Não autenticado",
                             "originalRequest": {
                                 "url": {
@@ -482,12 +482,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "4442b8d2-35f5-4366-a5b0-dcfc2f6d9587",
+                            "id": "f905459a-d3f9-4463-8938-3571e2cff869",
                             "name": "Cargo insuficiente (apenas bibliotecario)",
                             "originalRequest": {
                                 "url": {
@@ -538,12 +538,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "7c4573aa-1353-4ea0-8e4a-32a712bb2cde",
+                            "id": "d92f4756-3ea6-46e0-9c93-dfe317ec919e",
                             "name": "ISBN já existe",
                             "originalRequest": {
                                 "url": {
@@ -594,7 +594,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -609,7 +609,7 @@
                     "description": "",
                     "item": [
                         {
-                            "id": "8ec364b4-9f89-42b9-bff6-d2250e04e6d0",
+                            "id": "4a6babc2-2ab1-4d21-8f3b-5817e843bb7e",
                             "name": "Detalhe de um livro (com exemplares)",
                             "request": {
                                 "name": "Detalhe de um livro (com exemplares)",
@@ -648,7 +648,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "cc445ffb-35d8-4851-b14b-e77a2fa04661",
+                                    "id": "deabb687-08c3-43e3-ae86-bb58bcfadad2",
                                     "name": "OK",
                                     "originalRequest": {
                                         "url": {
@@ -698,12 +698,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"id_livro\": \"<long>\",\n  \"titulo\": \"<string>\",\n  \"isbn\": \"<string>\",\n  \"ano_publicacao\": \"<integer>\",\n  \"id_editora\": \"<long>\",\n  \"editora\": {\n    \"id_editora\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"created_at\": \"<dateTime>\",\n    \"updated_at\": \"<dateTime>\"\n  },\n  \"autores\": [\n    {\n      \"id_autor\": \"<long>\",\n      \"nome\": \"<string>\",\n      \"created_at\": \"<dateTime>\",\n      \"updated_at\": \"<dateTime>\"\n    },\n    {\n      \"id_autor\": \"<long>\",\n      \"nome\": \"<string>\",\n      \"created_at\": \"<dateTime>\",\n      \"updated_at\": \"<dateTime>\"\n    }\n  ],\n  \"categorias\": [\n    {\n      \"id_categoria\": \"<long>\",\n      \"nome\": \"<string>\",\n      \"created_at\": \"<dateTime>\",\n      \"updated_at\": \"<dateTime>\"\n    },\n    {\n      \"id_categoria\": \"<long>\",\n      \"nome\": \"<string>\",\n      \"created_at\": \"<dateTime>\",\n      \"updated_at\": \"<dateTime>\"\n    }\n  ],\n  \"created_at\": \"<dateTime>\",\n  \"updated_at\": \"<dateTime>\",\n  \"exemplares\": [\n    {\n      \"id_exemplar\": \"<long>\",\n      \"id_livro\": \"<long>\",\n      \"status\": \"emprestado\",\n      \"condicao_fisica\": \"rasgado\",\n      \"created_at\": \"<dateTime>\",\n      \"updated_at\": \"<dateTime>\"\n    },\n    {\n      \"id_exemplar\": \"<long>\",\n      \"id_livro\": \"<long>\",\n      \"status\": \"manutencao\",\n      \"condicao_fisica\": \"rasgado\",\n      \"created_at\": \"<dateTime>\",\n      \"updated_at\": \"<dateTime>\"\n    }\n  ],\n  \"contagem_exemplares\": {\n    \"disponivel\": \"<integer>\",\n    \"emprestado\": \"<integer>\",\n    \"reservado\": \"<integer>\",\n    \"manutencao\": \"<integer>\"\n  }\n}",
+                                    "body": "{\n  \"id_livro\": \"<long>\",\n  \"titulo\": \"<string>\",\n  \"isbn\": \"<string>\",\n  \"ano_publicacao\": \"<integer>\",\n  \"id_editora\": \"<long>\",\n  \"editora\": {\n    \"id_editora\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"created_at\": \"<dateTime>\",\n    \"updated_at\": \"<dateTime>\"\n  },\n  \"autores\": [\n    {\n      \"id_autor\": \"<long>\",\n      \"nome\": \"<string>\",\n      \"created_at\": \"<dateTime>\",\n      \"updated_at\": \"<dateTime>\"\n    },\n    {\n      \"id_autor\": \"<long>\",\n      \"nome\": \"<string>\",\n      \"created_at\": \"<dateTime>\",\n      \"updated_at\": \"<dateTime>\"\n    }\n  ],\n  \"categorias\": [\n    {\n      \"id_categoria\": \"<long>\",\n      \"nome\": \"<string>\",\n      \"created_at\": \"<dateTime>\",\n      \"updated_at\": \"<dateTime>\"\n    },\n    {\n      \"id_categoria\": \"<long>\",\n      \"nome\": \"<string>\",\n      \"created_at\": \"<dateTime>\",\n      \"updated_at\": \"<dateTime>\"\n    }\n  ],\n  \"created_at\": \"<dateTime>\",\n  \"updated_at\": \"<dateTime>\",\n  \"exemplares\": [\n    {\n      \"id_exemplar\": \"<long>\",\n      \"id_livro\": \"<long>\",\n      \"status\": \"manutencao\",\n      \"condicao_fisica\": \"intacto\",\n      \"created_at\": \"<dateTime>\",\n      \"updated_at\": \"<dateTime>\"\n    },\n    {\n      \"id_exemplar\": \"<long>\",\n      \"id_livro\": \"<long>\",\n      \"status\": \"disponivel\",\n      \"condicao_fisica\": \"rabiscado\",\n      \"created_at\": \"<dateTime>\",\n      \"updated_at\": \"<dateTime>\"\n    }\n  ],\n  \"contagem_exemplares\": {\n    \"disponivel\": \"<integer>\",\n    \"emprestado\": \"<integer>\",\n    \"reservado\": \"<integer>\",\n    \"manutencao\": \"<integer>\"\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "92a4a82e-747f-4d0d-8761-c1543d783b5f",
+                                    "id": "2ad03505-e208-4215-b513-d6b5e8dce943",
                                     "name": "Recurso não encontrado",
                                     "originalRequest": {
                                         "url": {
@@ -753,7 +753,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -764,7 +764,7 @@
                             }
                         },
                         {
-                            "id": "66c4e175-04fa-469d-86b5-ee99f61356b2",
+                            "id": "f473ceed-5975-4850-a6af-de307c00e2ac",
                             "name": "Atualiza um livro",
                             "request": {
                                 "name": "Atualiza um livro",
@@ -816,7 +816,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "cfa16c81-fb3b-4be5-80f7-b8a9f5503917",
+                                    "id": "5b64c868-b9c6-4ed4-aefb-9bf3bf454c90",
                                     "name": "Atualizado",
                                     "originalRequest": {
                                         "url": {
@@ -884,7 +884,7 @@
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "7947f987-1ee1-44ab-aa27-06a3f4e84975",
+                                    "id": "5bce2add-1130-4e6d-824e-55326451d0e2",
                                     "name": "Erro de validação",
                                     "originalRequest": {
                                         "url": {
@@ -947,12 +947,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "e904f35f-d010-4533-818c-9d3b717ddb3d",
+                                    "id": "76b11d28-4954-406f-931b-8c0c8d150518",
                                     "name": "Recurso não encontrado",
                                     "originalRequest": {
                                         "url": {
@@ -1015,12 +1015,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "cb24ab44-9c9c-47a6-bd99-57f0ef646db5",
+                                    "id": "b936becb-ef2d-4075-952b-296b6a86373f",
                                     "name": "Conflito de ISBN (já em uso por outro livro)",
                                     "originalRequest": {
                                         "url": {
@@ -1083,7 +1083,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -1094,7 +1094,7 @@
                             }
                         },
                         {
-                            "id": "d9e48e71-c43a-4d42-9a31-6d2cd93ead13",
+                            "id": "603ac6da-5be6-45d8-bf2f-978a8cf0aa16",
                             "name": "Remove um livro (sem exemplares e sem histórico)",
                             "request": {
                                 "name": "Remove um livro (sem exemplares e sem histórico)",
@@ -1133,7 +1133,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "6d5cf592-99c5-482e-b44e-94367b335a6a",
+                                    "id": "6a76e783-b795-4499-9eca-fbb124328e89",
                                     "name": "Removido",
                                     "originalRequest": {
                                         "url": {
@@ -1178,7 +1178,7 @@
                                     "_postman_previewlanguage": "text"
                                 },
                                 {
-                                    "id": "3973068c-81af-4c08-bdc0-2352f5ed0ca7",
+                                    "id": "65f29cbc-b765-43f7-84ff-f866a741f590",
                                     "name": "Recurso não encontrado",
                                     "originalRequest": {
                                         "url": {
@@ -1228,12 +1228,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "87bfa944-0f5c-458d-a0cb-4fe7a3091125",
+                                    "id": "af32d19b-5a97-4175-b05d-65e1ad38a037",
                                     "name": "Livro ainda tem exemplares ou histórico de empréstimo",
                                     "originalRequest": {
                                         "url": {
@@ -1283,7 +1283,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -1298,7 +1298,7 @@
                             "description": "",
                             "item": [
                                 {
-                                    "id": "53a05298-8c83-4bd1-b96c-56c80aab895c",
+                                    "id": "2823ea3b-d76d-4457-b5b9-dd7f6f9b7354",
                                     "name": "Lista exemplares de um livro",
                                     "request": {
                                         "name": "Lista exemplares de um livro",
@@ -1338,7 +1338,7 @@
                                     },
                                     "response": [
                                         {
-                                            "id": "7583ce9f-63e9-4a72-b885-f5bcf9ba808c",
+                                            "id": "1f22a5ca-ba75-4917-b17d-ae75821cac39",
                                             "name": "OK",
                                             "originalRequest": {
                                                 "url": {
@@ -1389,12 +1389,12 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "[\n  {\n    \"id_exemplar\": \"<long>\",\n    \"id_livro\": \"<long>\",\n    \"status\": \"disponivel\",\n    \"condicao_fisica\": \"dobrado\",\n    \"created_at\": \"<dateTime>\",\n    \"updated_at\": \"<dateTime>\"\n  },\n  {\n    \"id_exemplar\": \"<long>\",\n    \"id_livro\": \"<long>\",\n    \"status\": \"emprestado\",\n    \"condicao_fisica\": \"dobrado\",\n    \"created_at\": \"<dateTime>\",\n    \"updated_at\": \"<dateTime>\"\n  }\n]",
+                                            "body": "[\n  {\n    \"id_exemplar\": \"<long>\",\n    \"id_livro\": \"<long>\",\n    \"status\": \"reservado\",\n    \"condicao_fisica\": \"rasgado\",\n    \"created_at\": \"<dateTime>\",\n    \"updated_at\": \"<dateTime>\"\n  },\n  {\n    \"id_exemplar\": \"<long>\",\n    \"id_livro\": \"<long>\",\n    \"status\": \"emprestado\",\n    \"condicao_fisica\": \"dobrado\",\n    \"created_at\": \"<dateTime>\",\n    \"updated_at\": \"<dateTime>\"\n  }\n]",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "cfbea159-a195-4594-b906-5b2fb63610c2",
+                                            "id": "bb528432-0d02-4ee2-b737-526ffe24e0eb",
                                             "name": "Recurso não encontrado",
                                             "originalRequest": {
                                                 "url": {
@@ -1445,7 +1445,7 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         }
@@ -1456,7 +1456,7 @@
                                     }
                                 },
                                 {
-                                    "id": "1429b8dc-c041-449d-abb7-92cb841786dd",
+                                    "id": "d4a9da65-f7d9-4e9d-b91b-cda886d0d5eb",
                                     "name": "Registra um ou mais exemplares novos para o livro",
                                     "request": {
                                         "name": "Registra um ou mais exemplares novos para o livro",
@@ -1509,7 +1509,7 @@
                                     },
                                     "response": [
                                         {
-                                            "id": "7392c8dd-cf81-4d41-a981-104a9d08d76d",
+                                            "id": "a6e15e5c-f6b9-4f92-a8a6-c54c9cdbd0e6",
                                             "name": "Exemplares criados",
                                             "originalRequest": {
                                                 "url": {
@@ -1573,12 +1573,12 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "[\n  {\n    \"id_exemplar\": \"<long>\",\n    \"id_livro\": \"<long>\",\n    \"status\": \"disponivel\",\n    \"condicao_fisica\": \"dobrado\",\n    \"created_at\": \"<dateTime>\",\n    \"updated_at\": \"<dateTime>\"\n  },\n  {\n    \"id_exemplar\": \"<long>\",\n    \"id_livro\": \"<long>\",\n    \"status\": \"emprestado\",\n    \"condicao_fisica\": \"dobrado\",\n    \"created_at\": \"<dateTime>\",\n    \"updated_at\": \"<dateTime>\"\n  }\n]",
+                                            "body": "[\n  {\n    \"id_exemplar\": \"<long>\",\n    \"id_livro\": \"<long>\",\n    \"status\": \"reservado\",\n    \"condicao_fisica\": \"rasgado\",\n    \"created_at\": \"<dateTime>\",\n    \"updated_at\": \"<dateTime>\"\n  },\n  {\n    \"id_exemplar\": \"<long>\",\n    \"id_livro\": \"<long>\",\n    \"status\": \"emprestado\",\n    \"condicao_fisica\": \"dobrado\",\n    \"created_at\": \"<dateTime>\",\n    \"updated_at\": \"<dateTime>\"\n  }\n]",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "814f33e8-9a21-41ed-892b-a67435233bd5",
+                                            "id": "86b052e4-9881-4cce-b776-735a3c33aa0f",
                                             "name": "Erro de validação",
                                             "originalRequest": {
                                                 "url": {
@@ -1642,12 +1642,12 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "d2ca7bec-7c01-4e4e-a673-7e1ae512e9c9",
+                                            "id": "61ad83bc-0c29-4e76-b2c3-c38b07fbbe54",
                                             "name": "Recurso não encontrado",
                                             "originalRequest": {
                                                 "url": {
@@ -1711,7 +1711,7 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         }
@@ -1736,7 +1736,7 @@
                     "description": "",
                     "item": [
                         {
-                            "id": "df3113eb-505d-4266-b121-4ceb253c6475",
+                            "id": "b9f368cc-3c40-4636-9f1b-5e1fde893336",
                             "name": "Detalhe de um exemplar",
                             "request": {
                                 "name": "Detalhe de um exemplar",
@@ -1775,7 +1775,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "53ba9ec2-d531-41c2-aeb7-13e6a26cd7ae",
+                                    "id": "d7db2717-02a4-4a60-8cc0-2a106887d1cb",
                                     "name": "OK",
                                     "originalRequest": {
                                         "url": {
@@ -1825,12 +1825,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"id_exemplar\": \"<long>\",\n  \"id_livro\": \"<long>\",\n  \"status\": \"disponivel\",\n  \"condicao_fisica\": \"rabiscado\",\n  \"created_at\": \"<dateTime>\",\n  \"updated_at\": \"<dateTime>\"\n}",
+                                    "body": "{\n  \"id_exemplar\": \"<long>\",\n  \"id_livro\": \"<long>\",\n  \"status\": \"reservado\",\n  \"condicao_fisica\": \"intacto\",\n  \"created_at\": \"<dateTime>\",\n  \"updated_at\": \"<dateTime>\"\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "ea13a794-2c11-416f-abda-e7bfab868312",
+                                    "id": "53a41e47-ff58-4c07-943a-adddf591169f",
                                     "name": "Recurso não encontrado",
                                     "originalRequest": {
                                         "url": {
@@ -1880,7 +1880,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -1891,7 +1891,7 @@
                             }
                         },
                         {
-                            "id": "25d4e0a2-0c2e-43f7-90c3-79275bbd3b4f",
+                            "id": "f7b97d6b-34c2-4c76-a77b-ac56e5fc9e37",
                             "name": "Atualiza status e/ou condição de um exemplar",
                             "request": {
                                 "name": "Atualiza status e/ou condição de um exemplar",
@@ -1943,7 +1943,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "212a401c-f12e-4b0f-aa93-5da3229ed59a",
+                                    "id": "ac21c047-61b2-4a78-ab3e-217dce1fe87f",
                                     "name": "Atualizado",
                                     "originalRequest": {
                                         "url": {
@@ -2006,12 +2006,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"id_exemplar\": \"<long>\",\n  \"id_livro\": \"<long>\",\n  \"status\": \"disponivel\",\n  \"condicao_fisica\": \"rabiscado\",\n  \"created_at\": \"<dateTime>\",\n  \"updated_at\": \"<dateTime>\"\n}",
+                                    "body": "{\n  \"id_exemplar\": \"<long>\",\n  \"id_livro\": \"<long>\",\n  \"status\": \"reservado\",\n  \"condicao_fisica\": \"intacto\",\n  \"created_at\": \"<dateTime>\",\n  \"updated_at\": \"<dateTime>\"\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "7d62b274-2172-49d8-a1c1-1d858c0ba5ad",
+                                    "id": "cedfe7f5-2223-4d0b-b595-9e1392b7697e",
                                     "name": "Erro de validação",
                                     "originalRequest": {
                                         "url": {
@@ -2074,12 +2074,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "4c20b3f2-6280-4236-a2bd-a29bbbe22bdf",
+                                    "id": "9ed7f559-780f-45bd-ba92-4ca1f4141a68",
                                     "name": "Recurso não encontrado",
                                     "originalRequest": {
                                         "url": {
@@ -2142,12 +2142,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "cd7e6392-85f4-4803-9330-37eff4486caf",
+                                    "id": "8d86fc2a-0e57-4d90-9841-2a0a20b010a7",
                                     "name": "Transição de status inválida",
                                     "originalRequest": {
                                         "url": {
@@ -2210,7 +2210,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -2221,7 +2221,7 @@
                             }
                         },
                         {
-                            "id": "c01064f2-6ef4-45b1-b276-7240e3fbdf7b",
+                            "id": "6a3ac5d8-8983-472c-af17-0dd0e5a2dee9",
                             "name": "Remove um exemplar (apenas se 'disponivel' ou 'manutencao')",
                             "request": {
                                 "name": "Remove um exemplar (apenas se 'disponivel' ou 'manutencao')",
@@ -2260,7 +2260,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "f10078bc-5b75-4e5a-8d2f-8ddcce780328",
+                                    "id": "942941d9-1c4e-43e5-b794-e1acf293c8bc",
                                     "name": "Removido",
                                     "originalRequest": {
                                         "url": {
@@ -2305,7 +2305,7 @@
                                     "_postman_previewlanguage": "text"
                                 },
                                 {
-                                    "id": "d159aa8c-741a-4096-9efa-ae21df0e60dc",
+                                    "id": "f345c9cf-29a7-47d4-951d-a86d5f29521a",
                                     "name": "Recurso não encontrado",
                                     "originalRequest": {
                                         "url": {
@@ -2355,12 +2355,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "2f426373-cbcc-4507-9919-232bbc275424",
+                                    "id": "bf5fa1aa-992c-4abf-80d8-427e4ef07210",
                                     "name": "Exemplar em uso (emprestado/reservado)",
                                     "originalRequest": {
                                         "url": {
@@ -2410,7 +2410,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -2429,7 +2429,7 @@
             "description": "",
             "item": [
                 {
-                    "id": "fa775900-15ac-4bf6-8bcb-f391976f4359",
+                    "id": "22819557-8c8d-47c6-be54-6c7b654b0dda",
                     "name": "Lista paginada de autores",
                     "request": {
                         "name": "Lista paginada de autores",
@@ -2484,7 +2484,7 @@
                     },
                     "response": [
                         {
-                            "id": "9cc83097-fb93-4395-8bcb-3f05e1493520",
+                            "id": "8ce7da86-0e0d-4194-b074-1065d9ad3ec3",
                             "name": "Página de autores",
                             "originalRequest": {
                                 "url": {
@@ -2561,7 +2561,7 @@
                     }
                 },
                 {
-                    "id": "a5600b95-ef60-4732-9c26-6b1675e2e467",
+                    "id": "adb3f16e-d051-42ac-a5f9-fa1cf88e1241",
                     "name": "Cria um autor",
                     "request": {
                         "name": "Cria um autor",
@@ -2601,7 +2601,7 @@
                     },
                     "response": [
                         {
-                            "id": "a2e98e39-400b-4bc2-8478-1b019b462c76",
+                            "id": "22f54d26-57b6-48e7-9b63-a03c62b948aa",
                             "name": "Criado",
                             "originalRequest": {
                                 "url": {
@@ -2657,7 +2657,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "d94ff3fa-e316-43a6-8201-a6bc34230160",
+                            "id": "04f87774-704d-4146-b6a8-09d5e7e62ab3",
                             "name": "Erro de validação",
                             "originalRequest": {
                                 "url": {
@@ -2708,7 +2708,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -2723,7 +2723,7 @@
                     "description": "",
                     "item": [
                         {
-                            "id": "6c3c3855-6e0f-4c35-a8f9-a23740171124",
+                            "id": "d8c5c087-95b5-424e-b703-87a8f7d22661",
                             "name": "Detalhe de um autor",
                             "request": {
                                 "name": "Detalhe de um autor",
@@ -2762,7 +2762,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "1c0ea51a-dab2-4074-a05a-8b5bd60853ef",
+                                    "id": "c9d280c7-dbef-44e4-944d-609a94d379ca",
                                     "name": "OK",
                                     "originalRequest": {
                                         "url": {
@@ -2817,7 +2817,7 @@
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "4bad41b5-14b6-466b-acef-a4aa548b6082",
+                                    "id": "16d4b45f-0127-4f95-8a25-3381c0a395dd",
                                     "name": "Recurso não encontrado",
                                     "originalRequest": {
                                         "url": {
@@ -2867,7 +2867,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -2878,7 +2878,7 @@
                             }
                         },
                         {
-                            "id": "cc1b3247-f37f-4a5a-b4ba-43251fdd84d6",
+                            "id": "c0677a79-803a-49a0-a6fc-5c04b606388b",
                             "name": "Atualiza nome do autor",
                             "request": {
                                 "name": "Atualiza nome do autor",
@@ -2930,7 +2930,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "be25dedc-8fe2-4376-878e-c206991129d4",
+                                    "id": "a2206f36-f7ff-40f8-b51d-d8cfda669faa",
                                     "name": "OK",
                                     "originalRequest": {
                                         "url": {
@@ -2998,7 +2998,7 @@
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "a28f9181-c233-47aa-88eb-26f364926325",
+                                    "id": "6807dcff-507e-43f8-9e98-08283706f76e",
                                     "name": "Erro de validação",
                                     "originalRequest": {
                                         "url": {
@@ -3061,12 +3061,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "77ab1c9c-4e22-455b-af8b-d74d9a38539b",
+                                    "id": "7673b0c2-a1cd-44a0-9c05-cf80101435f1",
                                     "name": "Recurso não encontrado",
                                     "originalRequest": {
                                         "url": {
@@ -3129,7 +3129,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -3140,7 +3140,7 @@
                             }
                         },
                         {
-                            "id": "344ffeb6-657e-4963-8f95-8aaf5c727c0b",
+                            "id": "84aca7e0-8698-4b42-854c-b4e5e03e80a9",
                             "name": "Remove um autor (sem livros associados)",
                             "request": {
                                 "name": "Remove um autor (sem livros associados)",
@@ -3179,7 +3179,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "dc22029a-ea0e-4551-aa97-5ec38653211b",
+                                    "id": "a84c6a14-b79c-4111-aac1-20062efd291c",
                                     "name": "Removido",
                                     "originalRequest": {
                                         "url": {
@@ -3224,7 +3224,7 @@
                                     "_postman_previewlanguage": "text"
                                 },
                                 {
-                                    "id": "29d0558c-a4d8-45fa-9a7b-39bef611ec7c",
+                                    "id": "dd036e5d-f9fa-48ce-829d-4b3001f14804",
                                     "name": "Recurso não encontrado",
                                     "originalRequest": {
                                         "url": {
@@ -3274,12 +3274,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "9eb6f45a-ed23-403d-914c-1c9ee8a7db95",
+                                    "id": "245781a6-1e2f-40a8-b9c7-c3a84072bf4a",
                                     "name": "Autor ainda associado a livros",
                                     "originalRequest": {
                                         "url": {
@@ -3329,7 +3329,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -3348,7 +3348,7 @@
             "description": "",
             "item": [
                 {
-                    "id": "f010b794-bfd6-4e8b-be2d-45a09be77f35",
+                    "id": "8488ca3d-fb69-46d4-88b5-4bf0ac97c256",
                     "name": "Lista paginada de editoras",
                     "request": {
                         "name": "Lista paginada de editoras",
@@ -3403,7 +3403,7 @@
                     },
                     "response": [
                         {
-                            "id": "c03bffdc-07b0-41a0-adea-39f04277dd2c",
+                            "id": "2417e093-b55a-4bd9-813a-abdf2d00b5c7",
                             "name": "OK",
                             "originalRequest": {
                                 "url": {
@@ -3480,7 +3480,7 @@
                     }
                 },
                 {
-                    "id": "71c730c7-8a76-44e7-b012-74cad9a6e7d9",
+                    "id": "078aa625-9090-4473-84ae-15f1a25b14fa",
                     "name": "Cria uma editora",
                     "request": {
                         "name": "Cria uma editora",
@@ -3520,7 +3520,7 @@
                     },
                     "response": [
                         {
-                            "id": "04973895-efc0-4466-911c-ecd00684ad2f",
+                            "id": "b8d76abd-c655-4cf5-9d80-ccea3fa53ece",
                             "name": "Criada",
                             "originalRequest": {
                                 "url": {
@@ -3576,7 +3576,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "57fd717e-3606-497e-aca8-96ce525fba21",
+                            "id": "c7da5a9b-1577-4223-9d42-5a37268274ec",
                             "name": "Erro de validação",
                             "originalRequest": {
                                 "url": {
@@ -3627,7 +3627,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -3642,7 +3642,7 @@
                     "description": "",
                     "item": [
                         {
-                            "id": "2535e575-4586-4026-be98-e9f517e84e50",
+                            "id": "3bcbed76-91cf-4210-b2aa-67542c875f8c",
                             "name": "Detalhe de uma editora",
                             "request": {
                                 "name": "Detalhe de uma editora",
@@ -3681,7 +3681,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "884e3e35-83bf-4795-ad02-fecab55676ce",
+                                    "id": "dc323c55-09cc-46fa-9ee6-4e769ec418a1",
                                     "name": "OK",
                                     "originalRequest": {
                                         "url": {
@@ -3736,7 +3736,7 @@
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "84af52e7-ae5d-4891-90a0-3264e9912ecc",
+                                    "id": "4f751d40-1848-4b59-b390-37036c37498c",
                                     "name": "Recurso não encontrado",
                                     "originalRequest": {
                                         "url": {
@@ -3786,7 +3786,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -3797,7 +3797,7 @@
                             }
                         },
                         {
-                            "id": "9a4cfbe9-059f-44a9-8a8d-89e192b558e0",
+                            "id": "299581f8-464a-4bbf-a7da-d919b0337b6d",
                             "name": "Atualiza nome da editora",
                             "request": {
                                 "name": "Atualiza nome da editora",
@@ -3849,7 +3849,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "61a211f1-4310-438b-9cb6-0c615b10938d",
+                                    "id": "29e7854e-52f4-4267-b4f6-067cce369a01",
                                     "name": "OK",
                                     "originalRequest": {
                                         "url": {
@@ -3917,7 +3917,7 @@
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "3eaab95b-9108-4315-9827-60c35f3c8df0",
+                                    "id": "9740f086-b180-47c5-98f3-5a38b40a664a",
                                     "name": "Erro de validação",
                                     "originalRequest": {
                                         "url": {
@@ -3980,12 +3980,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "586fb315-4dc7-440a-929b-6797532743ec",
+                                    "id": "649090e0-3565-4bb0-9441-f2d4d2df908d",
                                     "name": "Recurso não encontrado",
                                     "originalRequest": {
                                         "url": {
@@ -4048,7 +4048,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -4059,7 +4059,7 @@
                             }
                         },
                         {
-                            "id": "bf0148df-b1f1-481a-9b39-ef89203f43c0",
+                            "id": "69a8b3d0-e0f5-4602-bf6a-5bc4802e11e6",
                             "name": "Remove uma editora (sem livros associados)",
                             "request": {
                                 "name": "Remove uma editora (sem livros associados)",
@@ -4098,7 +4098,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "2a1e41dd-27a3-4c1c-a6ad-b25e75072819",
+                                    "id": "a72f8947-fc44-453d-8490-6d1e87aa8bd8",
                                     "name": "Removida",
                                     "originalRequest": {
                                         "url": {
@@ -4143,7 +4143,7 @@
                                     "_postman_previewlanguage": "text"
                                 },
                                 {
-                                    "id": "1a3d2f5c-5d01-4256-b118-443c47ee2ce3",
+                                    "id": "039ff902-0cb7-40ed-b73e-0f9e482f1e1a",
                                     "name": "Recurso não encontrado",
                                     "originalRequest": {
                                         "url": {
@@ -4193,12 +4193,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "1a1ebf5b-475b-49b6-8156-d0b48dd20d75",
+                                    "id": "837528de-9d1f-405c-97aa-b9b53ff0c38d",
                                     "name": "Editora ainda associada a livros",
                                     "originalRequest": {
                                         "url": {
@@ -4248,7 +4248,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -4267,7 +4267,7 @@
             "description": "",
             "item": [
                 {
-                    "id": "7d61b1aa-26bd-4ed5-8cd2-5a44da9de7bd",
+                    "id": "3af4ae16-d938-4d78-94b8-c9222680bf14",
                     "name": "Lista paginada de categorias",
                     "request": {
                         "name": "Lista paginada de categorias",
@@ -4322,7 +4322,7 @@
                     },
                     "response": [
                         {
-                            "id": "26ef0025-cf0d-48e7-af20-676f41672741",
+                            "id": "ec1b7e4c-0df0-42a0-9ff6-4c9983f5940f",
                             "name": "OK",
                             "originalRequest": {
                                 "url": {
@@ -4399,7 +4399,7 @@
                     }
                 },
                 {
-                    "id": "864c7154-7a83-45be-b647-3fa752fb3033",
+                    "id": "23105875-658f-484f-b85c-4dcef570711c",
                     "name": "Cria uma categoria",
                     "request": {
                         "name": "Cria uma categoria",
@@ -4439,7 +4439,7 @@
                     },
                     "response": [
                         {
-                            "id": "ded28006-b10d-4514-85dc-b382a5912fa5",
+                            "id": "6987061e-7135-4ab9-8b1a-249506e92b79",
                             "name": "Criada",
                             "originalRequest": {
                                 "url": {
@@ -4495,7 +4495,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "bf06cae0-fecb-46ef-8062-c95db090e2a6",
+                            "id": "5c9973cd-2996-4fc5-ae37-6b8111f90797",
                             "name": "Erro de validação",
                             "originalRequest": {
                                 "url": {
@@ -4546,12 +4546,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "f26bfad9-110c-4303-a6ee-9fb1047d9e33",
+                            "id": "1437f8fd-e467-4602-ac15-dd13e4e00cab",
                             "name": "Nome de categoria já existe",
                             "originalRequest": {
                                 "url": {
@@ -4602,7 +4602,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                            "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -4617,7 +4617,7 @@
                     "description": "",
                     "item": [
                         {
-                            "id": "65e04a5e-9e42-4010-a6d9-2f71bd4d4246",
+                            "id": "3d3555c4-5097-46e4-9414-4cbb772cf25a",
                             "name": "Detalhe de uma categoria",
                             "request": {
                                 "name": "Detalhe de uma categoria",
@@ -4656,7 +4656,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "265adb65-6444-46c4-8baf-659aba423eab",
+                                    "id": "7f8846da-8cc8-4111-b414-e9f38969fb1c",
                                     "name": "OK",
                                     "originalRequest": {
                                         "url": {
@@ -4711,7 +4711,7 @@
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "3c88f831-e773-43b0-86f6-17c2302042bb",
+                                    "id": "55c22b4f-908b-463c-9d12-a47d2801415f",
                                     "name": "Recurso não encontrado",
                                     "originalRequest": {
                                         "url": {
@@ -4761,7 +4761,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -4772,7 +4772,7 @@
                             }
                         },
                         {
-                            "id": "69373d9d-fc67-41c9-be37-8f154811e54a",
+                            "id": "96c51797-9c66-4eed-b571-b865f8e5f1a1",
                             "name": "Atualiza nome da categoria",
                             "request": {
                                 "name": "Atualiza nome da categoria",
@@ -4824,7 +4824,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "e25108bc-0738-4691-ac88-dcee61072809",
+                                    "id": "82245a20-35e8-4f26-b9b5-4345e56adc99",
                                     "name": "OK",
                                     "originalRequest": {
                                         "url": {
@@ -4892,7 +4892,7 @@
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "e34a2ec2-37c3-4091-85df-5189ce36b457",
+                                    "id": "651af1fb-e988-4a6d-a301-2b327216dc82",
                                     "name": "Erro de validação",
                                     "originalRequest": {
                                         "url": {
@@ -4955,12 +4955,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "b57400e3-ee08-48f2-ae02-0677f2f2813d",
+                                    "id": "8c367255-ef87-4ea0-a215-6e850ebec78b",
                                     "name": "Recurso não encontrado",
                                     "originalRequest": {
                                         "url": {
@@ -5023,12 +5023,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "2ace0b96-234b-4858-b3e4-9e835af17494",
+                                    "id": "81eb9576-e6a1-47de-a6ae-165f48ee7730",
                                     "name": "Nome de categoria já existe",
                                     "originalRequest": {
                                         "url": {
@@ -5091,7 +5091,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -5102,7 +5102,7 @@
                             }
                         },
                         {
-                            "id": "80e9fed7-75f9-4774-b8cb-6676ae105049",
+                            "id": "1fcb6670-9515-40f0-a9d6-6ee2741cc500",
                             "name": "Remove uma categoria (sem livros associados)",
                             "request": {
                                 "name": "Remove uma categoria (sem livros associados)",
@@ -5141,7 +5141,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "402eb29c-2cb5-4aba-ba09-9021fb26b9f4",
+                                    "id": "0ae38136-b675-4236-a141-3ec10b64213f",
                                     "name": "Removida",
                                     "originalRequest": {
                                         "url": {
@@ -5186,7 +5186,7 @@
                                     "_postman_previewlanguage": "text"
                                 },
                                 {
-                                    "id": "8a21139a-940a-49c2-ad5e-8cf432f5c435",
+                                    "id": "0ff20d70-efa3-4395-9e57-511ff2d6cfe2",
                                     "name": "Recurso não encontrado",
                                     "originalRequest": {
                                         "url": {
@@ -5236,12 +5236,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "73c5b9db-8ba0-4c7d-a32a-43e25e545c38",
+                                    "id": "f9742a95-a7d4-4d15-936a-1199860798d2",
                                     "name": "Categoria ainda associada a livros",
                                     "originalRequest": {
                                         "url": {
@@ -5291,7 +5291,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 545.1964673958277\n    }\n  }\n}",
+                                    "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": {\n      \"key_0\": false,\n      \"key_1\": 8446\n    }\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -5324,7 +5324,7 @@
         }
     ],
     "info": {
-        "_postman_id": "db8f254c-7e45-4d40-9a59-061f68c462fa",
+        "_postman_id": "5e97bd4e-2f80-4118-a691-a846291b8aca",
         "name": "HelloBooks — Gestão de Catálogo",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
         "description": {

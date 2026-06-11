@@ -21,3 +21,9 @@ export async function atualizarEditora(
 }
 
 export const atualizar = atualizarEditora
+
+export async function removerEditora(idEditora: number): Promise<void> {
+  await apiClient.delete(`/editoras/${idEditora}`)
+}
+
+export const remover = removerEditora

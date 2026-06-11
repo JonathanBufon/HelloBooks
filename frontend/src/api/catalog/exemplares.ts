@@ -22,3 +22,9 @@ export async function atualizarExemplar(
 }
 
 export const atualizar = atualizarExemplar
+
+export async function removerExemplar(idExemplar: number): Promise<void> {
+  await apiClient.delete(`/exemplares/${idExemplar}`)
+}
+
+export const remover = removerExemplar
