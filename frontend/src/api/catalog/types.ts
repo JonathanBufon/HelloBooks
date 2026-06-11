@@ -32,6 +32,23 @@ export type Livro = {
   updated_at?: string
 }
 
+export type Pagination = {
+  total: number
+  per_page: number
+  current_page: number
+  last_page: number
+}
+
+export type Page<T> = {
+  data: T[]
+  pagination: Pagination
+}
+
+export type LivroDetalhe = Livro & {
+  exemplares: Exemplar[]
+  contagem_exemplares: Record<Exemplar['status'], number>
+}
+
 export type Exemplar = {
   id_exemplar: number
   id_livro: number
@@ -50,3 +67,17 @@ export type LivroCreate = {
   autores: Array<{ id_autor: number } | { nome: string }>
   categorias: Array<{ id_categoria: number } | { nome: string }>
 }
+
+export type LivroUpdate = Partial<{
+  titulo: string
+  isbn: string
+  ano_publicacao: number
+  id_editora: number
+  autores: Array<{ id_autor: number }>
+  categorias: Array<{ id_categoria: number }>
+}>
+
+export type ExemplarUpdate = Partial<{
+  status: 'disponivel' | 'manutencao'
+  condicao_fisica: Exemplar['condicao_fisica']
+}>

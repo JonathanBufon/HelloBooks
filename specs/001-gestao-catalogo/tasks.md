@@ -85,8 +85,8 @@ depende destes.
 
 ### Tests for User Story 1
 
-- [ ] T026 [P] [US1] Feature test em `backend/tests/Feature/Catalog/CadastroLivroTest.php` cobrindo: criação válida (com editora/autor/categoria inline), recusa por ISBN duplicado, recusa sem autor, recusa sem categoria, recusa para cargo `leitor`, recusa sem auth, verificação de inserção em `logs_atividades`
-- [ ] T027 [P] [US1] Feature test em `backend/tests/Feature/Catalog/CadastroExemplaresTest.php` cobrindo: criação em lote (quantidade=N), defaults `disponivel`/`intacto`, recusa para livro inexistente, recusa de quantidade inválida (0, negativo, >1000)
+- [X] T026 [P] [US1] Feature test em `backend/tests/Feature/Catalog/CadastroLivroTest.php` cobrindo: criação válida (com editora/autor/categoria inline), recusa por ISBN duplicado, recusa sem autor, recusa sem categoria, recusa para cargo `leitor`, recusa sem auth, verificação de inserção em `logs_atividades`
+- [X] T027 [P] [US1] Feature test em `backend/tests/Feature/Catalog/CadastroExemplaresTest.php` cobrindo: criação em lote (quantidade=N), defaults `disponivel`/`intacto`, recusa para livro inexistente, recusa de quantidade inválida (0, negativo, >1000)
 
 ### Migrations (criar tabelas do catálogo)
 
@@ -152,33 +152,33 @@ apenas obras correspondentes; `GET /livros/{id}` retorna detalhe com `contagem_e
 
 ### Tests for User Story 2
 
-- [ ] T060 [P] [US2] Feature test `backend/tests/Feature/Catalog/ConsultaCatalogoTest.php` cobrindo: listagem paginada (20 por página por default, total/last_page corretos), busca por título/ISBN/autor/categoria (case- e acento-insensitive), detalhe com `contagem_exemplares`, página vazia para resultado sem matches
-- [ ] T061 [P] [US2] Unit test `backend/tests/Unit/Catalog/BuscaCatalogoServiceTest.php` cobrindo geração correta da query com `unaccent` + `ILIKE`
+- [X] T060 [P] [US2] Feature test `backend/tests/Feature/Catalog/ConsultaCatalogoTest.php` cobrindo: listagem paginada (20 por página por default, total/last_page corretos), busca por título/ISBN/autor/categoria (case- e acento-insensitive), detalhe com `contagem_exemplares`, página vazia para resultado sem matches
+- [X] T061 [P] [US2] Unit test `backend/tests/Unit/Catalog/BuscaCatalogoServiceTest.php` cobrindo geração correta da query com `unaccent` + `ILIKE`
 
 ### Implementation
 
-- [ ] T062 [US2] `backend/app/Services/Catalog/BuscaCatalogoService.php::buscar(termo, page, perPage)` — usa `unaccent(lower(titulo)) ILIKE` + joins em autores e categorias, paginação Laravel
-- [ ] T063 [US2] Estender `EloquentLivroRepository` com scope `comDetalhes` (eager load `editora`, `autores`, `categorias`, `exemplares`) e método `contagemPorStatus(idLivro)`
-- [ ] T064 [US2] `LivroService::detalhe(id)` retorna `LivroDetalhe` com `contagem_exemplares` (`disponivel`, `emprestado`, `reservado`, `manutencao`)
-- [ ] T065 [US2] `LivroService::listar(filtros)` — orquestra busca paginada via `BuscaCatalogoService`
-- [ ] T066 [P] [US2] `backend/app/Services/Catalog/AutorService.php::listar(termo, page, perPage)`
-- [ ] T067 [P] [US2] `backend/app/Services/Catalog/EditoraService.php::listar(termo, page, perPage)`
-- [ ] T068 [P] [US2] `backend/app/Services/Catalog/CategoriaService.php::listar(termo, page, perPage)`
-- [ ] T069 [P] [US2] Resources `backend/app/Http/Resources/Catalog/`: `LivroResource`, `LivroDetalheResource`, `AutorResource`, `EditoraResource`, `CategoriaResource`, `ExemplarResource` (envelope `{ data, pagination }` conforme OpenAPI)
-- [ ] T070 [P] [US2] `LivroController::index, show`
-- [ ] T071 [P] [US2] `AutorController::index, show` em `backend/app/Http/Controllers/Catalog/AutorController.php`
-- [ ] T072 [P] [US2] `EditoraController::index, show` em `backend/app/Http/Controllers/Catalog/EditoraController.php`
-- [ ] T073 [P] [US2] `CategoriaController::index, show` em `backend/app/Http/Controllers/Catalog/CategoriaController.php`
-- [ ] T074 [P] [US2] `ExemplarController::indexPorLivro` (`GET /livros/{id}/exemplares`) e `show` (`GET /exemplares/{id}`)
-- [ ] T075 [US2] Definir rotas GET correspondentes em `backend/routes/api.php`
+- [X] T062 [US2] `backend/app/Services/Catalog/BuscaCatalogoService.php::buscar(termo, page, perPage)` — usa `unaccent(lower(titulo)) ILIKE` + joins em autores e categorias, paginação Laravel
+- [X] T063 [US2] Estender `EloquentLivroRepository` com scope `comDetalhes` (eager load `editora`, `autores`, `categorias`, `exemplares`) e método `contagemPorStatus(idLivro)`
+- [X] T064 [US2] `LivroService::detalhe(id)` retorna `LivroDetalhe` com `contagem_exemplares` (`disponivel`, `emprestado`, `reservado`, `manutencao`)
+- [X] T065 [US2] `LivroService::listar(filtros)` — orquestra busca paginada via `BuscaCatalogoService`
+- [X] T066 [P] [US2] `backend/app/Services/Catalog/AutorService.php::listar(termo, page, perPage)`
+- [X] T067 [P] [US2] `backend/app/Services/Catalog/EditoraService.php::listar(termo, page, perPage)`
+- [X] T068 [P] [US2] `backend/app/Services/Catalog/CategoriaService.php::listar(termo, page, perPage)`
+- [X] T069 [P] [US2] Resources `backend/app/Http/Resources/Catalog/`: `LivroResource`, `LivroDetalheResource`, `AutorResource`, `EditoraResource`, `CategoriaResource`, `ExemplarResource` (envelope `{ data, pagination }` conforme OpenAPI)
+- [X] T070 [P] [US2] `LivroController::index, show`
+- [X] T071 [P] [US2] `AutorController::index, show` em `backend/app/Http/Controllers/Catalog/AutorController.php`
+- [X] T072 [P] [US2] `EditoraController::index, show` em `backend/app/Http/Controllers/Catalog/EditoraController.php`
+- [X] T073 [P] [US2] `CategoriaController::index, show` em `backend/app/Http/Controllers/Catalog/CategoriaController.php`
+- [X] T074 [P] [US2] `ExemplarController::indexPorLivro` (`GET /livros/{id}/exemplares`) e `show` (`GET /exemplares/{id}`)
+- [X] T075 [US2] Definir rotas GET correspondentes em `backend/routes/api.php`
 
 ### Frontend
 
-- [ ] T076 [P] [US2] `frontend/src/api/catalog/autores.ts`, `editoras.ts`, `categorias.ts` com `listar(termo, page)`
-- [ ] T077 [P] [US2] Estender `frontend/src/api/catalog/livros.ts` com `listar(filtros)` e `detalhe(id)`
-- [ ] T078 [US2] `frontend/src/features/catalog/ListaCatalogoPage.tsx` (campo de busca, tabela paginada)
-- [ ] T079 [US2] `frontend/src/features/catalog/DetalheLivroPage.tsx` (dados do livro + lista de exemplares + contagem por status)
-- [ ] T080 [US2] Rotas `/catalogo` e `/catalogo/:id` em `frontend/src/routes.tsx`
+- [X] T076 [P] [US2] `frontend/src/api/catalog/autores.ts`, `editoras.ts`, `categorias.ts` com `listar(termo, page)`
+- [X] T077 [P] [US2] Estender `frontend/src/api/catalog/livros.ts` com `listar(filtros)` e `detalhe(id)`
+- [X] T078 [US2] `frontend/src/features/catalog/ListaCatalogoPage.tsx` (campo de busca, tabela paginada)
+- [X] T079 [US2] `frontend/src/features/catalog/DetalheLivroPage.tsx` (dados do livro + lista de exemplares + contagem por status)
+- [X] T080 [US2] Rotas `/catalogo` e `/catalogo/:id` em `frontend/src/routes.tsx`
 
 **Checkpoint US2**: SC-002 verificável (busca <1s em 10k livros, ver `T103`); listas e detalhe rendem na UI.
 
@@ -196,27 +196,27 @@ edição por `leitor` é negada.
 
 ### Tests for User Story 3
 
-- [ ] T081 [P] [US3] Feature test `backend/tests/Feature/Catalog/EdicaoCatalogoTest.php` cobrindo: edição de livro mantém associações, edição de ISBN respeita unicidade, troca de autor preserva o autor antigo, edição de exemplar `disponivel → manutencao + rasgado` audita, edição por `leitor` é negada
-- [ ] T082 [P] [US3] Unit test `backend/tests/Unit/Catalog/StatusTransitionTest.php` cobrindo a matriz completa de transições válidas e inválidas
+- [X] T081 [P] [US3] Feature test `backend/tests/Feature/Catalog/EdicaoCatalogoTest.php` cobrindo: edição de livro mantém associações, edição de ISBN respeita unicidade, troca de autor preserva o autor antigo, edição de exemplar `disponivel → manutencao + rasgado` audita, edição por `leitor` é negada
+- [X] T082 [P] [US3] Unit test `backend/tests/Unit/Catalog/StatusTransitionTest.php` cobrindo a matriz completa de transições válidas e inválidas
 
 ### Implementation
 
-- [ ] T083 [P] [US3] `backend/app/Domain/Exemplar/StatusTransition.php` (matriz de transições válidas; método `validar(de, para)`; lança `TransicaoInvalidaException`)
-- [ ] T084 [US3] `LivroService::atualizar(id, LivroUpdateDto)` — em `DB::transaction`: aplica deltas, valida ISBN único (excluindo o próprio id), sincroniza `livros_autores` e `livros_categorias` via `sync()`
-- [ ] T085 [US3] `ExemplarService::atualizar(id, status?, condicaoFisica?)` — invoca `StatusTransition::validar` quando `status` muda; restringe transições permitidas via API de catálogo a `disponivel ↔ manutencao` (demais lançam `TransicaoInvalidaException`)
-- [ ] T086 [P] [US3] `AutorService::atualizar(id, nome)`
-- [ ] T087 [P] [US3] `EditoraService::atualizar(id, nome)`
-- [ ] T088 [P] [US3] `CategoriaService::atualizar(id, nome)` (trata `UNIQUE` violation → 409)
-- [ ] T089 [P] [US3] FormRequests: `LivroUpdateRequest`, `ExemplarUpdateRequest`, `AutorUpdateRequest`, `EditoraUpdateRequest`, `CategoriaUpdateRequest` em `backend/app/Http/Requests/Catalog/`
-- [ ] T090 [US3] Métodos `update` em `LivroController`, `ExemplarController`, `AutorController`, `EditoraController`, `CategoriaController`
-- [ ] T091 [US3] Definir rotas `PUT` correspondentes em `backend/routes/api.php`
+- [X] T083 [P] [US3] `backend/app/Domain/Exemplar/StatusTransition.php` (matriz de transições válidas; método `validar(de, para)`; lança `TransicaoInvalidaException`)
+- [X] T084 [US3] `LivroService::atualizar(id, LivroUpdateDto)` — em `DB::transaction`: aplica deltas, valida ISBN único (excluindo o próprio id), sincroniza `livros_autores` e `livros_categorias` via `sync()`
+- [X] T085 [US3] `ExemplarService::atualizar(id, status?, condicaoFisica?)` — invoca `StatusTransition::validar` quando `status` muda; restringe transições permitidas via API de catálogo a `disponivel ↔ manutencao` (demais lançam `TransicaoInvalidaException`)
+- [X] T086 [P] [US3] `AutorService::atualizar(id, nome)`
+- [X] T087 [P] [US3] `EditoraService::atualizar(id, nome)`
+- [X] T088 [P] [US3] `CategoriaService::atualizar(id, nome)` (trata `UNIQUE` violation → 409)
+- [X] T089 [P] [US3] FormRequests: `LivroUpdateRequest`, `ExemplarUpdateRequest`, `AutorUpdateRequest`, `EditoraUpdateRequest`, `CategoriaUpdateRequest` em `backend/app/Http/Requests/Catalog/`
+- [X] T090 [US3] Métodos `update` em `LivroController`, `ExemplarController`, `AutorController`, `EditoraController`, `CategoriaController`
+- [X] T091 [US3] Definir rotas `PUT` correspondentes em `backend/routes/api.php`
 
 ### Frontend
 
-- [ ] T092 [P] [US3] Estender módulos API (`livros.ts`, `exemplares.ts`, `autores.ts`, `editoras.ts`, `categorias.ts`) com `atualizar(id, payload)`
-- [ ] T093 [US3] `frontend/src/features/catalog/EditarLivroPage.tsx` (reusa estrutura de `CadastrarLivroPage`, pré-popula)
-- [ ] T094 [US3] Botões de "marcar manutenção / disponível" e seletor de condição na `DetalheLivroPage`
-- [ ] T095 [US3] Rota `/catalogo/:id/editar` em `frontend/src/routes.tsx`
+- [X] T092 [P] [US3] Estender módulos API (`livros.ts`, `exemplares.ts`, `autores.ts`, `editoras.ts`, `categorias.ts`) com `atualizar(id, payload)`
+- [X] T093 [US3] `frontend/src/features/catalog/EditarLivroPage.tsx` (reusa estrutura de `CadastrarLivroPage`, pré-popula)
+- [X] T094 [US3] Botões de "marcar manutenção / disponível" e seletor de condição na `DetalheLivroPage`
+- [X] T095 [US3] Rota `/catalogo/:id/editar` em `frontend/src/routes.tsx`
 
 **Checkpoint US3**: edições funcionam; transições inválidas retornam 409 claras.
 

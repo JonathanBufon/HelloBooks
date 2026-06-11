@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -16,10 +17,11 @@ return new class extends Migration
             $table->string('id_registro_afetado', 100);
             $table->timestampTz('data_hora')->useCurrent();
 
-            $table->check("acao_realizada in ('created', 'updated', 'deleted')");
             $table->index(['entidade_afetada', 'id_registro_afetado', 'data_hora']);
             $table->index(['id_usuario', 'data_hora']);
         });
+
+        DB::statement("ALTER TABLE logs_atividades ADD CONSTRAINT logs_atividades_acao_realizada_check CHECK (acao_realizada in ('created', 'updated', 'deleted'))");
     }
 
     public function down(): void

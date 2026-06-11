@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -17,8 +18,9 @@ return new class extends Migration
             $table->string('senha_hash');
             $table->timestampsTz();
 
-            $table->check("cargo in ('bibliotecario', 'leitor')");
         });
+
+        DB::statement("ALTER TABLE usuarios ADD CONSTRAINT usuarios_cargo_check CHECK (cargo in ('bibliotecario', 'leitor'))");
     }
 
     public function down(): void

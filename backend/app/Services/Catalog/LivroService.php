@@ -8,6 +8,7 @@ use App\Repositories\Catalog\AutorRepositoryInterface;
 use App\Repositories\Catalog\CategoriaRepositoryInterface;
 use App\Repositories\Catalog\EditoraRepositoryInterface;
 use App\Repositories\Catalog\LivroRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class LivroService
@@ -17,6 +18,7 @@ class LivroService
         private readonly EditoraRepositoryInterface $editoras,
         private readonly AutorRepositoryInterface $autores,
         private readonly CategoriaRepositoryInterface $categorias,
+        private readonly BuscaCatalogoService $busca,
     ) {}
 
     public function criar(LivroCreateDto $dto): Livro
@@ -55,6 +57,66 @@ class LivroService
             $livro->categorias()->sync($categoriaIds);
 
             return $livro->load(['editora', 'autores', 'categorias']);
+        });
+    }
+
+    /**
+     * @param  array<string, mixed>  $filtros
+     * @return LengthAwarePaginator<int, Livro>
+     */
+    public function listar(array $filtros): LengthAwarePaginator
+    {
+        return $this->busca->buscar(
+            $filtros['q'] ?? null,
+            max(1, (int) ($filtros['page'] ?? 1)),
+            min(100, max(1, (int) ($filtros['per_page'] ?? 20))),
+        );
+    }
+
+    public function detalhe(int $id): Livro
+    {
+        $livro = $this->livros->comDetalhes($id);
+        abort_if($livro === null, 404, 'Livro nao encontrado.');
+
+        $livro->setAttribute('contagem_exemplares', $this->livros->contagemPorStatus($id));
+
+        return $livro;
+    }
+
+    public function atualizar(int $id, LivroUpdateDto $dto): Livro
+    {
+        return DB::transaction(function () use ($id, $dto): Livro {
+            $livro = $this->livros->comDetalhes($id);
+            abort_if($livro === null, 404, 'Livro nao encontrado.');
+
+            if ($dto->isbn !== null) {
+                $existente = $this->livros->buscarPorIsbn($dto->isbn);
+                if ($existente !== null && $existente->id_livro !== $livro->id_livro) {
+                    throw new IsbnDuplicadoException(details: ['isbn' => $dto->isbn]);
+                }
+                $livro->isbn = $dto->isbn;
+            }
+
+            if ($dto->titulo !== null) {
+                $livro->titulo = $dto->titulo;
+            }
+            if ($dto->anoPublicacao !== null) {
+                $livro->ano_publicacao = $dto->anoPublicacao;
+            }
+            if ($dto->idEditora !== null) {
+                $livro->id_editora = $dto->idEditora;
+            }
+
+            $livro->save();
+
+            if ($dto->autores !== null) {
+                $livro->autores()->sync(collect($dto->autores)->pluck('id_autor')->all());
+            }
+            if ($dto->categorias !== null) {
+                $livro->categorias()->sync(collect($dto->categorias)->pluck('id_categoria')->all());
+            }
+
+            return $this->detalhe($id);
         });
     }
 }

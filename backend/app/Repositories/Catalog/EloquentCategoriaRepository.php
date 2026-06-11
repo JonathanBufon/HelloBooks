@@ -3,6 +3,7 @@
 namespace App\Repositories\Catalog;
 
 use App\Models\Categoria;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class EloquentCategoriaRepository implements CategoriaRepositoryInterface
 {
@@ -19,5 +20,16 @@ class EloquentCategoriaRepository implements CategoriaRepositoryInterface
     public function acharPorId(int $id): ?Categoria
     {
         return Categoria::query()->find($id);
+    }
+
+    public function listar(?string $termo, int $page, int $perPage): LengthAwarePaginator
+    {
+        return Categoria::query()
+            ->when($termo, fn ($query) => $query->whereRaw(
+                'lower(immutable_unaccent(nome)) LIKE lower(immutable_unaccent(?))',
+                ['%'.$termo.'%'],
+            ))
+            ->orderBy('nome')
+            ->paginate($perPage, ['*'], 'page', $page);
     }
 }

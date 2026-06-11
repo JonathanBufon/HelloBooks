@@ -17,12 +17,12 @@ return new class extends Migration
             $table->smallInteger('ano_publicacao');
             $table->timestampsTz();
 
-            $table->check('char_length(isbn) between 10 and 13');
-            $table->check('ano_publicacao between 1000 and extract(year from now())::int + 1');
             $table->index('id_editora');
         });
 
-        DB::statement('CREATE INDEX livros_titulo_unaccent_idx ON livros (lower(unaccent(titulo)))');
+        DB::statement('ALTER TABLE livros ADD CONSTRAINT livros_isbn_length_check CHECK (char_length(isbn) between 10 and 13)');
+        DB::statement('ALTER TABLE livros ADD CONSTRAINT livros_ano_publicacao_check CHECK (ano_publicacao between 1000 and extract(year from now())::int + 1)');
+        DB::statement('CREATE INDEX livros_titulo_unaccent_idx ON livros (lower(immutable_unaccent(titulo)))');
     }
 
     public function down(): void
