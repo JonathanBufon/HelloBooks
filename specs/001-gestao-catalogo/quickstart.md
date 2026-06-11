@@ -5,7 +5,7 @@
 
 Como subir o ambiente local e fazer um smoke test ponta-a-ponta da feature.
 
-> Este quickstart assume que o esqueleto Laravel + React já foi gerado pelas tarefas
+> Este quickstart assume que o esqueleto Laravel ja foi gerado pelas tarefas
 > de implementação (ver `tasks.md` quando estiver disponível). Antes disso, os
 > comandos `docker compose up` e `npm install` ainda não terão alvo.
 
@@ -31,7 +31,6 @@ Serviços levantados:
 | `postgres` | 5447       | Banco principal (db: `hellobooks`)   |
 | `redis`    | 6394       | Cache                                |
 | `backend`  | 8015       | Laravel (`php artisan serve`)        |
-| `frontend` | 5188       | Vite dev server                       |
 
 ## 2. Preparar o backend
 
@@ -108,38 +107,18 @@ curl -s -i $H -X DELETE $BASE/editoras/1
 # Gerar a collection a partir do OpenAPI
 npx -y openapi-to-postmanv2@5 \
   -s specs/001-gestao-catalogo/contracts/openapi.yaml \
-  -o specs/001-gestao-catalogo/contracts/postman/HelloBooks.postman_collection.json -p
+  -o backend/postman/HelloBooks.postman_collection.json -p
 ```
 
-Importe `HelloBooks.postman_collection.json` no Postman, defina `baseUrl` e
+Importe `backend/postman/HelloBooks.postman_collection.json` no Postman, defina `baseUrl` e
 `jwt_token` no Environment, e rode a sequência de requests dos folders na ordem:
 Livros → Exemplares → Autores → Editoras → Categorias.
 
-## 6. Frontend (consumo da API)
-
-A partir do diretório `frontend/`:
-
-```bash
-npm install
-npm run dev
-```
-
-Abra `http://localhost:5188`, faça login (quando a feature de auth estiver pronta) e
-acesse:
-- `/catalogo` — lista paginada e busca
-- `/catalogo/novo` — cadastro de livro
-- `/catalogo/:id` — detalhe + exemplares
-
-## 7. Rodando testes
+## 6. Rodando testes
 
 Backend (PHPUnit, Postgres real em container):
 ```bash
 docker compose -f docker/docker-compose.yml exec backend php artisan test --testsuite=Feature
-```
-
-Frontend:
-```bash
-cd frontend && npm run test
 ```
 
 ## Critérios de "smoke OK"

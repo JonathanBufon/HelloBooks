@@ -1,13 +1,12 @@
 # HelloBooks
 
-HelloBooks e um sistema web de biblioteca em monorepo. O projeto entrega uma API Laravel, uma SPA React e infraestrutura local com Docker Compose para desenvolver o catalogo de livros, autores, editoras, categorias e exemplares.
+HelloBooks e um sistema backend de biblioteca. O projeto entrega uma API Laravel e infraestrutura local com Docker Compose para desenvolver o catalogo de livros, autores, editoras, categorias e exemplares.
 
 ## Stack
 
 - Backend: PHP 8.3, Laravel 12, PostgreSQL, Redis, JWT Auth.
-- Frontend: React 18, TypeScript, Vite, Axios, React Router.
 - Infra local: Docker Compose.
-- Contratos: OpenAPI em `specs/001-gestao-catalogo/contracts/openapi.yaml`.
+- Collection Postman: `backend/postman/HelloBooks.postman_collection.json`.
 
 ## Como Rodar
 
@@ -27,26 +26,25 @@ docker compose -f docker/docker-compose.yml exec backend php artisan migrate --s
 Se `backend/.env` ja existir de uma geracao anterior do Laravel, confirme que ele usa
 `DB_CONNECTION=pgsql`, `DB_HOST=postgres` e um `JWT_SECRET` com pelo menos 32 caracteres.
 
-Rode backend e frontend em modo desenvolvimento, se preferir executar fora do Compose:
+Rode o backend em modo desenvolvimento, se preferir executar fora do Compose:
 
 ```bash
 npm run dev
 ```
 
-O frontend fica em `http://localhost:5188` e a API em `http://localhost:8015/api/v1`.
+A API fica em `http://localhost:8015/api/v1`.
 
 ## Estrutura
 
 ```text
 .
 ├── backend/                         # API Laravel
-├── frontend/                        # SPA React + Vite
+├── frontend/                        # Reservado; vazio por enquanto
 ├── docker/                          # Infra local
 │   ├── backend/Dockerfile           # Imagem PHP da API
-│   ├── docker-compose.yml           # Postgres, Redis, backend e frontend
+│   ├── docker-compose.yml           # Postgres, Redis e backend
 │   └── .env.example                 # Variaveis do Compose
-├── specs/                           # Especificacoes Spec Kit
-│   └── 001-gestao-catalogo/         # Feature atual de gestao de catalogo
+├── specs/                           # Artefatos locais do Spec Kit; nao depender deles no GitHub
 ├── Makefile                         # Atalhos de desenvolvimento
 ├── package.json                     # Scripts de monorepo
 └── AGENTS.md                        # Instrucoes para agentes
@@ -81,26 +79,75 @@ Rotas principais implementadas nesta etapa:
 - `GET|PUT|DELETE /api/v1/editoras/{id}`
 - `GET|PUT|DELETE /api/v1/categorias/{id}`
 
-O endpoint de login/JWT ainda nao faz parte desta feature. Para testes manuais, gere o token via `php artisan tinker`, conforme `specs/001-gestao-catalogo/quickstart.md`.
+O endpoint de login/JWT ainda nao faz parte desta feature. Para testes manuais, gere o token via `php artisan tinker`, conforme a secao abaixo.
 
-## Frontend
+## Bearer Token Para Testes
 
-O frontend fica em `frontend/`.
+Garanta que o banco foi migrado e populado:
 
-Principais pastas:
+```bash
+docker compose -f docker/docker-compose.yml exec backend php artisan migrate --seed
+```
 
-- `frontend/src/api/client.ts`: instancia Axios centralizada, com JWT e normalizacao de erros.
-- `frontend/src/api/catalog/`: chamadas HTTP e tipos do catalogo.
-- `frontend/src/features/catalog/`: telas da feature de catalogo.
-- `frontend/src/routes.tsx`: rotas React Router.
+Forma recomendada, sem abrir o tinker interativo:
 
-Rotas ja implementadas nesta etapa:
+```bash
+make token
+```
 
-- `/catalogo`: listagem e busca do acervo.
-- `/catalogo/novo`: formulario de cadastro de livro e exemplares iniciais.
-- `/catalogo/:id`: detalhe, exemplares, manutencao e remocao.
-- `/catalogo/:id/editar`: edicao do livro.
-- `/catalogo/apoio`: remocao de autores, editoras e categorias livres.
+Comando equivalente sem Makefile:
+
+```bash
+docker compose -f docker/docker-compose.yml exec backend php artisan tinker --execute='$user = App\Models\Usuario::where("email", "biblio@hello.local")->first(); echo auth("api")->login($user);'
+```
+
+O comando imprime o token JWT. No Postman, configure:
+
+```text
+Authorization: Bearer <token>
+```
+
+Ou preencha a variavel da collection:
+
+```text
+jwt_token = <token>
+```
+
+Se preferir usar o tinker interativo, rode uma linha por vez:
+
+```bash
+docker compose -f docker/docker-compose.yml exec backend php artisan tinker
+```
+
+Dentro do tinker:
+
+```php
+$user = App\Models\Usuario::where('email', 'biblio@hello.local')->first();
+```
+
+Depois:
+
+```php
+auth('api')->login($user)
+```
+
+Nao cole as duas linhas juntas com texto extra do terminal, porque o PsySH pode gerar `PARSE ERROR`.
+
+## Postman
+
+A collection oficial fica dentro do backend:
+
+```text
+backend/postman/HelloBooks.postman_collection.json
+```
+
+Para regenerar a collection a partir do OpenAPI local da spec atual:
+
+```bash
+npm run gen:postman
+```
+
+As specs em `specs/` sao artefatos locais do fluxo Spec Kit. Futuramente elas nao devem ser tratadas como fonte versionada no GitHub; mantenha a collection consumivel pelo time dentro de `backend/postman/`.
 
 ## Infra Local
 
@@ -111,12 +158,10 @@ As portas expostas no notebook foram deslocadas 15 acima das padroes para evitar
 | Postgres | `5447` | `5432` |
 | Redis | `6394` | `6379` |
 | Backend | `8015` | `8015` |
-| Frontend | `5188` | `5188` |
 
 URLs locais:
 
 - API: `http://localhost:8015/api/v1`
-- Frontend: `http://localhost:5188`
 
 ## Comandos
 
@@ -134,7 +179,6 @@ Shells uteis:
 
 ```bash
 make shell-backend
-make shell-frontend
 make shell-postgres
 make shell-redis
 ```
@@ -146,7 +190,6 @@ make migrate
 make seed
 make migrate-fresh
 make test-backend
-make frontend-build
 make pint
 ```
 
@@ -155,7 +198,6 @@ Comandos parametrizados:
 ```bash
 make artisan CMD='route:list'
 make composer CMD='install'
-make npm CMD='run build'
 ```
 
 ## Fluxo Inicial
@@ -178,28 +220,9 @@ make migrate-fresh
 make artisan CMD='route:list --path=api/v1'
 ```
 
-4. Abrir o frontend:
-
-```text
-http://localhost:5188
-```
-
-## Contratos e Specs
-
-A feature atual vive em `specs/001-gestao-catalogo/`.
-
-Arquivos importantes:
-
-- `specs/001-gestao-catalogo/spec.md`: requisitos funcionais.
-- `specs/001-gestao-catalogo/plan.md`: plano tecnico e arquitetura.
-- `specs/001-gestao-catalogo/data-model.md`: entidades, colunas, FKs e indices.
-- `specs/001-gestao-catalogo/tasks.md`: lista de tarefas e status.
-- `specs/001-gestao-catalogo/quickstart.md`: smoke test manual.
-- `specs/001-gestao-catalogo/contracts/openapi.yaml`: contrato REST canonico.
-
 ## Status Atual
 
-A feature de gestao de catalogo cobre cadastro, consulta, edicao e remocao protegida de livros, exemplares, autores, editoras e categorias. A collection Postman e gerada a partir do OpenAPI com `npm run gen:postman`.
+A feature de gestao de catalogo cobre cadastro, consulta, edicao e remocao protegida de livros, exemplares, autores, editoras e categorias. A collection Postman versionada para uso do time fica em `backend/postman/HelloBooks.postman_collection.json`.
 
 ## Observacoes
 
