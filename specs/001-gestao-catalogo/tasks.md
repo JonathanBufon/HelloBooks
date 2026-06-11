@@ -36,16 +36,16 @@ Monorepo (decisão **D-001** em `research.md`):
 
 **Purpose**: Inicializar o monorepo, scaffolds de backend e frontend, infra Docker.
 
-- [ ] T001 Criar estrutura de diretórios `backend/`, `frontend/`, `docker/` na raiz do repositório
-- [ ] T002 [P] Inicializar Laravel 12 em `backend/` (`composer create-project laravel/laravel backend`) e mover `.env.example` para `backend/.env.example`
-- [ ] T003 [P] Inicializar Vite + React + TypeScript em `frontend/` (`npm create vite@latest frontend -- --template react-ts`)
-- [ ] T004 [P] Criar `docker/docker-compose.yml` com serviços `postgres:16`, `redis:7`, `backend` (PHP 8.3), `frontend` (Node 20)
-- [ ] T005 [P] Criar `docker/.env.example` com `POSTGRES_DB=hellobooks`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `JWT_SECRET`
-- [ ] T006 [P] Em `backend/`, instalar dependências: `composer require php-open-source-saver/jwt-auth doctrine/dbal` e publicar `config/jwt.php`
-- [ ] T007 [P] Em `frontend/`, instalar `axios` e `react-router-dom` (`npm install axios react-router-dom`)
-- [ ] T008 [P] Configurar lint: `composer require --dev laravel/pint` em `backend/`; configurar ESLint + Prettier em `frontend/` (`eslint.config.js`, `.prettierrc`)
-- [ ] T009 [P] Criar `package.json` na raiz do monorepo com scripts `gen:postman` e `dev` (usando `concurrently` para subir backend/frontend juntos)
-- [ ] T010 Ajustar `backend/.env.example` para Postgres (`DB_CONNECTION=pgsql`, `DB_HOST=postgres`, `DB_DATABASE=hellobooks`, `DB_PORT=5432`) e Redis (`REDIS_HOST=redis`)
+- [X] T001 Criar estrutura de diretórios `backend/`, `frontend/`, `docker/` na raiz do repositório
+- [X] T002 [P] Inicializar Laravel 12 em `backend/` (`composer create-project laravel/laravel backend`) e mover `.env.example` para `backend/.env.example`
+- [X] T003 [P] Inicializar Vite + React + TypeScript em `frontend/` (`npm create vite@latest frontend -- --template react-ts`)
+- [X] T004 [P] Criar `docker/docker-compose.yml` com serviços `postgres:16`, `redis:7`, `backend` (PHP 8.3), `frontend` (Node 20)
+- [X] T005 [P] Criar `docker/.env.example` com `POSTGRES_DB=hellobooks`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `JWT_SECRET`
+- [X] T006 [P] Em `backend/`, instalar dependências: `composer require php-open-source-saver/jwt-auth doctrine/dbal` e publicar `config/jwt.php`
+- [X] T007 [P] Em `frontend/`, instalar `axios` e `react-router-dom` (`npm install axios react-router-dom`)
+- [X] T008 [P] Configurar lint: `composer require --dev laravel/pint` em `backend/`; configurar ESLint + Prettier em `frontend/` (`eslint.config.js`, `.prettierrc`)
+- [X] T009 [P] Criar `package.json` na raiz do monorepo com scripts `gen:postman` e `dev` (usando `concurrently` para subir backend/frontend juntos)
+- [X] T010 Ajustar `backend/.env.example` para Postgres (`DB_CONNECTION=pgsql`, `DB_HOST=postgres`, `DB_DATABASE=hellobooks`, `DB_PORT=5432`) e Redis (`REDIS_HOST=redis`)
 
 ---
 
