@@ -292,7 +292,7 @@ make artisan CMD='route:list --path=api/v1'
 
 ## Status Atual
 
-A feature de gestao de catalogo cobre cadastro, consulta, edicao e remocao protegida de livros, exemplares, autores, editoras e categorias. A collection Postman versionada para uso do time fica em `backend/postman/HelloBooks.postman_collection.json`.
+A feature de gestao de catalogo cobre cadastro, consulta, edicao e remocao protegida de livros, exemplares, autores, editoras e categorias. A collection Postman versionada para uso fica em `backend/postman/HelloBooks.postman_collection.json`.
 
 ## Observacoes
 
