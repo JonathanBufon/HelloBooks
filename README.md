@@ -221,7 +221,7 @@ npm run gen:postman
 
 ## Infra Local
 
-As portas expostas no notebook foram deslocadas 15 acima das padroes para evitar conflito com servicos locais.
+As portas expostas foram deslocadas 15 acima das padroes para evitar conflito com servicos locais.
 
 | Servico | Porta local | Porta container |
 |---------|-------------|-----------------|
