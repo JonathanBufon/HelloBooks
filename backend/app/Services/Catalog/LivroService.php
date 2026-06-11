@@ -10,6 +10,7 @@ use App\Repositories\Catalog\CategoriaRepositoryInterface;
 use App\Repositories\Catalog\EditoraRepositoryInterface;
 use App\Repositories\Catalog\LivroRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 
 class LivroService
@@ -35,12 +36,20 @@ class LivroService
 
             abort_if($editora === null, 422, 'Editora informada nao existe.');
 
-            $livro = $this->livros->criar([
-                'id_editora' => $editora->id_editora,
-                'titulo' => $dto->titulo,
-                'isbn' => $dto->isbn,
-                'ano_publicacao' => $dto->anoPublicacao,
-            ]);
+            try {
+                $livro = $this->livros->criar([
+                    'id_editora' => $editora->id_editora,
+                    'titulo' => $dto->titulo,
+                    'isbn' => $dto->isbn,
+                    'ano_publicacao' => $dto->anoPublicacao,
+                ]);
+            } catch (QueryException $e) {
+                if ($e->getCode() === '23505') {
+                    throw new IsbnDuplicadoException(details: ['isbn' => $dto->isbn]);
+                }
+
+                throw $e;
+            }
 
             $autorIds = collect($dto->autores)
                 ->map(fn (array $autor): int => isset($autor['id_autor'])

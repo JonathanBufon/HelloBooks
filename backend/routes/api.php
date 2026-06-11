@@ -22,14 +22,17 @@ Route::prefix('v1')
         Route::delete('/exemplares/{id}', [ExemplarController::class, 'destroy'])->whereNumber('id');
 
         Route::get('/autores', [AutorController::class, 'index']);
+        Route::post('/autores', [AutorController::class, 'store']);
         Route::get('/autores/{id}', [AutorController::class, 'show'])->whereNumber('id');
         Route::put('/autores/{id}', [AutorController::class, 'update'])->whereNumber('id');
         Route::delete('/autores/{id}', [AutorController::class, 'destroy'])->whereNumber('id');
         Route::get('/editoras', [EditoraController::class, 'index']);
+        Route::post('/editoras', [EditoraController::class, 'store']);
         Route::get('/editoras/{id}', [EditoraController::class, 'show'])->whereNumber('id');
         Route::put('/editoras/{id}', [EditoraController::class, 'update'])->whereNumber('id');
         Route::delete('/editoras/{id}', [EditoraController::class, 'destroy'])->whereNumber('id');
         Route::get('/categorias', [CategoriaController::class, 'index']);
+        Route::post('/categorias', [CategoriaController::class, 'store']);
         Route::get('/categorias/{id}', [CategoriaController::class, 'show'])->whereNumber('id');
         Route::put('/categorias/{id}', [CategoriaController::class, 'update'])->whereNumber('id');
         Route::delete('/categorias/{id}', [CategoriaController::class, 'destroy'])->whereNumber('id');

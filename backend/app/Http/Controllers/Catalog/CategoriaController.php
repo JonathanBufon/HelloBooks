@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Catalog;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Catalog\CategoriaCreateRequest;
 use App\Http\Requests\Catalog\CategoriaUpdateRequest;
 use App\Http\Resources\Catalog\CategoriaResource;
 use App\Services\Catalog\CategoriaService;
@@ -13,6 +14,13 @@ use Illuminate\Http\Request;
 class CategoriaController extends Controller
 {
     public function __construct(private readonly CategoriaService $categorias) {}
+
+    public function store(CategoriaCreateRequest $request): JsonResponse
+    {
+        $categoria = $this->categorias->criar($request->validated('nome'));
+
+        return new JsonResponse((new CategoriaResource($categoria))->resolve($request), 201);
+    }
 
     public function index(Request $request): JsonResponse
     {

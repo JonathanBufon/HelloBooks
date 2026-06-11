@@ -12,6 +12,11 @@ class AutorService
 {
     public function __construct(private readonly AutorRepositoryInterface $autores) {}
 
+    public function criar(string $nome): Autor
+    {
+        return $this->autores->criar($nome);
+    }
+
     /**
      * @return LengthAwarePaginator<int, Autor>
      */

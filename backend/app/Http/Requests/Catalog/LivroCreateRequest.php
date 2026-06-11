@@ -18,7 +18,7 @@ class LivroCreateRequest extends FormRequest
     {
         return [
             'titulo' => ['required', 'string', 'max:255'],
-            'isbn' => ['required', 'string', 'min:10', 'max:13'],
+            'isbn' => ['required', 'string', 'min:10', 'max:13', 'regex:/^[a-zA-Z0-9]+$/'],
             'ano_publicacao' => ['required', 'integer', 'min:1000', 'max:'.((int) now()->year + 1)],
             'id_editora' => ['required_without:editora', 'integer', 'exists:editoras,id_editora'],
             'editora.nome' => ['required_without:id_editora', 'string', 'max:255'],

@@ -18,7 +18,7 @@ class LivroUpdateRequest extends FormRequest
     {
         return [
             'titulo' => ['sometimes', 'string', 'max:255'],
-            'isbn' => ['sometimes', 'string', 'min:10', 'max:13'],
+            'isbn' => ['sometimes', 'string', 'min:10', 'max:13', 'regex:/^[a-zA-Z0-9]+$/'],
             'ano_publicacao' => ['sometimes', 'integer', 'min:1000', 'max:'.((int) now()->year + 1)],
             'id_editora' => ['sometimes', 'integer', 'exists:editoras,id_editora'],
             'autores' => ['sometimes', 'array', 'min:1'],
