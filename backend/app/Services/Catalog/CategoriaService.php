@@ -13,6 +13,11 @@ class CategoriaService
 {
     public function __construct(private readonly CategoriaRepositoryInterface $categorias) {}
 
+    public function criar(string $nome): Categoria
+    {
+        return $this->categorias->criar($nome);
+    }
+
     /**
      * @return LengthAwarePaginator<int, Categoria>
      */

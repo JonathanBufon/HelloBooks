@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Catalog;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Catalog\EditoraCreateRequest;
 use App\Http\Requests\Catalog\EditoraUpdateRequest;
 use App\Http\Resources\Catalog\EditoraResource;
 use App\Services\Catalog\EditoraService;
@@ -13,6 +14,13 @@ use Illuminate\Http\Request;
 class EditoraController extends Controller
 {
     public function __construct(private readonly EditoraService $editoras) {}
+
+    public function store(EditoraCreateRequest $request): JsonResponse
+    {
+        $editora = $this->editoras->criar($request->validated('nome'));
+
+        return new JsonResponse((new EditoraResource($editora))->resolve($request), 201);
+    }
 
     public function index(Request $request): JsonResponse
     {

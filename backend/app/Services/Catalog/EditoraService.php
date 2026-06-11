@@ -12,6 +12,11 @@ class EditoraService
 {
     public function __construct(private readonly EditoraRepositoryInterface $editoras) {}
 
+    public function criar(string $nome): Editora
+    {
+        return $this->editoras->criar($nome);
+    }
+
     /**
      * @return LengthAwarePaginator<int, Editora>
      */

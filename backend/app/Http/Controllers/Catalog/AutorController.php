@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Catalog;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Catalog\AutorCreateRequest;
 use App\Http\Requests\Catalog\AutorUpdateRequest;
 use App\Http\Resources\Catalog\AutorResource;
 use App\Services\Catalog\AutorService;
@@ -13,6 +14,13 @@ use Illuminate\Http\Request;
 class AutorController extends Controller
 {
     public function __construct(private readonly AutorService $autores) {}
+
+    public function store(AutorCreateRequest $request): JsonResponse
+    {
+        $autor = $this->autores->criar($request->validated('nome'));
+
+        return new JsonResponse((new AutorResource($autor))->resolve($request), 201);
+    }
 
     public function index(Request $request): JsonResponse
     {
