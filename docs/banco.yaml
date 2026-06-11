@@ -1,0 +1,129 @@
+Sistema_Biblioteca:
+  Entidades_Principais:
+    Usuario:
+      Tabela: usuarios
+      Atributos:
+        - id_usuario (PK)
+        - nome_completo
+        - endereco
+        - cargo [ENUM: bibliotecario, leitor]
+        - email
+        - senha_hash
+    Livro:
+      Tabela: livros
+      Descricao: "Registo do catálogo (abstrato)"
+      Atributos:
+        - id_livro (PK)
+        - id_editora (FK)
+        - titulo
+        - isbn
+        - ano_publicacao
+    Autor:
+      Tabela: autores
+      Atributos:
+        - id_autor (PK)
+        - nome
+    Editora:
+      Tabela: editoras
+      Atributos:
+        - id_editora (PK)
+        - nome
+    Categoria:
+      Tabela: categorias
+      Atributos:
+        - id_categoria (PK)
+        - nome
+    Exemplar:
+      Tabela: exemplares
+      Descricao: "Unidade física do livro disponível na estante"
+      Atributos:
+        - id_exemplar (PK)
+        - id_livro (FK)
+        - status [ENUM: disponivel, emprestado, reservado, manutencao]
+        - condicao_fisica [ENUM: intacto, rabiscado, rasgado, dobrado]
+    Emprestimo:
+      Tabela: emprestimos
+      Descricao: "Agrupa os livros levados por um utilizador numa única vez"
+      Atributos:
+        - id_emprestimo (PK)
+        - id_usuario (FK)
+        - data_retirada
+        - data_prevista_devolucao
+        - status_geral [ENUM: ativo, concluido, atrasado]
+    Item_Emprestimo:
+      Tabela: itens_emprestimo
+      Descricao: "Regista cada exemplar individual dentro de um empréstimo"
+      Atributos:
+        - id_item (PK)
+        - id_emprestimo (FK)
+        - id_exemplar (FK)
+        - data_devolucao_real
+    Reserva:
+      Tabela: reservas
+      Descricao: "Garante um exemplar específico para um utilizador"
+      Atributos:
+        - id_reserva (PK)
+        - id_usuario (FK)
+        - id_exemplar (FK)
+        - data_reserva
+        - data_expiracao_reserva
+        - status [ENUM: aguardando, efetivada, cancelada]
+    Multa:
+      Tabela: multas
+      Descricao: "Penalidade por atraso ou dano ao exemplar"
+      Atributos:
+        - id_multa (PK)
+        - id_item_emprestimo (FK)
+        - valor_multa
+        - motivo [ENUM: atraso, dano_rabiscado, dano_rasgado, dano_dobrado]
+        - status [ENUM: pendente, paga, perdoada]
+    Log_Atividade:
+      Tabela: logs_atividades
+      Descricao: "Auditoria de segurança e histórico"
+      Atributos:
+        - id_log (PK)
+        - id_usuario (FK)
+        - acao_realizada
+        - data_hora
+        - entidade_afetada
+        - id_registro_afetado
+    Token_Acesso:
+      Tabela: tokens_acesso
+      Descricao: "Controlo de sessões ativas (Login/Logout)"
+      Atributos:
+        - id_token (PK)
+        - id_usuario (FK)
+        - token_jwt
+        - data_criacao
+        - data_expiracao
+        - revogado [BOOLEAN]
+
+  Tabelas_Associativas:
+    Livro_Autor:
+      Tipo: "N:M (Muitos para Muitos)"
+      Tabela: livros_autores
+      Atributos:
+        - id_livro (FK)
+        - id_autor (FK)
+    Livro_Categoria:
+      Tipo: "N:M (Muitos para Muitos)"
+      Tabela: livros_categorias
+      Atributos:
+        - id_livro (FK)
+        - id_categoria (FK)
+
+  Relacionamentos:
+    Catalogo:
+      - "Um LIVRO possui uma EDITORA (1:N)"
+      - "Um LIVRO possui muitos EXEMPLARES (1:N)"
+    Operacoes:
+      - "Um USUARIO faz muitos EMPRESTIMOS (1:N)"
+      - "Um EMPRESTIMO contém muitos ITENS_EMPRESTIMO (1:N)"
+      - "Um ITEM_EMPRESTIMO refere-se apenas a um EXEMPLAR (1:1)"
+      - "Um USUARIO faz muitas RESERVAS (1:N)"
+      - "Uma RESERVA retém um EXEMPLAR específico (1:1)"
+    Penalizacoes:
+      - "Um ITEM_EMPRESTIMO pode gerar uma MULTA (1:1 ou 1:N)"
+    Seguranca:
+      - "Um USUARIO gera muitos LOGS de atividades (1:N)"
+      - "Um USUARIO possui muitos TOKENS de acesso (1:N)"
