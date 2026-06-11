@@ -28,10 +28,10 @@ Serviços levantados:
 
 | Serviço    | Porta host | Descrição                            |
 | ---------- | ---------- | ------------------------------------ |
-| `postgres` | 5432       | Banco principal (db: `hellobooks`)   |
-| `redis`    | 6379       | Cache                                |
-| `backend`  | 8000       | Laravel (`php artisan serve`)        |
-| `frontend` | 5173       | Vite dev server                       |
+| `postgres` | 5447       | Banco principal (db: `hellobooks`)   |
+| `redis`    | 6394       | Cache                                |
+| `backend`  | 8015       | Laravel (`php artisan serve`)        |
+| `frontend` | 5188       | Vite dev server                       |
 
 ## 2. Preparar o backend
 
@@ -67,7 +67,7 @@ Substitua `$TOKEN` pelo token obtido acima.
 
 ```bash
 TOKEN="<cole-aqui>"
-BASE=http://localhost:8000/api/v1
+BASE=http://localhost:8015/api/v1
 H="-H Authorization:Bearer $TOKEN -H Content-Type:application/json"
 
 # 4.1 — Criar livro (cria editora/autor/categoria inline)
@@ -124,7 +124,7 @@ npm install
 npm run dev
 ```
 
-Abra `http://localhost:5173`, faça login (quando a feature de auth estiver pronta) e
+Abra `http://localhost:5188`, faça login (quando a feature de auth estiver pronta) e
 acesse:
 - `/catalogo` — lista paginada e busca
 - `/catalogo/novo` — cadastro de livro

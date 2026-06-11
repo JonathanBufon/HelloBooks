@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "concurrently -n backend,frontend -c blue,green \"php backend/artisan serve --host=0.0.0.0 --port=8000\" \"npm --prefix frontend run dev -- --host 0.0.0.0\"",
+    "dev": "concurrently -n backend,frontend -c blue,green \"php backend/artisan serve --host=0.0.0.0 --port=8015\" \"npm --prefix frontend run dev\"",
     "gen:postman": "npx -y openapi-to-postmanv2@5 -s specs/001-gestao-catalogo/contracts/openapi.yaml -o specs/001-gestao-catalogo/contracts/postman/HelloBooks.postman_collection.json -p"
   },
   "devDependencies": {

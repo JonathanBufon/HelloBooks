@@ -118,7 +118,7 @@ no `quickstart.md` e adicionado a um script `npm run gen:postman` na raiz.
   setup.
 
 **Variáveis de ambiente da collection**:
-- `{{base_url}}` → `http://localhost:8000/api/v1`
+- `{{base_url}}` → `http://localhost:8015/api/v1`
 - `{{jwt_token}}` → preenchida manualmente após login (gerada pela feature de auth)
 
 ---

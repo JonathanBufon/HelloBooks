@@ -56,21 +56,21 @@ depende destes.
 
 **⚠️ CRITICAL**: Nenhuma user story começa até esta phase terminar.
 
-- [ ] T011 Criar migration `backend/database/migrations/2026_06_10_000000_enable_unaccent_extension.php` que executa `CREATE EXTENSION IF NOT EXISTS unaccent`
-- [ ] T012 Criar migration `backend/database/migrations/2026_06_10_000001_create_usuarios_table.php` (colunas conforme `data-model.md` → tabela `usuarios`)
-- [ ] T013 Criar migration `backend/database/migrations/2026_06_10_000009_create_logs_atividades_table.php` (FK para `usuarios`, índices conforme `data-model.md`)
-- [ ] T014 [P] Criar model `backend/app/Models/Usuario.php` com `BackedEnum` para `cargo`, `HasJwtSubject` para JWT
-- [ ] T015 [P] Criar model `backend/app/Models/LogAtividade.php`
-- [ ] T016 Configurar guard JWT em `backend/config/auth.php` (`'api' => ['driver' => 'jwt', 'provider' => 'users']`) e provider `'users'` apontando para `App\Models\Usuario`
-- [ ] T017 [P] Criar middleware `backend/app/Http/Middleware/EnsureCargo.php` (parâmetro de rota: cargo aceito; bloqueia com 403 `{ error: { code: "CARGO_INSUFICIENTE" } }`)
-- [ ] T018 [P] Registrar `EnsureCargo` em `backend/app/Http/Kernel.php` (alias `cargo`)
-- [ ] T019 [P] Criar listener `backend/app/Listeners/AuditarMutacao.php` que recebe Eloquent events `created/updated/deleted` e grava em `logs_atividades`
-- [ ] T020 Registrar listener nos models de catálogo via trait `AuditableTrait` em `backend/app/Models/Concerns/AuditableTrait.php` (será aplicado nos models de US1+)
-- [ ] T021 [P] Criar exceções de domínio em `backend/app/Domain/Exceptions/`: `DomainException.php` (base), `RecursoEmUsoException.php`, `IsbnDuplicadoException.php`, `TransicaoInvalidaException.php`
-- [ ] T022 [P] Atualizar `backend/app/Exceptions/Handler.php` para converter exceções de domínio em envelope `{ error: { code, message, details? } }` com HTTP apropriado (409 para `RecursoEmUso`/`IsbnDuplicado`/`TransicaoInvalida`, 422 para `ValidationException`)
-- [ ] T023 Definir grupo de rotas `/api/v1` em `backend/routes/api.php` com middleware `auth:api` + `cargo:bibliotecario` aplicado por padrão
-- [ ] T024 [P] Criar cliente Axios `frontend/src/api/client.ts` com `baseURL`, interceptor para anexar `Authorization: Bearer ${jwt}` e normalizar erros para `{ code, message, details }`
-- [ ] T025 [P] Criar seeder `backend/database/seeders/UsuarioSeeder.php` que cria `biblio@hello.local` / `secret123` (cargo `bibliotecario`) e referenciar em `DatabaseSeeder.php`
+- [X] T011 Criar migration `backend/database/migrations/2026_06_10_000000_enable_unaccent_extension.php` que executa `CREATE EXTENSION IF NOT EXISTS unaccent`
+- [X] T012 Criar migration `backend/database/migrations/2026_06_10_000001_create_usuarios_table.php` (colunas conforme `data-model.md` → tabela `usuarios`)
+- [X] T013 Criar migration `backend/database/migrations/2026_06_10_000009_create_logs_atividades_table.php` (FK para `usuarios`, índices conforme `data-model.md`)
+- [X] T014 [P] Criar model `backend/app/Models/Usuario.php` com `BackedEnum` para `cargo`, `HasJwtSubject` para JWT
+- [X] T015 [P] Criar model `backend/app/Models/LogAtividade.php`
+- [X] T016 Configurar guard JWT em `backend/config/auth.php` (`'api' => ['driver' => 'jwt', 'provider' => 'users']`) e provider `'users'` apontando para `App\Models\Usuario`
+- [X] T017 [P] Criar middleware `backend/app/Http/Middleware/EnsureCargo.php` (parâmetro de rota: cargo aceito; bloqueia com 403 `{ error: { code: "CARGO_INSUFICIENTE" } }`)
+- [X] T018 [P] Registrar `EnsureCargo` em `backend/app/Http/Kernel.php` (alias `cargo`)
+- [X] T019 [P] Criar listener `backend/app/Listeners/AuditarMutacao.php` que recebe Eloquent events `created/updated/deleted` e grava em `logs_atividades`
+- [X] T020 Registrar listener nos models de catálogo via trait `AuditableTrait` em `backend/app/Models/Concerns/AuditableTrait.php` (será aplicado nos models de US1+)
+- [X] T021 [P] Criar exceções de domínio em `backend/app/Domain/Exceptions/`: `DomainException.php` (base), `RecursoEmUsoException.php`, `IsbnDuplicadoException.php`, `TransicaoInvalidaException.php`
+- [X] T022 [P] Atualizar `backend/app/Exceptions/Handler.php` para converter exceções de domínio em envelope `{ error: { code, message, details? } }` com HTTP apropriado (409 para `RecursoEmUso`/`IsbnDuplicado`/`TransicaoInvalida`, 422 para `ValidationException`)
+- [X] T023 Definir grupo de rotas `/api/v1` em `backend/routes/api.php` com middleware `auth:api` + `cargo:bibliotecario` aplicado por padrão
+- [X] T024 [P] Criar cliente Axios `frontend/src/api/client.ts` com `baseURL`, interceptor para anexar `Authorization: Bearer ${jwt}` e normalizar erros para `{ code, message, details }`
+- [X] T025 [P] Criar seeder `backend/database/seeders/UsuarioSeeder.php` que cria `biblio@hello.local` / `secret123` (cargo `bibliotecario`) e referenciar em `DatabaseSeeder.php`
 
 **Checkpoint**: Fundação pronta. Pode-se subir `docker compose up` e rodar `php artisan migrate --seed` com sucesso; `auth('api')->login($user)` retorna um JWT.
 
@@ -90,53 +90,53 @@ depende destes.
 
 ### Migrations (criar tabelas do catálogo)
 
-- [ ] T028 [P] [US1] Migration `backend/database/migrations/2026_06_10_000002_create_editoras_table.php` (índice funcional `lower(unaccent(nome))`)
-- [ ] T029 [P] [US1] Migration `backend/database/migrations/2026_06_10_000003_create_autores_table.php` (índice funcional `lower(unaccent(nome))`)
-- [ ] T030 [P] [US1] Migration `backend/database/migrations/2026_06_10_000004_create_categorias_table.php` (UNIQUE `nome`)
-- [ ] T031 [US1] Migration `backend/database/migrations/2026_06_10_000005_create_livros_table.php` (FK `id_editora` RESTRICT, UNIQUE `isbn`, CHECK `ano_publicacao`, índice funcional `lower(unaccent(titulo))`)
-- [ ] T032 [US1] Migration `backend/database/migrations/2026_06_10_000006_create_exemplares_table.php` (FK `id_livro` RESTRICT, CHECK `status`, CHECK `condicao_fisica`, defaults, índice `(id_livro, status)`)
-- [ ] T033 [US1] Migration `backend/database/migrations/2026_06_10_000007_create_livros_autores_table.php` (PK composta, FK CASCADE em `id_livro` + RESTRICT em `id_autor`)
-- [ ] T034 [US1] Migration `backend/database/migrations/2026_06_10_000008_create_livros_categorias_table.php` (PK composta, FK CASCADE em `id_livro` + RESTRICT em `id_categoria`)
+- [X] T028 [P] [US1] Migration `backend/database/migrations/2026_06_10_000002_create_editoras_table.php` (índice funcional `lower(unaccent(nome))`)
+- [X] T029 [P] [US1] Migration `backend/database/migrations/2026_06_10_000003_create_autores_table.php` (índice funcional `lower(unaccent(nome))`)
+- [X] T030 [P] [US1] Migration `backend/database/migrations/2026_06_10_000004_create_categorias_table.php` (UNIQUE `nome`)
+- [X] T031 [US1] Migration `backend/database/migrations/2026_06_10_000005_create_livros_table.php` (FK `id_editora` RESTRICT, UNIQUE `isbn`, CHECK `ano_publicacao`, índice funcional `lower(unaccent(titulo))`)
+- [X] T032 [US1] Migration `backend/database/migrations/2026_06_10_000006_create_exemplares_table.php` (FK `id_livro` RESTRICT, CHECK `status`, CHECK `condicao_fisica`, defaults, índice `(id_livro, status)`)
+- [X] T033 [US1] Migration `backend/database/migrations/2026_06_10_000007_create_livros_autores_table.php` (PK composta, FK CASCADE em `id_livro` + RESTRICT em `id_autor`)
+- [X] T034 [US1] Migration `backend/database/migrations/2026_06_10_000008_create_livros_categorias_table.php` (PK composta, FK CASCADE em `id_livro` + RESTRICT em `id_categoria`)
 
 ### Models
 
-- [ ] T035 [P] [US1] Model `backend/app/Models/Editora.php` com `HasMany livros` e trait `AuditableTrait`
-- [ ] T036 [P] [US1] Model `backend/app/Models/Autor.php` com `BelongsToMany livros` (pivot `livros_autores`) e `AuditableTrait`
-- [ ] T037 [P] [US1] Model `backend/app/Models/Categoria.php` com `BelongsToMany livros` e `AuditableTrait`
-- [ ] T038 [P] [US1] Model `backend/app/Models/Livro.php` com `BelongsTo editora`, `BelongsToMany autores`, `BelongsToMany categorias`, `HasMany exemplares`, `AuditableTrait`
-- [ ] T039 [P] [US1] Model `backend/app/Models/Exemplar.php` com `BelongsTo livro`, casts de enum (`StatusExemplar`, `CondicaoFisica` em `app/Domain/Exemplar/`), `AuditableTrait`
-- [ ] T040 [P] [US1] Enum `backend/app/Domain/Exemplar/StatusExemplar.php` (`disponivel`, `emprestado`, `reservado`, `manutencao`)
-- [ ] T041 [P] [US1] Enum `backend/app/Domain/Exemplar/CondicaoFisica.php` (`intacto`, `rabiscado`, `rasgado`, `dobrado`)
+- [X] T035 [P] [US1] Model `backend/app/Models/Editora.php` com `HasMany livros` e trait `AuditableTrait`
+- [X] T036 [P] [US1] Model `backend/app/Models/Autor.php` com `BelongsToMany livros` (pivot `livros_autores`) e `AuditableTrait`
+- [X] T037 [P] [US1] Model `backend/app/Models/Categoria.php` com `BelongsToMany livros` e `AuditableTrait`
+- [X] T038 [P] [US1] Model `backend/app/Models/Livro.php` com `BelongsTo editora`, `BelongsToMany autores`, `BelongsToMany categorias`, `HasMany exemplares`, `AuditableTrait`
+- [X] T039 [P] [US1] Model `backend/app/Models/Exemplar.php` com `BelongsTo livro`, casts de enum (`StatusExemplar`, `CondicaoFisica` em `app/Domain/Exemplar/`), `AuditableTrait`
+- [X] T040 [P] [US1] Enum `backend/app/Domain/Exemplar/StatusExemplar.php` (`disponivel`, `emprestado`, `reservado`, `manutencao`)
+- [X] T041 [P] [US1] Enum `backend/app/Domain/Exemplar/CondicaoFisica.php` (`intacto`, `rabiscado`, `rasgado`, `dobrado`)
 
 ### Repositories
 
-- [ ] T042 [P] [US1] `backend/app/Repositories/Catalog/LivroRepositoryInterface.php` + `EloquentLivroRepository.php` (métodos `criar`, `buscarPorIsbn`)
-- [ ] T043 [P] [US1] `backend/app/Repositories/Catalog/AutorRepositoryInterface.php` + `EloquentAutorRepository.php` (`criar`, `acharOuCriarPorNome`)
-- [ ] T044 [P] [US1] `backend/app/Repositories/Catalog/EditoraRepositoryInterface.php` + `EloquentEditoraRepository.php` (`criar`, `acharPorId`)
-- [ ] T045 [P] [US1] `backend/app/Repositories/Catalog/CategoriaRepositoryInterface.php` + `EloquentCategoriaRepository.php` (`criar`, `acharOuCriarPorNome`)
-- [ ] T046 [P] [US1] `backend/app/Repositories/Catalog/ExemplarRepositoryInterface.php` + `EloquentExemplarRepository.php` (`criarEmLote`)
-- [ ] T047 [US1] Bindar interfaces em `backend/app/Providers/AppServiceProvider.php`
+- [X] T042 [P] [US1] `backend/app/Repositories/Catalog/LivroRepositoryInterface.php` + `EloquentLivroRepository.php` (métodos `criar`, `buscarPorIsbn`)
+- [X] T043 [P] [US1] `backend/app/Repositories/Catalog/AutorRepositoryInterface.php` + `EloquentAutorRepository.php` (`criar`, `acharOuCriarPorNome`)
+- [X] T044 [P] [US1] `backend/app/Repositories/Catalog/EditoraRepositoryInterface.php` + `EloquentEditoraRepository.php` (`criar`, `acharPorId`)
+- [X] T045 [P] [US1] `backend/app/Repositories/Catalog/CategoriaRepositoryInterface.php` + `EloquentCategoriaRepository.php` (`criar`, `acharOuCriarPorNome`)
+- [X] T046 [P] [US1] `backend/app/Repositories/Catalog/ExemplarRepositoryInterface.php` + `EloquentExemplarRepository.php` (`criarEmLote`)
+- [X] T047 [US1] Bindar interfaces em `backend/app/Providers/AppServiceProvider.php`
 
 ### Services
 
-- [ ] T048 [US1] `backend/app/Services/Catalog/LivroService.php::criar(LivroCreateDto)` — dentro de `DB::transaction`: valida ISBN único (lança `IsbnDuplicadoException`), cria/encontra editora, cria/encontra autores e categorias, persiste livro, sincroniza associações
-- [ ] T049 [US1] `backend/app/Services/Catalog/ExemplarService.php::registrarLote(idLivro, quantidade)` — cria N exemplares em `DB::transaction`
+- [X] T048 [US1] `backend/app/Services/Catalog/LivroService.php::criar(LivroCreateDto)` — dentro de `DB::transaction`: valida ISBN único (lança `IsbnDuplicadoException`), cria/encontra editora, cria/encontra autores e categorias, persiste livro, sincroniza associações
+- [X] T049 [US1] `backend/app/Services/Catalog/ExemplarService.php::registrarLote(idLivro, quantidade)` — cria N exemplares em `DB::transaction`
 
 ### FormRequests + Controllers + Routes
 
-- [ ] T050 [P] [US1] `backend/app/Http/Requests/Catalog/LivroCreateRequest.php` (regras de validação por FR-022/023/024 e estrutura conforme `LivroCreate` no OpenAPI)
-- [ ] T051 [P] [US1] `backend/app/Http/Requests/Catalog/ExemplarBatchRequest.php` (`quantidade: integer|min:1|max:1000`)
-- [ ] T052 [US1] `backend/app/Http/Controllers/Catalog/LivroController.php::store` (resposta 201 com o livro criado serializado)
-- [ ] T053 [US1] `backend/app/Http/Controllers/Catalog/ExemplarController.php::storeBatch` (resposta 201 com array de exemplares)
-- [ ] T054 [US1] Definir rotas `POST /livros` e `POST /livros/{id}/exemplares` em `backend/routes/api.php`
+- [X] T050 [P] [US1] `backend/app/Http/Requests/Catalog/LivroCreateRequest.php` (regras de validação por FR-022/023/024 e estrutura conforme `LivroCreate` no OpenAPI)
+- [X] T051 [P] [US1] `backend/app/Http/Requests/Catalog/ExemplarBatchRequest.php` (`quantidade: integer|min:1|max:1000`)
+- [X] T052 [US1] `backend/app/Http/Controllers/Catalog/LivroController.php::store` (resposta 201 com o livro criado serializado)
+- [X] T053 [US1] `backend/app/Http/Controllers/Catalog/ExemplarController.php::storeBatch` (resposta 201 com array de exemplares)
+- [X] T054 [US1] Definir rotas `POST /livros` e `POST /livros/{id}/exemplares` em `backend/routes/api.php`
 
 ### Frontend
 
-- [ ] T055 [P] [US1] `frontend/src/api/catalog/livros.ts` (`criarLivro(payload)`)
-- [ ] T056 [P] [US1] `frontend/src/api/catalog/exemplares.ts` (`registrarLote(idLivro, quantidade)`)
-- [ ] T057 [P] [US1] `frontend/src/api/catalog/types.ts` com tipos `Livro`, `LivroCreate`, `Exemplar`, `Autor`, `Editora`, `Categoria` derivados do OpenAPI
-- [ ] T058 [US1] `frontend/src/features/catalog/CadastrarLivroPage.tsx` com formulário (título, ISBN, ano, editora, autores múltiplos, categorias múltiplas, quantidade inicial de exemplares)
-- [ ] T059 [US1] Rota `/catalogo/novo` em `frontend/src/routes.tsx` apontando para `CadastrarLivroPage`
+- [X] T055 [P] [US1] `frontend/src/api/catalog/livros.ts` (`criarLivro(payload)`)
+- [X] T056 [P] [US1] `frontend/src/api/catalog/exemplares.ts` (`registrarLote(idLivro, quantidade)`)
+- [X] T057 [P] [US1] `frontend/src/api/catalog/types.ts` com tipos `Livro`, `LivroCreate`, `Exemplar`, `Autor`, `Editora`, `Categoria` derivados do OpenAPI
+- [X] T058 [US1] `frontend/src/features/catalog/CadastrarLivroPage.tsx` com formulário (título, ISBN, ano, editora, autores múltiplos, categorias múltiplas, quantidade inicial de exemplares)
+- [X] T059 [US1] Rota `/catalogo/novo` em `frontend/src/routes.tsx` apontando para `CadastrarLivroPage`
 
 **Checkpoint US1**: bibliotecário cria livro + exemplares via API e via UI; logs_atividades acumula entradas; ISBN duplicado é rejeitado com 409.
 

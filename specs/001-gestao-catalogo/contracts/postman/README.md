@@ -36,7 +36,7 @@ em um Environment do Postman antes de executar:
 
 | Variável     | Valor sugerido (dev local)                | Descrição                                              |
 | ------------ | ----------------------------------------- | ------------------------------------------------------ |
-| `baseUrl`    | `http://localhost:8000/api/v1`            | URL base da API                                        |
+| `baseUrl`    | `http://localhost:8015/api/v1`            | URL base da API                                        |
 | `jwt_token`  | (preencher com token recebido no login)   | Bearer JWT — injetado no header `Authorization`        |
 
 ## Atualização
