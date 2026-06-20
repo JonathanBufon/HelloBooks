@@ -6,6 +6,8 @@ use App\Http\Controllers\Catalog\CategoriaController;
 use App\Http\Controllers\Catalog\EditoraController;
 use App\Http\Controllers\Catalog\ExemplarController;
 use App\Http\Controllers\Catalog\LivroController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
@@ -55,4 +57,7 @@ Route::prefix('v1')
         Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->whereNumber('id');
         Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->whereNumber('id');
         Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->whereNumber('id');
+
+        Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
+        Route::get('/logs', [LogController::class, 'index']);
     });

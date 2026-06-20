@@ -102,16 +102,16 @@
 
 ### Tests for User Story 3
 
-- [ ] T031 [US3] Write dashboard populated data tests in `backend/tests/Feature/DashboardTest.php`
-- [ ] T032 [US3] Write dashboard empty database and 401/403 tests in `backend/tests/Feature/DashboardTest.php`
+- [X] T031 [US3] Write dashboard populated data tests in `backend/tests/Feature/DashboardTest.php`
+- [X] T032 [US3] Write dashboard empty database and 401/403 tests in `backend/tests/Feature/DashboardTest.php`
 
 ### Implementation for User Story 3
 
-- [ ] T033 [P] [US3] Create `DashboardStatsResource` response formatter in `backend/app/Http/Resources/DashboardStatsResource.php`
-- [ ] T034 [US3] Implement `DashboardService` aggregate queries for catalog counts, exemplar status counts, recent books, users, and activity in `backend/app/Services/DashboardService.php`
-- [ ] T035 [US3] Implement `DashboardController` stats action in `backend/app/Http/Controllers/DashboardController.php`
-- [ ] T036 [US3] Add protected `/api/v1/dashboard/stats` route in `backend/routes/api.php`
-- [ ] T037 [US3] Run and satisfy dashboard feature tests in `backend/tests/Feature/DashboardTest.php`
+- [X] T033 [P] [US3] Create `DashboardStatsResource` response formatter in `backend/app/Http/Resources/DashboardStatsResource.php`
+- [X] T034 [US3] Implement `DashboardService` aggregate queries for catalog counts, exemplar status counts, recent books, users, and activity in `backend/app/Services/DashboardService.php`
+- [X] T035 [US3] Implement `DashboardController` stats action in `backend/app/Http/Controllers/DashboardController.php`
+- [X] T036 [US3] Add protected `/api/v1/dashboard/stats` route in `backend/routes/api.php`
+- [X] T037 [US3] Run and satisfy dashboard feature tests in `backend/tests/Feature/DashboardTest.php`
 
 **Checkpoint**: User Story 3 is independently functional after authentication.
 
@@ -125,15 +125,15 @@
 
 ### Tests for User Story 4
 
-- [ ] T038 [US4] Write log listing and ordering tests in `backend/tests/Feature/LogTest.php`
-- [ ] T039 [US4] Write log filter, pagination, 401, and 403 tests in `backend/tests/Feature/LogTest.php`
+- [X] T038 [US4] Write log listing and ordering tests in `backend/tests/Feature/LogTest.php`
+- [X] T039 [US4] Write log filter, pagination, 401, and 403 tests in `backend/tests/Feature/LogTest.php`
 
 ### Implementation for User Story 4
 
-- [ ] T040 [P] [US4] Create `LogIndexRequest` validating filters in `backend/app/Http/Requests/Log/LogIndexRequest.php`
-- [ ] T041 [US4] Implement filtered log pagination using `LogRepositoryInterface` in `backend/app/Http/Controllers/LogController.php`
-- [ ] T042 [US4] Add protected `/api/v1/logs` route in `backend/routes/api.php`
-- [ ] T043 [US4] Run and satisfy log feature tests in `backend/tests/Feature/LogTest.php`
+- [X] T040 [P] [US4] Create `LogIndexRequest` validating filters in `backend/app/Http/Requests/Log/LogIndexRequest.php`
+- [X] T041 [US4] Implement filtered log pagination using `LogRepositoryInterface` in `backend/app/Http/Controllers/LogController.php`
+- [X] T042 [US4] Add protected `/api/v1/logs` route in `backend/routes/api.php`
+- [X] T043 [US4] Run and satisfy log feature tests in `backend/tests/Feature/LogTest.php`
 
 **Checkpoint**: User Story 4 is independently functional after authentication.
 
