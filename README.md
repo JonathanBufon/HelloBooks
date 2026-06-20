@@ -53,6 +53,8 @@ A API fica em `http://localhost:8015/api/v1`.
 
 O backend fica em `backend/` e segue a arquitetura `Controller -> Service -> Repository -> Eloquent Model`.
 
+Spec ativa em desenvolvimento: `specs/002-backend-complementar/`. Ela complementa o backend com autenticacao JWT, CRUD de usuarios, dashboard de metricas agregadas e leitura dos logs de auditoria, sem alterar os endpoints de catalogo entregues na feature `001-gestao-catalogo`.
+
 Principais pastas:
 
 - `backend/app/Http/Controllers/Catalog/`: controllers REST do catalogo.
@@ -78,7 +80,7 @@ Rotas principais implementadas nesta etapa:
 - `GET|PUT|DELETE /api/v1/editoras/{id}`
 - `GET|PUT|DELETE /api/v1/categorias/{id}`
 
-O endpoint de login/JWT ainda nao faz parte desta feature. Para testes manuais, gere o token via `php artisan tinker`, conforme a secao abaixo.
+Na feature `001-gestao-catalogo`, o endpoint de login/JWT ainda nao fazia parte do escopo. Enquanto a spec `002-backend-complementar` estiver em desenvolvimento, gere o token via `php artisan tinker` para testar rotas ja protegidas, conforme a secao abaixo.
 
 ## Bearer Token Para Testes
 
@@ -292,7 +294,7 @@ make artisan CMD='route:list --path=api/v1'
 
 ## Status Atual
 
-A feature de gestao de catalogo cobre cadastro, consulta, edicao e remocao protegida de livros, exemplares, autores, editoras e categorias. A collection Postman versionada para uso fica em `backend/postman/HelloBooks.postman_collection.json`.
+A feature `001-gestao-catalogo` cobre cadastro, consulta, edicao e remocao protegida de livros, exemplares, autores, editoras e categorias. A feature ativa agora e `002-backend-complementar`, que adiciona auth JWT, CRUD de usuarios, dashboard e consulta de logs para suportar o frontend do MVP. A collection Postman versionada para uso fica em `backend/postman/HelloBooks.postman_collection.json`.
 
 ## Observacoes
 
