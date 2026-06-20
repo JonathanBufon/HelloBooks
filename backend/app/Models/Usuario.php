@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Domain\Usuario\CargoUsuario;
+use App\Models\Concerns\AuditableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,7 +11,7 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
 class Usuario extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable;
+    use AuditableTrait, HasFactory, Notifiable;
 
     protected $table = 'usuarios';
 

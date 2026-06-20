@@ -19,8 +19,10 @@ return new class extends Migration
             $table->index(['id_livro', 'status']);
         });
 
-        DB::statement("ALTER TABLE exemplares ADD CONSTRAINT exemplares_status_check CHECK (status in ('disponivel', 'emprestado', 'reservado', 'manutencao'))");
-        DB::statement("ALTER TABLE exemplares ADD CONSTRAINT exemplares_condicao_fisica_check CHECK (condicao_fisica in ('intacto', 'rabiscado', 'rasgado', 'dobrado'))");
+        if (DB::connection()->getDriverName() === 'pgsql') {
+            DB::statement("ALTER TABLE exemplares ADD CONSTRAINT exemplares_status_check CHECK (status in ('disponivel', 'emprestado', 'reservado', 'manutencao'))");
+            DB::statement("ALTER TABLE exemplares ADD CONSTRAINT exemplares_condicao_fisica_check CHECK (condicao_fisica in ('intacto', 'rabiscado', 'rasgado', 'dobrado'))");
+        }
     }
 
     public function down(): void

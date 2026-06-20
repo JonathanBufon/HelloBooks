@@ -15,7 +15,9 @@ return new class extends Migration
             $table->timestampsTz();
         });
 
-        DB::statement('CREATE INDEX editoras_nome_unaccent_idx ON editoras (lower(immutable_unaccent(nome)))');
+        if (DB::connection()->getDriverName() === 'pgsql') {
+            DB::statement('CREATE INDEX editoras_nome_unaccent_idx ON editoras (lower(immutable_unaccent(nome)))');
+        }
     }
 
     public function down(): void

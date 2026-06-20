@@ -27,6 +27,16 @@ A infraestrutura ja existe: tabela `usuarios` com campo `cargo`, middleware `Ens
 tabela `logs_atividades` com listener `AuditarMutacao`. Esta spec preenche as lacunas
 sem alterar o que ja funciona.
 
+## Clarifications
+
+### Session 2026-06-20
+
+- Q: Como a revogacao/persistencia de tokens JWT deve ser implementada? → A: Usar blacklist/cache do `jwt-auth`; nao criar `tokens_acesso`.
+- Q: Quais campos de usuario a API deve expor e aceitar? → A: API usa `nome_completo` e entrada `senha`; persistencia usa `senha_hash` oculto.
+- Q: Quais credenciais do usuario admin padrao devem ser usadas em seed, testes e quickstart? → A: `biblio@hello.local` / `secret123`.
+- Q: Como a senha de usuario deve ser alterada nesta feature? → A: Permitir alterar senha no `PUT /usuarios/{id}` com campo opcional `senha`.
+- Q: Quais regras devem bloquear a remocao de usuario nesta feature? → A: Validar auto-exclusao e restricoes de FKs existentes; nao validar emprestimos ativos.
+
 ## Escopo
 
 ### O que FAZER
@@ -38,8 +48,8 @@ sem alterar o que ja funciona.
 - `POST /api/v1/auth/logout` — revoga o token corrente (invalida no server-side).
 - `POST /api/v1/auth/refresh` — renova token antes de expirar, retorna novo token.
 - `GET /api/v1/auth/me` — retorna dados do usuario autenticado.
-- Token persistido em `tokens_acesso` conforme constituicao (principio III): `id_usuario`,
-  `token_hash`, `data_criacao`, `data_expiracao`, `revogado`.
+- Revogacao de token via blacklist/cache nativa do `php-open-source-saver/jwt-auth`;
+  nao criar tabela `tokens_acesso` nesta feature.
 - Middleware `auth:api` ja existe e usa `php-open-source-saver/jwt-auth` — completar
   configuracao se necessario.
 
@@ -48,15 +58,18 @@ sem alterar o que ja funciona.
 #### Bloco 2 — CRUD de Usuarios
 
 - `GET /api/v1/usuarios` — lista paginada (page, per_page, q). Apenas `bibliotecario`.
-- `POST /api/v1/usuarios` — cria usuario (nome, email, senha, cargo). Apenas `bibliotecario`.
+- `POST /api/v1/usuarios` — cria usuario (`nome_completo`, `email`, `senha`, `cargo`,
+  `endereco` opcional). Apenas `bibliotecario`.
 - `GET /api/v1/usuarios/{id}` — detalhe de um usuario.
-- `PUT /api/v1/usuarios/{id}` — atualiza dados (nome, email, cargo). Senha so via endpoint
-  dedicado ou no mesmo PUT com campo opcional `senha`.
-- `DELETE /api/v1/usuarios/{id}` — remove usuario sem emprestimos ativos (restrict logico).
-  Nao permite auto-exclusao.
+- `PUT /api/v1/usuarios/{id}` — atualiza dados (`nome_completo`, `email`, `cargo`,
+  `endereco`). Senha pode ser alterada no mesmo PUT com campo opcional `senha`.
+- `DELETE /api/v1/usuarios/{id}` — remove usuario quando nao for a propria conta e nao
+  violar restricoes de FK existentes.
 
-Campos do usuario: `id_usuario`, `nome`, `email`, `senha` (hash), `cargo` (enum:
-`bibliotecario`, `leitor`), `created_at`, `updated_at`.
+Campos expostos do usuario: `id_usuario`, `nome_completo`, `email`, `cargo` (enum:
+`bibliotecario`, `leitor`), `endereco`, `created_at`, `updated_at`. O campo `senha`
+e aceito apenas na entrada e persistido internamente como `senha_hash`, que nunca e
+exposto em respostas.
 
 #### Bloco 3 — Dashboard (metricas agregadas)
 
@@ -123,9 +136,9 @@ todas as rotas retornam 401.
 
 **Acceptance Scenarios**:
 
-1. **Given** um usuario com email `admin@biblioteca.edu` e senha `senha123` cadastrado no
+1. **Given** um usuario com email `biblio@hello.local` e senha `secret123` cadastrado no
    banco, **When** ele faz `POST /auth/login` com essas credenciais, **Then** recebe 200
-   com `{ token, usuario: { id_usuario, nome, email, cargo } }`.
+   com `{ token, usuario: { id_usuario, nome_completo, email, cargo } }`.
 2. **Given** credenciais invalidas, **When** faz `POST /auth/login`, **Then** recebe 401
    com mensagem de erro.
 3. **Given** um token valido, **When** faz `POST /auth/logout`, **Then** o token e
@@ -145,13 +158,16 @@ e remover contas inativas.
 1. **Given** o bibliotecario autenticado, **When** lista usuarios, **Then** recebe pagina
    com usuarios e paginacao.
 2. **Given** nenhum usuario com email `novo@biblioteca.edu`, **When** cria usuario com
-   nome, email, senha e cargo, **Then** o usuario e criado e retornado (sem campo senha).
-3. **Given** ja existe usuario com email `admin@biblioteca.edu`, **When** tenta criar outro
+   `nome_completo`, email, senha e cargo, **Then** o usuario e criado e retornado (sem
+   campo senha ou `senha_hash`).
+3. **Given** ja existe usuario com email `biblio@hello.local`, **When** tenta criar outro
    com mesmo email, **Then** recebe 409 com erro `EMAIL_DUPLICADO`.
-4. **Given** um usuario sem emprestimos ativos, **When** o bibliotecario o remove, **Then**
-   retorna 204.
+4. **Given** um usuario que nao e a propria conta autenticada e nao viola FKs existentes,
+   **When** o bibliotecario o remove, **Then** retorna 204.
 5. **Given** o bibliotecario tenta deletar a propria conta, **Then** recebe 409 com erro
    `AUTO_EXCLUSAO_PROIBIDA`.
+6. **Given** o bibliotecario autenticado, **When** atualiza um usuario com campo opcional
+   `senha`, **Then** a senha e substituida por hash novo e nao aparece na resposta.
 
 ### User Story 3 — Visualizar metricas no dashboard (Priority: P2)
 
@@ -184,8 +200,9 @@ O bibliotecario precisa rastrear quem fez o que e quando, para fins de controle.
 - FormRequests para validacao de cada endpoint.
 - Resources (API Resources) para formatacao de resposta.
 - Testes de feature para cada user story (PHPUnit + Laravel TestCase).
-- Migration para `tokens_acesso` se ainda nao existir.
-- Seeder: criar usuario admin padrao (`admin@biblioteca.edu` / `senha123` / `bibliotecario`).
+- Nao criar migration para `tokens_acesso`; logout/refresh devem invalidar tokens via
+  blacklist/cache do `jwt-auth`.
+- Seeder: manter usuario admin padrao (`biblio@hello.local` / `secret123` / `bibliotecario`).
 - OpenAPI: adicionar endpoints ao contrato em `specs/002-backend-complementar/contracts/openapi.yaml`.
 
 ## Dependencies

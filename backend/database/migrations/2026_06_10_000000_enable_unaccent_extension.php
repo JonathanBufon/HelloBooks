@@ -7,6 +7,10 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (DB::connection()->getDriverName() !== 'pgsql') {
+            return;
+        }
+
         DB::statement('CREATE EXTENSION IF NOT EXISTS unaccent');
         DB::statement(<<<'SQL'
             CREATE OR REPLACE FUNCTION immutable_unaccent(text)
