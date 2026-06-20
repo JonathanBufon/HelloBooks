@@ -30,12 +30,18 @@ docker compose exec backend php artisan jwt:secret
 
 ## Smoke test
 
+Os comandos abaixo assumem que a API esta disponivel em `http://localhost:8015` e que
+`jq` esta instalado.
+
 ### 1. Login
 
 ```bash
-curl -s -X POST http://localhost:8015/api/v1/auth/login \
+LOGIN_RESPONSE=$(curl -s -X POST http://localhost:8015/api/v1/auth/login \
   -H 'Content-Type: application/json' \
-  -d '{"email":"biblio@hello.local","senha":"secret123"}' | jq .
+  -d '{"email":"biblio@hello.local","senha":"secret123"}')
+
+echo "$LOGIN_RESPONSE" | jq .
+TOKEN=$(echo "$LOGIN_RESPONSE" | jq -r '.token')
 ```
 
 Resposta esperada:
@@ -56,10 +62,11 @@ Resposta esperada:
 ### 2. Me (com token)
 
 ```bash
-TOKEN="<token do passo anterior>"
 curl -s http://localhost:8015/api/v1/auth/me \
   -H "Authorization: Bearer $TOKEN" | jq .
 ```
+
+Resposta esperada: objeto do usuario autenticado, sem `senha` ou `senha_hash`.
 
 ### 3. Dashboard stats
 
@@ -68,19 +75,27 @@ curl -s http://localhost:8015/api/v1/dashboard/stats \
   -H "Authorization: Bearer $TOKEN" | jq .
 ```
 
+Resposta esperada: objeto com contagens, `exemplares_por_status`, `livros_recentes` e
+`atividade_recente`.
+
 ### 4. Listar usuarios
 
 ```bash
-curl -s http://localhost:8015/api/v1/usuarios \
+curl -s 'http://localhost:8015/api/v1/usuarios?per_page=10' \
   -H "Authorization: Bearer $TOKEN" | jq .
 ```
+
+Resposta esperada: `{ "data": [...], "pagination": {...} }`, sem `senha_hash`.
 
 ### 5. Listar logs
 
 ```bash
-curl -s http://localhost:8015/api/v1/logs \
+curl -s 'http://localhost:8015/api/v1/logs?per_page=10' \
   -H "Authorization: Bearer $TOKEN" | jq .
 ```
+
+Resposta esperada: `{ "data": [...], "pagination": {...} }`, com `usuario` aninhado
+quando houver logs.
 
 ### 6. Logout
 
@@ -89,6 +104,22 @@ curl -s -X POST http://localhost:8015/api/v1/auth/logout \
   -H "Authorization: Bearer $TOKEN" | jq .
 ```
 
+Resposta esperada:
+```json
+{
+  "message": "Logout realizado com sucesso."
+}
+```
+
+### 7. Confirmar token revogado
+
+```bash
+curl -s -i http://localhost:8015/api/v1/auth/me \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Resposta esperada: HTTP 401 com envelope `error.code = NAO_AUTENTICADO`.
+
 ## Rodar testes
 
 ```bash
@@ -96,4 +127,6 @@ docker compose exec backend php artisan test --filter=Auth
 docker compose exec backend php artisan test --filter=Usuario
 docker compose exec backend php artisan test --filter=Dashboard
 docker compose exec backend php artisan test --filter=Log
+docker compose exec backend php artisan test --testsuite=Feature
+docker compose exec backend ./vendor/bin/pint --test
 ```

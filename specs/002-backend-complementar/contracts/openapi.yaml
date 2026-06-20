@@ -17,6 +17,9 @@ tags:
   - name: Dashboard
   - name: Logs
 
+security:
+  - bearerAuth: []
+
 paths:
   /auth/login:
     post:
@@ -39,6 +42,7 @@ paths:
           content:
             application/json:
               schema: { $ref: '#/components/schemas/Error' }
+        '422': { $ref: '#/components/responses/ValidationError' }
 
   /auth/logout:
     post:
@@ -98,6 +102,7 @@ paths:
               schema: { $ref: '#/components/schemas/UsuarioPage' }
         '401': { $ref: '#/components/responses/Unauthorized' }
         '403': { $ref: '#/components/responses/Forbidden' }
+        '422': { $ref: '#/components/responses/ValidationError' }
     post:
       tags: [Usuarios]
       summary: Cria um usuario
@@ -112,7 +117,9 @@ paths:
           content:
             application/json:
               schema: { $ref: '#/components/schemas/Usuario' }
-        '400': { $ref: '#/components/responses/ValidationError' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '422': { $ref: '#/components/responses/ValidationError' }
         '409':
           description: Email ja em uso
           content:
@@ -131,6 +138,8 @@ paths:
           content:
             application/json:
               schema: { $ref: '#/components/schemas/Usuario' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
         '404': { $ref: '#/components/responses/NotFound' }
     put:
       tags: [Usuarios]
@@ -146,7 +155,9 @@ paths:
           content:
             application/json:
               schema: { $ref: '#/components/schemas/Usuario' }
-        '400': { $ref: '#/components/responses/ValidationError' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '422': { $ref: '#/components/responses/ValidationError' }
         '404': { $ref: '#/components/responses/NotFound' }
         '409':
           description: Email ja em uso por outro usuario
@@ -158,6 +169,8 @@ paths:
       summary: Remove um usuario
       responses:
         '204': { description: Removido }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
         '404': { $ref: '#/components/responses/NotFound' }
         '409':
           description: Auto-exclusao proibida ou usuario em uso
@@ -213,6 +226,7 @@ paths:
               schema: { $ref: '#/components/schemas/LogPage' }
         '401': { $ref: '#/components/responses/Unauthorized' }
         '403': { $ref: '#/components/responses/Forbidden' }
+        '422': { $ref: '#/components/responses/ValidationError' }
 
 components:
   securitySchemes:
@@ -220,9 +234,6 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-
-  security:
-    - bearerAuth: []
 
   parameters:
     Id:
@@ -245,21 +256,48 @@ components:
       content:
         application/json:
           schema: { $ref: '#/components/schemas/Error' }
+          examples:
+            naoAutenticado:
+              value:
+                error:
+                  code: NAO_AUTENTICADO
+                  message: Autenticacao requerida.
     Forbidden:
       description: Cargo insuficiente (apenas bibliotecario)
       content:
         application/json:
           schema: { $ref: '#/components/schemas/Error' }
+          examples:
+            cargoInsuficiente:
+              value:
+                error:
+                  code: CARGO_INSUFICIENTE
+                  message: Cargo insuficiente para acessar este recurso.
     NotFound:
       description: Recurso nao encontrado
       content:
         application/json:
           schema: { $ref: '#/components/schemas/Error' }
+          examples:
+            recursoNaoEncontrado:
+              value:
+                error:
+                  code: RECURSO_NAO_ENCONTRADO
+                  message: Recurso nao encontrado.
     ValidationError:
-      description: Erro de validacao
+      description: Erro de validacao (VALIDATION_ERROR)
       content:
         application/json:
           schema: { $ref: '#/components/schemas/Error' }
+          examples:
+            validationError:
+              value:
+                error:
+                  code: VALIDATION_ERROR
+                  message: Os dados enviados sao invalidos.
+                  details:
+                    email:
+                      - The email field must be a valid email address.
 
   schemas:
     Error:
@@ -321,7 +359,7 @@ components:
         email: { type: string, format: email, maxLength: 255 }
         senha: { type: string, minLength: 6 }
         cargo: { type: string, enum: [bibliotecario, leitor] }
-        endereco: { type: string, maxLength: 255, nullable: true }
+        endereco: { type: string, maxLength: 500, nullable: true }
 
     UsuarioUpdate:
       type: object
@@ -330,7 +368,7 @@ components:
         email: { type: string, format: email, maxLength: 255 }
         senha: { type: string, minLength: 6 }
         cargo: { type: string, enum: [bibliotecario, leitor] }
-        endereco: { type: string, maxLength: 255, nullable: true }
+        endereco: { type: string, maxLength: 500, nullable: true }
 
     UsuarioPage:
       type: object

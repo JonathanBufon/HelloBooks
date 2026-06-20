@@ -143,11 +143,11 @@
 
 **Purpose**: Align contracts, documentation, formatting, and smoke validation across the whole feature.
 
-- [ ] T044 [P] Update OpenAPI contract for final implemented error codes and payloads in `specs/002-backend-complementar/contracts/openapi.yaml`
-- [ ] T045 [P] Update quickstart smoke commands if route responses changed in `specs/002-backend-complementar/quickstart.md`
-- [ ] T046 Run Laravel Pint formatting for changed backend PHP files under `backend/app/` and `backend/tests/`
-- [ ] T047 Run full backend feature suite covering auth, users, dashboard, logs, and catalog regressions from `backend/tests/Feature/`
-- [ ] T048 Validate quickstart smoke flow end-to-end using `specs/002-backend-complementar/quickstart.md`
+- [X] T044 [P] Update OpenAPI contract for final implemented error codes and payloads in `specs/002-backend-complementar/contracts/openapi.yaml`
+- [X] T045 [P] Update quickstart smoke commands if route responses changed in `specs/002-backend-complementar/quickstart.md`
+- [X] T046 Run Laravel Pint formatting for changed backend PHP files under `backend/app/` and `backend/tests/`
+- [X] T047 Run full backend feature suite covering auth, users, dashboard, logs, and catalog regressions from `backend/tests/Feature/`
+- [X] T048 Validate quickstart smoke flow end-to-end using `specs/002-backend-complementar/quickstart.md`
 
 ---
 
