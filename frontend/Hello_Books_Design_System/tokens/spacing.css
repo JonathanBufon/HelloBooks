@@ -1,0 +1,21 @@
+/* Hello Books — Spacing scale (4px base) */
+
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* Layout */
+  --sidebar-width: 292px;
+  --topbar-height: 72px;
+  --content-pad: 32px;   /* padding da área principal */
+  --card-pad: 28px;      /* padding interno de cards (24–32px) */
+  --section-gap: 32px;   /* gap entre seções */
+  --field-gap: 18px;     /* gap entre campos de formulário (16–20px) */
+}

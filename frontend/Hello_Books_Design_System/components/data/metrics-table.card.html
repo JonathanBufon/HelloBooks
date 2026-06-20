@@ -1,0 +1,52 @@
+<!-- @dsCard group="Components" viewport="700x420" name="Métricas & tabela" subtitle="MetricCard e DataTable operacional" -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 24px; background: var(--color-bg); }
+  #root { display: flex; flex-direction: column; gap: 20px; }
+  .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+  <script src="../../_ds_bundle.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script type="text/babel">
+    const { MetricCard, DataTable, StatusBadge, Button } = window.HelloBooksDesignSystem_5c47c8;
+    const I = ({ n }) => { const r = React.useRef(null); React.useEffect(() => { if (r.current){ r.current.innerHTML=""; const e=document.createElement("i"); e.setAttribute("data-lucide",n); r.current.appendChild(e); window.lucide.createIcons({attrs:{width:22,height:22}});} }, []); return <span ref={r} style={{display:"inline-flex"}} />; };
+    const rows = [
+      { id: 1, livro: "Dom Casmurro", membro: "João Reis", venc: "12 jun", status: "Atrasado" },
+      { id: 2, livro: "Sapiens", membro: "Ana Lima", venc: "20 jun", status: "Ativo" },
+      { id: 3, livro: "1984", membro: "Marina Costa", venc: "18 jun", status: "Devolvido" },
+    ];
+    function Demo() {
+      return (
+        <>
+          <div className="metrics">
+            <MetricCard icon={<I n="book-open" />} label="Total de Livros" value="12.480" delta="+3%" />
+            <MetricCard icon={<I n="arrow-left-right" />} label="Empréstimos Ativos" value="842" tone="info" />
+            <MetricCard icon={<I n="alert-circle" />} label="Devoluções Atrasadas" value="38" delta="+5" deltaTone="danger" tone="danger" />
+          </div>
+          <DataTable
+            columns={[
+              { key: "livro", label: "Livro" },
+              { key: "membro", label: "Membro" },
+              { key: "venc", label: "Vencimento" },
+              { key: "status", label: "Status", render: (v) => <StatusBadge status={v} /> },
+              { key: "acoes", label: "Ações", align: "right", render: () => <Button size="sm" variant="ghost">Ver</Button> },
+            ]}
+            rows={rows}
+          />
+        </>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+  </script>
+</body>
+</html>

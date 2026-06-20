@@ -1,0 +1,43 @@
+<!-- @dsCard group="Components" viewport="700x430" name="Formulários" subtitle="TextInput, Select, Textarea, Checkbox, Switch, SearchInput" -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 24px; background: var(--color-bg); }
+  #root { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 24px; max-width: 640px; }
+  .full { grid-column: 1 / -1; }
+  .inline { display: flex; gap: 24px; align-items: center; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+  <script src="../../_ds_bundle.js"></script>
+  <script type="text/babel">
+    const { TextInput, Select, Textarea, Checkbox, Switch, SearchInput } = window.HelloBooksDesignSystem_5c47c8;
+    function Demo() {
+      const [a, setA] = React.useState(true);
+      const [b, setB] = React.useState(true);
+      return (
+        <>
+          <TextInput label="Título da obra" placeholder="Ex.: Dom Casmurro" />
+          <Select label="Categoria" options={["Acadêmico", "Referência", "Ficção"]} value="" />
+          <TextInput label="ISBN-13" placeholder="978-..." error="ISBN inválido. Use o formato ISBN-13." />
+          <TextInput label="Prazo padrão" value="14 dias" readOnly />
+          <div className="full"><Textarea label="Sinopse" rows={2} placeholder="Resumo da obra…" /></div>
+          <div className="full inline">
+            <Checkbox label="Permite empréstimo" checked={a} onChange={() => setA(!a)} />
+            <Switch label="Disponível no catálogo público" checked={b} onChange={setB} />
+          </div>
+          <div className="full"><SearchInput placeholder="Buscar catálogo, membros ou ISBN..." /></div>
+        </>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!-- @dsCard group="Components" viewport="700x300" name="Modal & Toast" subtitle="Diálogo centralizado e feedback curto" -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 24px; background: var(--color-bg); }
+  #root { display: flex; gap: 22px; align-items: flex-start; flex-wrap: wrap; }
+  .modal-wrap { width: 340px; }
+  .modal-wrap .ov { position: static !important; background: transparent !important; backdrop-filter: none !important; padding: 0 !important; display: block !important; }
+  .toasts { display: flex; flex-direction: column; gap: 12px; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+  <script src="../../_ds_bundle.js"></script>
+  <script type="text/babel">
+    const { Modal, Toast, Button } = window.HelloBooksDesignSystem_5c47c8;
+    function Demo() {
+      return (
+        <>
+          <div className="modal-wrap">
+            {/* render modal inline (not fixed) for the specimen */}
+            <div style={{ background: "var(--color-surface)", borderRadius: "var(--radius-2xl)", boxShadow: "var(--shadow-lg)", padding: "28px" }}>
+              <h2 style={{ margin: "0 0 8px", fontSize: "22px", fontWeight: 700, color: "var(--color-danger)" }}>Remover Livro</h2>
+              <p style={{ margin: "0 0 20px", fontSize: "14px", color: "var(--color-text-muted)" }}>Esta ação não pode ser desfeita.</p>
+              <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px" }}>
+                <Button variant="secondary" size="sm">Cancelar</Button>
+                <Button variant="danger" size="sm">Remover Livro</Button>
+              </div>
+            </div>
+          </div>
+          <div className="toasts">
+            <Toast tone="success" title="Empréstimo registrado." />
+            <Toast tone="danger" title="Não foi possível carregar o catálogo." message="Verifique sua conexão ou tente novamente." onClose={() => {}} />
+            <Toast tone="warning" title="Multa pendente para o membro." />
+          </div>
+        </>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+  </script>
+</body>
+</html>

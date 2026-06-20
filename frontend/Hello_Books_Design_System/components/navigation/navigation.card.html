@@ -1,0 +1,53 @@
+<!-- @dsCard group="Components" viewport="700x520" name="Sidebar & Topbar" subtitle="Shell de navegação fixo do Hello Books" -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 24px; background: var(--color-bg); }
+  #root { display: flex; gap: 22px; align-items: flex-start; }
+  .side { height: 470px; border-radius: var(--radius-xl); overflow: hidden; border: 1px solid var(--color-border); }
+  .col { flex: 1; display: flex; flex-direction: column; gap: 16px; }
+  .tb { border-radius: var(--radius-xl); overflow: hidden; border: 1px solid var(--color-border); }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+  <script src="../../_ds_bundle.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script type="text/babel">
+    const { Sidebar, SidebarItem, Topbar } = window.HelloBooksDesignSystem_5c47c8;
+    const I = ({ n }) => { const r = React.useRef(null); React.useEffect(() => { if (r.current){ r.current.innerHTML=""; const e=document.createElement("i"); e.setAttribute("data-lucide",n); r.current.appendChild(e); window.lucide.createIcons({attrs:{width:18,height:18}});} }, []); return <span ref={r} style={{display:"inline-flex"}} />; };
+    const user = { name: "Marina Costa", role: "Head Librarian" };
+    function Demo() {
+      const [active, setActive] = React.useState("Catálogo");
+      const items = [
+        ["Dashboard", "layout-grid"], ["Catálogo", "book-open"], ["Membros", "users"],
+        ["Circulação", "arrow-left-right"], ["Relatórios", "bar-chart-3"], ["Multas", "alert-circle"],
+        ["Configurações", "settings"],
+      ];
+      return (
+        <>
+          <div className="side">
+            <Sidebar subtitle="Central Library" user={user} style={{ height: "100%" }}>
+              {items.map(([label, icon]) => (
+                <SidebarItem key={label} icon={<I n={icon} />} label={label}
+                  active={active === label} onClick={() => setActive(label)}
+                  badge={label === "Multas" ? 4 : undefined} />
+              ))}
+            </Sidebar>
+          </div>
+          <div className="col">
+            <div className="tb"><Topbar searchPlaceholder="Buscar catálogo, membros ou ISBN..." user={user} /></div>
+          </div>
+        </>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+  </script>
+</body>
+</html>

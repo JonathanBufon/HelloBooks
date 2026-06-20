@@ -1,0 +1,6 @@
+/* Hello Books — Webfonts
+   Inter é a família institucional do produto (DESIGN.md §4.1).
+   Carregada via Google Fonts. Para uso 100% offline, substitua por
+   @font-face apontando para os binários .woff2 da Inter. */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");

@@ -1,0 +1,22 @@
+<!-- @dsCard group="Spacing" viewport="700x180" name="Sombras" subtitle="Suaves, tom roxo nas elevações maiores — nunca escuras" -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; padding: 28px; background: var(--color-bg); font-family: var(--font-sans); }
+  .row { display: flex; gap: 28px; }
+  .item { text-align: center; }
+  .box { width: 150px; height: 78px; background: var(--color-surface); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--color-text); }
+  .v { font-size: 11px; color: var(--color-text-soft); margin-top: 12px; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="item"><div class="box" style="box-shadow:var(--shadow-sm)">shadow-sm</div><div class="v">botões, chips</div></div>
+    <div class="item"><div class="box" style="box-shadow:var(--shadow-md)">shadow-md</div><div class="v">cards</div></div>
+    <div class="item"><div class="box" style="box-shadow:var(--shadow-lg)">shadow-lg</div><div class="v">modais, destaques</div></div>
+  </div>
+</body>
+</html>
