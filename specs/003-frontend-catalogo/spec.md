@@ -6,6 +6,16 @@
 
 **Status**: Draft
 
+## Clarifications
+
+### Session 2026-06-20
+
+- Q: Cadastrar/Editar livro: modal ou pagina dedicada? → A: Pagina dedicada com rotas proprias (`/catalogo/novo`, `/catalogo/:id/editar`)
+- Q: Frontend filtra sidebar/rotas por cargo (bibliotecario vs leitor)? → A: Sim, filtrar sidebar por cargo — leitor ve apenas Dashboard e Catalogo (leitura); bibliotecario ve tudo
+- Q: Comportamento do checkbox "Lembrar de mim" no login? → A: Checked: token em localStorage (persiste entre sessoes); unchecked: sessionStorage (perde ao fechar navegador)
+- Q: O que exibir durante carregamento de dados da API? → A: Spinner centralizado generico na area de conteudo
+- Q: Comportamento do SearchInput global na Topbar? → A: Redireciona para CatalogoListaPage com o termo pre-preenchido no campo de busca
+
 **Input**: Construir o frontend React do HelloBooks cobrindo as telas que o backend ja
 suporta (catalogo completo) e o shell da aplicacao (login, sidebar, topbar, dashboard),
 usando o Hello Books Design System como referencia visual e de componentes.
@@ -38,9 +48,13 @@ e portando os componentes do DS para o projeto React/TypeScript/Vite.
 
 - Projeto React 18 + TypeScript 5.4 + Vite em `frontend/`.
 - Axios com instancia unica (`api/client.ts`) e interceptors:
-  - Request: anexa `Authorization: Bearer <token>` do localStorage.
-  - Response 401: redireciona para login e limpa token.
+  - Request: anexa `Authorization: Bearer <token>` de localStorage ou sessionStorage
+    (conforme escolha de "Lembrar de mim").
+  - Response 401: redireciona para login e limpa token de ambos os storages.
 - React Router v6 com rotas protegidas (redirect para login se nao autenticado).
+- Rotas restritas por cargo: paginas de Autores, Editoras, Categorias, Usuarios e
+  Auditoria acessiveis apenas por `bibliotecario`. Leitor que tenta acessar rota
+  restrita e redirecionado para Dashboard.
 - Portar tokens CSS do design system para `frontend/src/styles/`.
 - Portar componentes do DS para `frontend/src/components/ds/` como componentes
   TypeScript (.tsx) com tipagem adequada.
@@ -95,6 +109,9 @@ frontend/src/
 
 - Duas colunas: painel institucional roxo (gradiente + logo + features) e formulario.
 - Campos: email, senha, checkbox "Lembrar de mim".
+  - "Lembrar de mim" marcado: token armazenado em `localStorage` (persiste entre sessoes).
+  - "Lembrar de mim" desmarcado: token armazenado em `sessionStorage` (perde ao fechar
+    navegador).
 - Botao "Entrar no Sistema" chama `POST /auth/login`.
 - Erro de credenciais exibido inline.
 - Apos login, redireciona para Dashboard.
@@ -114,7 +131,7 @@ frontend/src/
 
 #### Tela 3 — Catalogo Lista (`/catalogo`)
 
-- PageHeader com botao "Cadastrar Livro" (abre modal ou navega).
+- PageHeader com botao "Cadastrar Livro" (navega para `/catalogo/novo`).
 - Barra de filtros: SearchInput (busca por titulo/autor/ISBN), Select de categorias,
   Select de status, toggle grid/tabela.
 - **Modo grid**: BookCards com capa, titulo, autor, status, exemplares.
@@ -138,7 +155,7 @@ frontend/src/
 
 #### Tela 5 — Cadastrar/Editar Livro (`/catalogo/novo`, `/catalogo/:id/editar`)
 
-- Modal ou pagina com formulario:
+- Pagina dedicada com formulario:
   - Titulo (TextInput, required)
   - ISBN (TextInput, required, validacao 10-13 chars)
   - Ano de publicacao (TextInput type=number)
@@ -194,10 +211,12 @@ frontend/src/
 
 - Sidebar fixa a esquerda (292px) com:
   - Logo Hello Books
-  - Itens de navegacao: Dashboard, Catalogo, Autores, Editoras, Categorias, Usuarios,
-    Auditoria
+  - Itens de navegacao filtrados por cargo:
+    - **Todos**: Dashboard, Catalogo
+    - **Apenas bibliotecario**: Autores, Editoras, Categorias, Usuarios, Auditoria
   - Card do usuario logado no rodape
-- Topbar com SearchInput global e info do usuario.
+- Topbar com SearchInput global (ao submeter, redireciona para `/catalogo?q=<termo>`
+  com o campo de busca pre-preenchido) e info do usuario.
 - Area principal rolavel.
 - Item ativo destacado na sidebar conforme rota atual.
 - Referencia: `ui_kits/hellobooks/AppShell.jsx`.
@@ -301,6 +320,8 @@ devem ser portados para TypeScript com props tipadas:
   da API.
 - Tratamento de erros: interceptor global (401 -> logout), toast para erros de operacao,
   inline para validacao de formulario.
+- Estado de carregamento: spinner centralizado generico na area de conteudo enquanto
+  requisicoes da API estao em andamento. Sem skeleton loaders no MVP.
 - Build dev com proxy para `localhost:8015` (backend Docker).
 
 ## Dependencies
