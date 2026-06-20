@@ -18,10 +18,10 @@
 
 **Purpose**: Prepare the existing Laravel backend for the complementary backend feature without altering catalog behavior.
 
-- [ ] T001 Review JWT guard and blacklist settings in `backend/config/auth.php` and `backend/config/jwt.php`
-- [ ] T002 [P] Verify admin seed credentials `biblio@hello.local` / `secret123` in `backend/database/seeders/UsuarioSeeder.php`
-- [ ] T003 [P] Create feature directories for auth, user, and log requests in `backend/app/Http/Requests/Auth/`, `backend/app/Http/Requests/Usuario/`, and `backend/app/Http/Requests/Log/`
-- [ ] T004 [P] Create feature test directories in `backend/tests/Feature/Auth/`
+- [X] T001 Review JWT guard and blacklist settings in `backend/config/auth.php` and `backend/config/jwt.php`
+- [X] T002 [P] Verify admin seed credentials `biblio@hello.local` / `secret123` in `backend/database/seeders/UsuarioSeeder.php`
+- [X] T003 [P] Create feature directories for auth, user, and log requests in `backend/app/Http/Requests/Auth/`, `backend/app/Http/Requests/Usuario/`, and `backend/app/Http/Requests/Log/`
+- [X] T004 [P] Create feature test directories in `backend/tests/Feature/Auth/`
 
 ---
 
@@ -31,15 +31,15 @@
 
 **Critical**: No user story work should begin until this phase is complete.
 
-- [ ] T005 [P] Create `UsuarioResource` hiding `senha_hash` in `backend/app/Http/Resources/UsuarioResource.php`
-- [ ] T006 [P] Create `LogAtividadeResource` with nested executor data in `backend/app/Http/Resources/LogAtividadeResource.php`
-- [ ] T007 [P] Create `EmailDuplicadoException` with code `EMAIL_DUPLICADO` in `backend/app/Domain/Exceptions/EmailDuplicadoException.php`
-- [ ] T008 [P] Create `AutoExclusaoException` with code `AUTO_EXCLUSAO_PROIBIDA` in `backend/app/Domain/Exceptions/AutoExclusaoException.php`
-- [ ] T009 [P] Create `UsuarioRepositoryInterface` in `backend/app/Repositories/UsuarioRepositoryInterface.php`
-- [ ] T010 Create `EloquentUsuarioRepository` with pagination, lookup, create, update, and delete methods in `backend/app/Repositories/EloquentUsuarioRepository.php`
-- [ ] T011 [P] Create `LogRepositoryInterface` in `backend/app/Repositories/LogRepositoryInterface.php`
-- [ ] T012 Create `EloquentLogRepository` with paginated filters and recent activity query in `backend/app/Repositories/EloquentLogRepository.php`
-- [ ] T013 Register usuario and log repository bindings in `backend/app/Providers/AppServiceProvider.php`
+- [X] T005 [P] Create `UsuarioResource` hiding `senha_hash` in `backend/app/Http/Resources/UsuarioResource.php`
+- [X] T006 [P] Create `LogAtividadeResource` with nested executor data in `backend/app/Http/Resources/LogAtividadeResource.php`
+- [X] T007 [P] Create `EmailDuplicadoException` with code `EMAIL_DUPLICADO` in `backend/app/Domain/Exceptions/EmailDuplicadoException.php`
+- [X] T008 [P] Create `AutoExclusaoException` with code `AUTO_EXCLUSAO_PROIBIDA` in `backend/app/Domain/Exceptions/AutoExclusaoException.php`
+- [X] T009 [P] Create `UsuarioRepositoryInterface` in `backend/app/Repositories/UsuarioRepositoryInterface.php`
+- [X] T010 Create `EloquentUsuarioRepository` with pagination, lookup, create, update, and delete methods in `backend/app/Repositories/EloquentUsuarioRepository.php`
+- [X] T011 [P] Create `LogRepositoryInterface` in `backend/app/Repositories/LogRepositoryInterface.php`
+- [X] T012 Create `EloquentLogRepository` with paginated filters and recent activity query in `backend/app/Repositories/EloquentLogRepository.php`
+- [X] T013 Register usuario and log repository bindings in `backend/app/Providers/AppServiceProvider.php`
 
 **Checkpoint**: Shared resources and repositories are ready for all user stories.
 

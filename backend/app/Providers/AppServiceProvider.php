@@ -12,6 +12,10 @@ use App\Repositories\Catalog\EloquentExemplarRepository;
 use App\Repositories\Catalog\EloquentLivroRepository;
 use App\Repositories\Catalog\ExemplarRepositoryInterface;
 use App\Repositories\Catalog\LivroRepositoryInterface;
+use App\Repositories\EloquentLogRepository;
+use App\Repositories\EloquentUsuarioRepository;
+use App\Repositories\LogRepositoryInterface;
+use App\Repositories\UsuarioRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(EditoraRepositoryInterface::class, EloquentEditoraRepository::class);
         $this->app->bind(CategoriaRepositoryInterface::class, EloquentCategoriaRepository::class);
         $this->app->bind(ExemplarRepositoryInterface::class, EloquentExemplarRepository::class);
+        $this->app->bind(UsuarioRepositoryInterface::class, EloquentUsuarioRepository::class);
+        $this->app->bind(LogRepositoryInterface::class, EloquentLogRepository::class);
     }
 
     /**
