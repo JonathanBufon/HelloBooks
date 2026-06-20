@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Usuario;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 class EloquentUsuarioRepository implements UsuarioRepositoryInterface
 {
@@ -12,10 +13,12 @@ class EloquentUsuarioRepository implements UsuarioRepositoryInterface
         $perPage = min(max((int) ($filtros['per_page'] ?? 20), 1), 100);
         $busca = trim((string) ($filtros['q'] ?? ''));
 
+        $operador = DB::connection()->getDriverName() === 'pgsql' ? 'ilike' : 'like';
+
         return Usuario::query()
-            ->when($busca !== '', fn ($query) => $query->where(function ($query) use ($busca): void {
-                $query->where('nome_completo', 'ilike', "%{$busca}%")
-                    ->orWhere('email', 'ilike', "%{$busca}%");
+            ->when($busca !== '', fn ($query) => $query->where(function ($query) use ($busca, $operador): void {
+                $query->where('nome_completo', $operador, "%{$busca}%")
+                    ->orWhere('email', $operador, "%{$busca}%");
             }))
             ->orderBy('id_usuario')
             ->paginate($perPage);

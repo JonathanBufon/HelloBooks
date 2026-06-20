@@ -20,9 +20,13 @@ return new class extends Migration
             $table->index('id_editora');
         });
 
-        DB::statement('ALTER TABLE livros ADD CONSTRAINT livros_isbn_length_check CHECK (char_length(isbn) between 10 and 13)');
-        DB::statement('ALTER TABLE livros ADD CONSTRAINT livros_ano_publicacao_check CHECK (ano_publicacao between 1000 and extract(year from now())::int + 1)');
-        DB::statement('CREATE INDEX livros_titulo_unaccent_idx ON livros (lower(immutable_unaccent(titulo)))');
+        if (DB::connection()->getDriverName() === 'pgsql') {
+            DB::statement('ALTER TABLE livros ADD CONSTRAINT livros_isbn_length_check CHECK (char_length(isbn) between 10 and 13)');
+            DB::statement('ALTER TABLE livros ADD CONSTRAINT livros_ano_publicacao_check CHECK (ano_publicacao between 1000 and extract(year from now())::int + 1)');
+        }
+        if (DB::connection()->getDriverName() === 'pgsql') {
+            DB::statement('CREATE INDEX livros_titulo_unaccent_idx ON livros (lower(immutable_unaccent(titulo)))');
+        }
     }
 
     public function down(): void

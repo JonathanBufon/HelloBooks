@@ -53,16 +53,16 @@
 
 ### Tests for User Story 1
 
-- [ ] T014 [US1] Write login success and invalid credential tests in `backend/tests/Feature/Auth/AuthTest.php`
-- [ ] T015 [US1] Write logout, refresh, and me endpoint tests in `backend/tests/Feature/Auth/AuthTest.php`
+- [X] T014 [US1] Write login success and invalid credential tests in `backend/tests/Feature/Auth/AuthTest.php`
+- [X] T015 [US1] Write logout, refresh, and me endpoint tests in `backend/tests/Feature/Auth/AuthTest.php`
 
 ### Implementation for User Story 1
 
-- [ ] T016 [P] [US1] Create `LoginRequest` validating `email` and `senha` in `backend/app/Http/Requests/Auth/LoginRequest.php`
-- [ ] T017 [US1] Implement `AuthService` using jwt-auth login, invalidate, refresh, and me flows in `backend/app/Services/Auth/AuthService.php`
-- [ ] T018 [US1] Implement `AuthController` responses with `token`, `token_type`, `expires_in`, and `usuario` in `backend/app/Http/Controllers/Auth/AuthController.php`
-- [ ] T019 [US1] Add public `/api/v1/auth/login` route and protected logout, refresh, me routes in `backend/routes/api.php`
-- [ ] T020 [US1] Run and satisfy auth feature tests in `backend/tests/Feature/Auth/AuthTest.php`
+- [X] T016 [P] [US1] Create `LoginRequest` validating `email` and `senha` in `backend/app/Http/Requests/Auth/LoginRequest.php`
+- [X] T017 [US1] Implement `AuthService` using jwt-auth login, invalidate, refresh, and me flows in `backend/app/Services/Auth/AuthService.php`
+- [X] T018 [US1] Implement `AuthController` responses with `token`, `token_type`, `expires_in`, and `usuario` in `backend/app/Http/Controllers/Auth/AuthController.php`
+- [X] T019 [US1] Add public `/api/v1/auth/login` route and protected logout, refresh, me routes in `backend/routes/api.php`
+- [X] T020 [US1] Run and satisfy auth feature tests in `backend/tests/Feature/Auth/AuthTest.php`
 
 **Checkpoint**: User Story 1 is independently functional and testable as the MVP.
 
@@ -76,19 +76,19 @@
 
 ### Tests for User Story 2
 
-- [ ] T021 [US2] Write user listing and detail tests in `backend/tests/Feature/UsuarioTest.php`
-- [ ] T022 [US2] Write user create, duplicate email, and password hashing tests in `backend/tests/Feature/UsuarioTest.php`
-- [ ] T023 [US2] Write user update, delete, self-delete, 401, and 403 tests in `backend/tests/Feature/UsuarioTest.php`
+- [X] T021 [US2] Write user listing and detail tests in `backend/tests/Feature/UsuarioTest.php`
+- [X] T022 [US2] Write user create, duplicate email, and password hashing tests in `backend/tests/Feature/UsuarioTest.php`
+- [X] T023 [US2] Write user update, delete, self-delete, 401, and 403 tests in `backend/tests/Feature/UsuarioTest.php`
 
 ### Implementation for User Story 2
 
-- [ ] T024 [P] [US2] Create `UsuarioIndexRequest` for `page`, `per_page`, and `q` in `backend/app/Http/Requests/Usuario/UsuarioIndexRequest.php`
-- [ ] T025 [P] [US2] Create `UsuarioCreateRequest` for `nome_completo`, `email`, `senha`, `cargo`, and `endereco` in `backend/app/Http/Requests/Usuario/UsuarioCreateRequest.php`
-- [ ] T026 [P] [US2] Create `UsuarioUpdateRequest` with optional `senha` in `backend/app/Http/Requests/Usuario/UsuarioUpdateRequest.php`
-- [ ] T027 [US2] Implement `UsuarioService` duplicate email, password hashing, update, delete, and self-delete rules in `backend/app/Services/UsuarioService.php`
-- [ ] T028 [US2] Implement `UsuarioController` CRUD actions and resources in `backend/app/Http/Controllers/UsuarioController.php`
-- [ ] T029 [US2] Add protected `/api/v1/usuarios` CRUD routes with `auth:api` and `cargo:bibliotecario` in `backend/routes/api.php`
-- [ ] T030 [US2] Run and satisfy usuario feature tests in `backend/tests/Feature/UsuarioTest.php`
+- [X] T024 [P] [US2] Create `UsuarioIndexRequest` for `page`, `per_page`, and `q` in `backend/app/Http/Requests/Usuario/UsuarioIndexRequest.php`
+- [X] T025 [P] [US2] Create `UsuarioCreateRequest` for `nome_completo`, `email`, `senha`, `cargo`, and `endereco` in `backend/app/Http/Requests/Usuario/UsuarioCreateRequest.php`
+- [X] T026 [P] [US2] Create `UsuarioUpdateRequest` with optional `senha` in `backend/app/Http/Requests/Usuario/UsuarioUpdateRequest.php`
+- [X] T027 [US2] Implement `UsuarioService` duplicate email, password hashing, update, delete, and self-delete rules in `backend/app/Services/UsuarioService.php`
+- [X] T028 [US2] Implement `UsuarioController` CRUD actions and resources in `backend/app/Http/Controllers/UsuarioController.php`
+- [X] T029 [US2] Add protected `/api/v1/usuarios` CRUD routes with `auth:api` and `cargo:bibliotecario` in `backend/routes/api.php`
+- [X] T030 [US2] Run and satisfy usuario feature tests in `backend/tests/Feature/UsuarioTest.php`
 
 **Checkpoint**: User Story 2 is independently functional after authentication.
 
