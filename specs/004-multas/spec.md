@@ -42,6 +42,7 @@ O leitor paga a multa presencialmente ao bibliotecario. O bibliotecario acessa o
 1. **Given** uma multa pendente para um leitor, **When** o bibliotecario marca como paga, **Then** a multa muda para status paga com data/hora do pagamento e identificacao do bibliotecario que deu baixa.
 2. **Given** uma multa ja paga, **When** o bibliotecario tenta dar baixa novamente, **Then** o sistema informa que a multa ja foi quitada.
 3. **Given** um leitor com multiplas multas pendentes, **When** o bibliotecario da baixa em uma delas, **Then** apenas a multa selecionada muda de status; as demais permanecem pendentes.
+4. **Given** um leitor com multiplas multas pendentes, **When** o bibliotecario usa a opcao de baixa em lote, **Then** todas as multas pendentes do leitor mudam para paga em uma unica operacao, com data/hora e bibliotecario registrados em cada uma.
 
 ---
 
@@ -122,6 +123,14 @@ O bibliotecario pode perdoar uma multa pendente informando uma justificativa adm
 - Tentativas de alteracao por usuario sem permissao (leitor tentando dar baixa) devem ser negadas.
 - Notificacoes devem refletir o estado atual — se a multa foi paga entre o login e a consulta, a notificacao deve desaparecer.
 - Leitor so ve suas proprias multas, nunca multas de outros leitores.
+- Leitor com multas pendentes nao pode realizar novos emprestimos; o sistema deve expor verificacao consultavel pela feature de emprestimos.
+
+## Clarifications
+
+### Session 2026-06-21
+
+- Q: Multas pendentes bloqueiam novos emprestimos do leitor? → A: Sim, bloqueia novos emprestimos enquanto houver multas pendentes.
+- Q: Bibliotecario pode dar baixa em lote (todas multas de um leitor) ou apenas individual? → A: Ambos — baixa individual por multa e opcao de "pagar todas pendentes" do leitor.
 
 ## Requirements *(mandatory)*
 
@@ -140,10 +149,11 @@ O bibliotecario pode perdoar uma multa pendente informando uma justificativa adm
 
 **Baixa manual (pagamento presencial)**
 
-- **FR-009**: Bibliotecarios MUST be able to marcar multa pendente como paga.
+- **FR-009**: Bibliotecarios MUST be able to marcar multa pendente como paga (baixa individual).
 - **FR-010**: Ao dar baixa, o sistema MUST registrar data/hora do pagamento e identificacao do bibliotecario que processou.
 - **FR-011**: Multas pagas MUST NOT voltar para pendente.
 - **FR-012**: O pagamento e exclusivamente presencial — nao ha integracao com gateway financeiro.
+- **FR-012a**: Bibliotecarios MUST be able to dar baixa em lote — marcar todas as multas pendentes de um leitor como pagas em uma unica operacao.
 
 **Consulta e filtros**
 
@@ -168,6 +178,10 @@ O bibliotecario pode perdoar uma multa pendente informando uma justificativa adm
 
 - **FR-023**: Bibliotecarios MUST be able to perdoar multa pendente com justificativa obrigatoria.
 - **FR-024**: Multas perdoadas MUST NOT voltar para pendente.
+
+**Bloqueio de emprestimos**
+
+- **FR-029**: O sistema MUST impedir que um leitor com multas pendentes realize novos emprestimos. A verificacao deve ser exposta para consumo pela feature de emprestimos.
 
 **Auditoria e seguranca**
 
