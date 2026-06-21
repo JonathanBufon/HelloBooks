@@ -4,6 +4,7 @@ Thumbs.db
 *.swp
 *.log
 *.cache
+*.tsbuildinfo
 
 .env*
 !.env.example

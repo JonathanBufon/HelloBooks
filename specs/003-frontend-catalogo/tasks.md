@@ -82,8 +82,8 @@ Reference: `frontend/Hello_Books_Design_System/components/` (source JSX + .d.ts 
 
 **Independent Test**: After login, / shows 4 MetricCards with live data from GET /dashboard/stats, recent books list, recent activity feed, and quick action buttons.
 
-- [ ] T023 [P] [US2] Create dashboard API module (getStats) in `frontend/src/api/dashboard.ts`
-- [ ] T024 [US2] Create DashboardPage with PageHeader, 4 MetricCards (total livros, disponiveis, emprestados, manutencao), "Novas Aquisicoes" card (last 5 books with BookCover), "Atividade Recente" card (last 10 log entries), "Acoes Rapidas" card (shortcut buttons) in `frontend/src/features/dashboard/DashboardPage.tsx`
+- [X] T023 [P] [US2] Create dashboard API module (getStats) in `frontend/src/api/dashboard.ts`
+- [X] T024 [US2] Create DashboardPage with PageHeader, 4 MetricCards (total livros, disponiveis, emprestados, manutencao), "Novas Aquisicoes" card (last 5 books with BookCover), "Atividade Recente" card (last 10 log entries), "Acoes Rapidas" card (shortcut buttons) in `frontend/src/features/dashboard/DashboardPage.tsx`
 
 **Checkpoint**: Dashboard displays real data from API; placeholder zeros for future features
 
