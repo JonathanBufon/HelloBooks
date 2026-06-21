@@ -1,15 +1,16 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan:
-specs/003-frontend-catalogo/plan.md
+specs/004-multas/plan.md
 
 Related artifacts in the same feature directory:
 - spec.md         — feature requirements (WHAT/WHY)
 - research.md     — Phase 0 technical decisions
-- data-model.md   — TypeScript types mapping API schemas
+- data-model.md   — database schema (3 new tables)
 - quickstart.md   — local setup + smoke test
+- contracts/openapi.yaml — REST API contract
 
-Backend API contracts (consumed by this feature):
+Prior feature contracts (referenced by this feature):
 - specs/001-gestao-catalogo/contracts/openapi.yaml
 - specs/002-backend-complementar/contracts/openapi.yaml
 
