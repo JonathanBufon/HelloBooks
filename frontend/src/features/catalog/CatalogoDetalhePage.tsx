@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Edit, Plus, Trash2 } from 'lucide-react';
 import * as livrosApi from '../../api/catalog/livros';
 import * as exemplaresApi from '../../api/catalog/exemplares';
+import * as minhasSolicitacoesApi from '../../api/minhas-solicitacoes-emprestimo';
 import { Button } from '../../components/ds/actions/Button';
 import { DataTable, type DataColumn } from '../../components/ds/data/DataTable';
 import { MetricCard } from '../../components/ds/data/MetricCard';
@@ -14,6 +15,7 @@ import { TextInput } from '../../components/ds/forms/TextInput';
 import { Card, CardHeader } from '../../components/ds/layout/Card';
 import { PageHeader } from '../../components/ds/layout/PageHeader';
 import { BookCover } from '../../components/ds/library/BookCover';
+import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
 import type { CondicaoFisica, Exemplar, ExemplarStatus, LivroDetalhe } from '../../types/api';
 import { formatDate, getErrorMessage, joinNames, STATUS_LABELS } from '../../utils/format';
@@ -33,6 +35,7 @@ const condicaoOptions = [
 export function CatalogoDetalhePage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { usuario } = useAuth();
   const { showSuccess, showError } = useToast();
   const livroId = Number(id);
   const [livro, setLivro] = useState<LivroDetalhe | null>(null);
@@ -41,6 +44,8 @@ export function CatalogoDetalhePage() {
   const [quantity, setQuantity] = useState('1');
   const [editing, setEditing] = useState<Exemplar | null>(null);
   const [deleting, setDeleting] = useState<Exemplar | null>(null);
+  const [requestingLoan, setRequestingLoan] = useState(false);
+  const isBibliotecario = usuario?.cargo === 'bibliotecario';
 
   const loadLivro = async () => {
     if (!Number.isFinite(livroId)) return;
@@ -102,12 +107,25 @@ export function CatalogoDetalhePage() {
     }
   };
 
+  const requestLoan = async () => {
+    setRequestingLoan(true);
+    try {
+      await minhasSolicitacoesApi.create({ id_livro: livroId });
+      showSuccess('Solicitacao de emprestimo enviada.');
+      navigate('/minhas-solicitacoes');
+    } catch (error) {
+      showError(getErrorMessage(error, 'Nao foi possivel solicitar o emprestimo.'));
+    } finally {
+      setRequestingLoan(false);
+    }
+  };
+
   const columns: DataColumn[] = [
     { key: 'id_exemplar', label: 'Codigo', render: (value) => `#${value}` },
     { key: 'status', label: 'Status', render: (value: ExemplarStatus) => <StatusBadge status={STATUS_LABELS[value]} /> },
     { key: 'condicao_fisica', label: 'Condicao', render: (value: CondicaoFisica) => <StatusBadge status={STATUS_LABELS[value]} /> },
     { key: 'created_at', label: 'Cadastro', render: (value?: string) => formatDate(value) },
-    {
+    ...(isBibliotecario ? [{
       key: 'acoes',
       label: 'Acoes',
       align: 'right',
@@ -117,7 +135,7 @@ export function CatalogoDetalhePage() {
           <Button size="sm" variant="danger" onClick={() => setDeleting(row)}>Remover</Button>
         </div>
       ),
-    },
+    } satisfies DataColumn] : []),
   ];
 
   if (isLoading) return <Card>Carregando livro...</Card>;
@@ -127,9 +145,9 @@ export function CatalogoDetalhePage() {
     <>
       <PageHeader
         title={livro.titulo}
-        subtitle="Detalhes do titulo e controle de exemplares"
+        subtitle={isBibliotecario ? 'Detalhes do titulo e controle de exemplares' : 'Detalhes do titulo e disponibilidade no acervo'}
         breadcrumb={['Inicio', 'Catalogo', livro.titulo]}
-        actions={(
+        actions={isBibliotecario ? (
           <>
             <Button variant="secondary" icon={<Edit size={18} />} onClick={() => navigate(`/catalogo/${livro.id_livro}/editar`)}>
               Editar Livro
@@ -138,6 +156,14 @@ export function CatalogoDetalhePage() {
               Registrar Exemplares
             </Button>
           </>
+        ) : (
+          <Button
+            icon={<BookOpenIcon />}
+            disabled={requestingLoan || livro.contagem_exemplares.disponivel < 1}
+            onClick={requestLoan}
+          >
+            {livro.contagem_exemplares.disponivel < 1 ? 'Indisponivel' : 'Solicitar Emprestimo'}
+          </Button>
         )}
       />
 
@@ -237,6 +263,10 @@ export function CatalogoDetalhePage() {
       </Modal>
     </>
   );
+}
+
+function BookOpenIcon() {
+  return <Plus size={18} />;
 }
 
 function Info({ label, value }: { label: string; value: string }) {

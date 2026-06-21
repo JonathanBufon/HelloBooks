@@ -223,17 +223,14 @@ npm run gen:postman
 
 ## Infra Local
 
-As portas expostas foram deslocadas 15 acima das padroes para evitar conflito com servicos locais.
+As portas expostas usam numeros altos e nao convencionais para evitar conflito com outros projetos locais.
 
-| Servico | Porta local | Porta container |
-|---------|-------------|-----------------|
-| Postgres | `5447` | `5432` |
-| Redis | `6394` | `6379` |
-| Backend | `8015` | `8015` |
-
-URLs locais:
-
-- API: `http://localhost:8015/api/v1`
+| Servico | Container Compose | Porta local | Porta container | URL local |
+|---------|-------------------|-------------|-----------------|-----------|
+| Frontend | `frontend` | `29173` | `5173` | `http://localhost:29173` |
+| Backend API | `backend` | `28157` | `8015` | `http://localhost:28157/api/v1` |
+| PostgreSQL | `postgres` | `25447` | `5432` | `localhost:25447` |
+| Redis | `redis` | `26394` | `6379` | `localhost:26394` |
 
 ## Comandos
 

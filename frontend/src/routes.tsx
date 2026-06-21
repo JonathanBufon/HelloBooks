@@ -14,6 +14,8 @@ import { UsuariosPage } from './features/usuarios/UsuariosPage';
 import { LogsPage } from './features/auditoria/LogsPage';
 import { MultasPage } from './features/multas/MultasPage';
 import { MinhasMultasPage } from './features/minhas-multas/MinhasMultasPage';
+import { MinhasSolicitacoesEmprestimoPage } from './features/solicitacoes/MinhasSolicitacoesEmprestimoPage';
+import { SolicitacoesEmprestimoPage } from './features/solicitacoes/SolicitacoesEmprestimoPage';
 
 export const router = createBrowserRouter([
   {
@@ -28,12 +30,32 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <DashboardPage /> },
           { path: 'catalogo', element: <CatalogoListaPage /> },
-          { path: 'catalogo/novo', element: <CadastrarLivroPage /> },
+          {
+            path: 'catalogo/novo',
+            element: <ProtectedRoute allowedRoles={['bibliotecario']} />,
+            children: [{ index: true, element: <CadastrarLivroPage /> }],
+          },
           { path: 'catalogo/:id', element: <CatalogoDetalhePage /> },
-          { path: 'catalogo/:id/editar', element: <EditarLivroPage /> },
-          { path: 'autores', element: <AutoresPage /> },
-          { path: 'editoras', element: <EditorasPage /> },
-          { path: 'categorias', element: <CategoriasPage /> },
+          {
+            path: 'catalogo/:id/editar',
+            element: <ProtectedRoute allowedRoles={['bibliotecario']} />,
+            children: [{ index: true, element: <EditarLivroPage /> }],
+          },
+          {
+            path: 'autores',
+            element: <ProtectedRoute allowedRoles={['bibliotecario']} />,
+            children: [{ index: true, element: <AutoresPage /> }],
+          },
+          {
+            path: 'editoras',
+            element: <ProtectedRoute allowedRoles={['bibliotecario']} />,
+            children: [{ index: true, element: <EditorasPage /> }],
+          },
+          {
+            path: 'categorias',
+            element: <ProtectedRoute allowedRoles={['bibliotecario']} />,
+            children: [{ index: true, element: <CategoriasPage /> }],
+          },
           {
             path: 'usuarios',
             element: <ProtectedRoute allowedRoles={['bibliotecario']} />,
@@ -44,7 +66,13 @@ export const router = createBrowserRouter([
             element: <ProtectedRoute allowedRoles={['bibliotecario']} />,
             children: [{ index: true, element: <MultasPage /> }],
           },
+          {
+            path: 'solicitacoes-emprestimo',
+            element: <ProtectedRoute allowedRoles={['bibliotecario']} />,
+            children: [{ index: true, element: <SolicitacoesEmprestimoPage /> }],
+          },
           { path: 'minhas-multas', element: <MinhasMultasPage /> },
+          { path: 'minhas-solicitacoes', element: <MinhasSolicitacoesEmprestimoPage /> },
           {
             path: 'auditoria',
             element: <ProtectedRoute allowedRoles={['bibliotecario']} />,

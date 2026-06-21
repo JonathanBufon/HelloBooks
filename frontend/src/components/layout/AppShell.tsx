@@ -15,6 +15,7 @@ import {
   Tag,
   UserCog,
   ClipboardList,
+  ClipboardCheck,
   Receipt,
   AlertCircle,
   LogOut,
@@ -28,7 +29,9 @@ const NAV_ITEMS = [
   { path: '/categorias', label: 'Categorias', icon: Tag, roles: ['bibliotecario'] },
   { path: '/usuarios', label: 'Usuários', icon: UserCog, roles: ['bibliotecario'] },
   { path: '/multas', label: 'Multas', icon: Receipt, roles: ['bibliotecario'] },
+  { path: '/solicitacoes-emprestimo', label: 'Solicitações', icon: ClipboardCheck, roles: ['bibliotecario'] },
   { path: '/minhas-multas', label: 'Minhas Multas', icon: AlertCircle, roles: ['leitor'] },
+  { path: '/minhas-solicitacoes', label: 'Minhas Solicitações', icon: ClipboardCheck, roles: ['leitor'] },
   { path: '/auditoria', label: 'Auditoria', icon: ClipboardList, roles: ['bibliotecario'] },
 ] as const;
 

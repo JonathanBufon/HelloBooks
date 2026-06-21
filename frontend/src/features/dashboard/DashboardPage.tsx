@@ -13,14 +13,20 @@ import {
   Users,
   Wrench,
 } from 'lucide-react';
+import * as livrosApi from '../../api/catalog/livros';
 import { getStats } from '../../api/dashboard';
+import * as minhasMultasApi from '../../api/minhas-multas';
 import { Button } from '../../components/ds/actions/Button';
 import { MetricCard } from '../../components/ds/data/MetricCard';
 import { BookCover } from '../../components/ds/library/BookCover';
+import { BookCard } from '../../components/ds/library/BookCard';
 import { Card, CardHeader } from '../../components/ds/layout/Card';
 import { PageHeader } from '../../components/ds/layout/PageHeader';
+import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
-import type { DashboardStats, LogEntry } from '../../types/api';
+import type { DashboardStats, Livro, LogEntry } from '../../types/api';
+import type { MultaResumo } from '../../types/multa';
+import { joinNames } from '../../utils/format';
 
 const numberFormatter = new Intl.NumberFormat('pt-BR');
 const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
@@ -94,6 +100,16 @@ function ActivityIcon({ action }: { action: LogEntry['acao_realizada'] }) {
 }
 
 export function DashboardPage() {
+  const { usuario } = useAuth();
+
+  if (usuario?.cargo === 'leitor') {
+    return <LeitorDashboard />;
+  }
+
+  return <BibliotecarioDashboard />;
+}
+
+function BibliotecarioDashboard() {
   const navigate = useNavigate();
   const { showError } = useToast();
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -340,6 +356,117 @@ export function DashboardPage() {
           </div>
         )}
       </Card>
+    </>
+  );
+}
+
+function LeitorDashboard() {
+  const navigate = useNavigate();
+  const { usuario } = useAuth();
+  const { showError } = useToast();
+  const [resumo, setResumo] = useState<MultaResumo | null>(null);
+  const [livros, setLivros] = useState<Livro[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+    setIsLoading(true);
+
+    Promise.all([
+      minhasMultasApi.getResumo(),
+      livrosApi.list({ per_page: 6 }),
+    ])
+      .then(([resumoData, livrosData]) => {
+        if (!active) return;
+        setResumo(resumoData);
+        setLivros(livrosData.data);
+      })
+      .catch(() => showError('Nao foi possivel carregar sua dashboard.'))
+      .finally(() => {
+        if (active) setIsLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [showError]);
+
+  return (
+    <>
+      <PageHeader
+        title={`Ola, ${usuario?.nome_completo ?? 'leitor'}`}
+        subtitle="Acompanhe suas pendencias e encontre livros para solicitar emprestimo"
+      />
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '18px', marginBottom: 'var(--section-gap)' }}>
+        <MetricCard
+          icon={<BookOpen size={22} />}
+          label="Acervo disponivel"
+          value={isLoading ? '...' : livros.length}
+        />
+        <MetricCard
+          icon={<AlertCircle size={22} />}
+          label="Multas pendentes"
+          value={isLoading ? '...' : resumo?.quantidade_pendente ?? 0}
+          tone={(resumo?.quantidade_pendente ?? 0) > 0 ? 'warning' : 'success'}
+        />
+        <MetricCard
+          icon={<CheckCircle size={22} />}
+          label="Total pendente"
+          value={isLoading ? '...' : `R$ ${parseFloat(resumo?.valor_total_pendente ?? '0').toFixed(2)}`}
+          tone={(resumo?.quantidade_pendente ?? 0) > 0 ? 'warning' : 'success'}
+        />
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '18px' }}>
+        <Card>
+          <CardHeader
+            title="Livros para voce explorar"
+            subtitle="Consulte detalhes e solicite emprestimo pelo detalhe do livro"
+            action={(
+              <Button variant="ghost" size="sm" iconRight={<ArrowRight size={16} />} onClick={() => navigate('/catalogo')}>
+                Ver catalogo
+              </Button>
+            )}
+          />
+          {isLoading ? (
+            <EmptyState>Carregando catalogo...</EmptyState>
+          ) : livros.length === 0 ? (
+            <EmptyState>Nenhum livro encontrado.</EmptyState>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '14px' }}>
+              {livros.slice(0, 4).map((livro) => (
+                <BookCard
+                  key={livro.id_livro}
+                  book={{
+                    title: livro.titulo,
+                    author: joinNames(livro.autores),
+                    category: livro.categorias?.[0]?.nome ?? '-',
+                    status: 'Disponivel',
+                  }}
+                  actionLabel="Ver e solicitar"
+                  onAction={() => navigate(`/catalogo/${livro.id_livro}`)}
+                />
+              ))}
+            </div>
+          )}
+        </Card>
+
+        <Card>
+          <CardHeader title="Acesso do leitor" subtitle="Acoes disponiveis para sua conta" />
+          <div style={{ display: 'grid', gap: '12px' }}>
+            <Button variant="secondary" icon={<Search size={18} />} onClick={() => navigate('/catalogo')}>
+              Buscar livros
+            </Button>
+            <Button variant="secondary" icon={<AlertCircle size={18} />} onClick={() => navigate('/minhas-multas')}>
+              Ver minhas multas
+            </Button>
+          </div>
+          <p style={{ margin: '16px 0 0', color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)', lineHeight: 1.5 }}>
+            Seu acesso e somente leitura para o acervo. Cadastros, edicoes, registros de multa e administracao ficam restritos ao bibliotecario.
+          </p>
+        </Card>
+      </div>
     </>
   );
 }

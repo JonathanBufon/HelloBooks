@@ -1,0 +1,11 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hello Books">
+  <rect width="48" height="48" rx="13" fill="url(#hb-g)"></rect>
+  <path d="M13 15h7a4 4 0 0 1 4 4v15a3 3 0 0 0-3-3h-8z" fill="#fff" fill-opacity="0.95"></path>
+  <path d="M35 15h-7a4 4 0 0 0-4 4v15a3 3 0 0 1 3-3h8z" fill="#fff" fill-opacity="0.75"></path>
+  <defs>
+    <linearGradient id="hb-g" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5B00C9"></stop>
+      <stop offset="1" stop-color="#7C3AED"></stop>
+    </linearGradient>
+  </defs>
+</svg>

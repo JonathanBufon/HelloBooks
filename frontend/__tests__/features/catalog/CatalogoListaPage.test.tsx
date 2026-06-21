@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import * as livrosApi from '../../../src/api/catalog/livros';
 import * as categoriasApi from '../../../src/api/catalog/categorias';
+import { AuthContext } from '../../../src/hooks/useAuth';
 import { ToastContext } from '../../../src/hooks/useToast';
 import { CatalogoListaPage } from '../../../src/features/catalog/CatalogoListaPage';
 
@@ -19,13 +20,29 @@ const toastValue = {
   dismiss: vi.fn(),
 };
 
+const authValue = {
+  usuario: {
+    id_usuario: 1,
+    nome_completo: 'Bibliotecario Teste',
+    email: 'biblio@hello.local',
+    cargo: 'bibliotecario' as const,
+  },
+  token: 'token',
+  isAuthenticated: true,
+  isLoading: false,
+  login: vi.fn(),
+  logout: vi.fn(),
+};
+
 function renderPage() {
   return render(
-    <ToastContext.Provider value={toastValue}>
-      <MemoryRouter>
-        <CatalogoListaPage />
-      </MemoryRouter>
-    </ToastContext.Provider>,
+    <AuthContext.Provider value={authValue}>
+      <ToastContext.Provider value={toastValue}>
+        <MemoryRouter>
+          <CatalogoListaPage />
+        </MemoryRouter>
+      </ToastContext.Provider>
+    </AuthContext.Provider>,
   );
 }
 

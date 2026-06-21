@@ -6,7 +6,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-hellobooks}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-hellobooks}
     ports:
-      - "5447:5432"
+      - "25447:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
@@ -18,7 +18,7 @@ services:
   redis:
     image: redis:7
     ports:
-      - "6394:6379"
+      - "26394:6379"
     volumes:
       - redis-data:/data
 
@@ -34,7 +34,7 @@ services:
     environment:
       APP_ENV: local
       APP_DEBUG: "true"
-      APP_URL: http://localhost:8015
+      APP_URL: http://localhost:28157
       DB_CONNECTION: pgsql
       DB_HOST: postgres
       DB_PORT: 5432
@@ -44,13 +44,26 @@ services:
       REDIS_HOST: redis
       JWT_SECRET: ${JWT_SECRET:-hellobooks-dev-jwt-secret-32-bytes-minimum}
     ports:
-      - "8015:8015"
+      - "28157:8015"
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_started
     command: sh -lc "composer install && php artisan serve --host=0.0.0.0 --port=8015"
+
+  frontend:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - ../frontend:/app
+    environment:
+      VITE_API_URL: http://localhost:28157/api/v1
+    ports:
+      - "29173:5173"
+    depends_on:
+      - backend
+    command: sh -lc "npm install && npm run dev -- --host 0.0.0.0 --port 5173"
 
 volumes:
   postgres-data:

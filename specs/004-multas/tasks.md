@@ -174,10 +174,10 @@
 
 **Purpose**: Tests and final validation
 
-- [ ] T048 [P] Write backend feature tests for MultaController (store, pagar, pagarLote, perdoar, index, show; validation errors, duplicates, status transitions, authorization) in `backend/tests/Feature/MultaControllerTest.php`
-- [ ] T049 [P] Write backend feature tests for MinhasMultasController (resumo, index; scoped to authenticated user, no cross-user leakage, cargo restrictions) in `backend/tests/Feature/MinhasMultasControllerTest.php`
-- [ ] T050 [P] Write frontend Vitest + RTL test for MultasPage (render, filter, register modal, pagar action, perdoar modal) in `frontend/__tests__/features/multas/MultasPage.test.tsx`
-- [ ] T051 Run quickstart.md smoke test validation (full flow: register fine → list → pay → batch pay → forgive → leitor notification → leitor view)
+- [x] T048 [P] Write backend feature tests for MultaController (store, pagar, pagarLote, perdoar, index, show; validation errors, duplicates, status transitions, authorization) in `backend/tests/Feature/MultaControllerTest.php`
+- [x] T049 [P] Write backend feature tests for MinhasMultasController (resumo, index; scoped to authenticated user, no cross-user leakage, cargo restrictions) in `backend/tests/Feature/MinhasMultasControllerTest.php`
+- [x] T050 [P] Write frontend Vitest + RTL test for MultasPage (render, filter, register modal, pagar action, perdoar modal) in `frontend/__tests__/features/multas/MultasPage.test.tsx`
+- [x] T051 Run quickstart.md smoke test validation (full flow: register fine → list → pay → batch pay → forgive → leitor notification → leitor view)
 
 ---
 

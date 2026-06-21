@@ -9,7 +9,9 @@ use App\Http\Controllers\Catalog\LivroController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\MinhasMultasController;
+use App\Http\Controllers\MinhasSolicitacoesEmprestimoController;
 use App\Http\Controllers\MultaController;
+use App\Http\Controllers\SolicitacaoEmprestimoController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,17 +24,22 @@ Route::prefix('v1')
             Route::post('/auth/refresh', [AuthController::class, 'refresh']);
             Route::get('/auth/me', [AuthController::class, 'me']);
 
+            Route::get('/livros', [LivroController::class, 'index']);
+            Route::get('/livros/{id}', [LivroController::class, 'show'])->whereNumber('id');
+            Route::get('/categorias', [CategoriaController::class, 'index']);
+
             Route::get('/minhas-multas', [MinhasMultasController::class, 'index']);
             Route::get('/minhas-multas/resumo', [MinhasMultasController::class, 'resumo']);
+            Route::get('/minhas-solicitacoes-emprestimo', [MinhasSolicitacoesEmprestimoController::class, 'index']);
+            Route::post('/minhas-solicitacoes-emprestimo', [MinhasSolicitacoesEmprestimoController::class, 'store']);
+            Route::put('/minhas-solicitacoes-emprestimo/{id}/cancelar', [MinhasSolicitacoesEmprestimoController::class, 'cancelar'])->whereNumber('id');
         });
     });
 
 Route::prefix('v1')
     ->middleware(['auth:api', 'cargo:bibliotecario'])
     ->group(function (): void {
-        Route::get('/livros', [LivroController::class, 'index']);
         Route::post('/livros', [LivroController::class, 'store']);
-        Route::get('/livros/{id}', [LivroController::class, 'show'])->whereNumber('id');
         Route::put('/livros/{id}', [LivroController::class, 'update'])->whereNumber('id');
         Route::delete('/livros/{id}', [LivroController::class, 'destroy'])->whereNumber('id');
         Route::get('/livros/{id}/exemplares', [ExemplarController::class, 'indexPorLivro'])->whereNumber('id');
@@ -51,7 +58,6 @@ Route::prefix('v1')
         Route::get('/editoras/{id}', [EditoraController::class, 'show'])->whereNumber('id');
         Route::put('/editoras/{id}', [EditoraController::class, 'update'])->whereNumber('id');
         Route::delete('/editoras/{id}', [EditoraController::class, 'destroy'])->whereNumber('id');
-        Route::get('/categorias', [CategoriaController::class, 'index']);
         Route::post('/categorias', [CategoriaController::class, 'store']);
         Route::get('/categorias/{id}', [CategoriaController::class, 'show'])->whereNumber('id');
         Route::put('/categorias/{id}', [CategoriaController::class, 'update'])->whereNumber('id');
@@ -72,4 +78,8 @@ Route::prefix('v1')
         Route::put('/multas/pagar-lote', [MultaController::class, 'pagarLote']);
         Route::put('/multas/{id}/pagar', [MultaController::class, 'pagar'])->whereNumber('id');
         Route::put('/multas/{id}/perdoar', [MultaController::class, 'perdoar'])->whereNumber('id');
+
+        Route::get('/solicitacoes-emprestimo', [SolicitacaoEmprestimoController::class, 'index']);
+        Route::put('/solicitacoes-emprestimo/{id}/aprovar', [SolicitacaoEmprestimoController::class, 'aprovar'])->whereNumber('id');
+        Route::put('/solicitacoes-emprestimo/{id}/recusar', [SolicitacaoEmprestimoController::class, 'recusar'])->whereNumber('id');
     });

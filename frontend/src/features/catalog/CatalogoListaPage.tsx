@@ -13,6 +13,7 @@ import { BookCover } from '../../components/ds/library/BookCover';
 import { BookCard } from '../../components/ds/library/BookCard';
 import { Card } from '../../components/ds/layout/Card';
 import { PageHeader } from '../../components/ds/layout/PageHeader';
+import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
 import type { Categoria, Livro, PaginatedResponse } from '../../types/api';
 import { getErrorMessage, joinNames } from '../../utils/format';
@@ -51,6 +52,7 @@ const columns: DataColumn[] = [
 
 export function CatalogoListaPage() {
   const navigate = useNavigate();
+  const { usuario } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const { showError } = useToast();
   const [response, setResponse] = useState<PaginatedResponse<Livro> | null>(null);
@@ -98,13 +100,14 @@ export function CatalogoListaPage() {
     if (!categoriaId) return true;
     return livro.categorias?.some((categoria) => String(categoria.id_categoria) === categoriaId) ?? false;
   });
+  const isBibliotecario = usuario?.cargo === 'bibliotecario';
 
   return (
     <>
       <PageHeader
         title="Catalogo"
         subtitle="Busque e navegue pelo acervo da biblioteca"
-        actions={<Button icon={<Plus size={18} />} onClick={() => navigate('/catalogo/novo')}>Cadastrar Livro</Button>}
+        actions={isBibliotecario ? <Button icon={<Plus size={18} />} onClick={() => navigate('/catalogo/novo')}>Cadastrar Livro</Button> : undefined}
       />
 
       <Card style={{ marginBottom: 'var(--section-gap)' }}>
