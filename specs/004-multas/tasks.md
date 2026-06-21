@@ -81,10 +81,10 @@
 
 **Independent Test**: POST /multas with valid id_item_emprestimo, motivo, valor → 201 with status=pendente. Duplicate item+motivo → 409. Missing motivo → 422. valor <= 0 → 422.
 
-- [ ] T019 [P] [US1] Create MultaCreateRequest (id_item_emprestimo required exists, motivo required in enum, valor required numeric gt:0) in `backend/app/Http/Requests/Multa/MultaCreateRequest.php`
-- [ ] T020 [US1] Create MultaController with store method (inject MultaService, call registrar, return MultaResource 201) in `backend/app/Http/Controllers/MultaController.php`
-- [ ] T021 [US1] Add `POST /multas` route with middleware `auth:api, cargo:bibliotecario` in `backend/routes/api.php`
-- [ ] T022 [P] [US1] Add create function to frontend multas API module in `frontend/src/api/multas.ts`
+- [x] T019 [P] [US1] Create MultaCreateRequest (id_item_emprestimo required exists, motivo required in enum, valor required numeric gt:0) in `backend/app/Http/Requests/Multa/MultaCreateRequest.php`
+- [x] T020 [US1] Create MultaController with store method (inject MultaService, call registrar, return MultaResource 201) in `backend/app/Http/Controllers/MultaController.php`
+- [x] T021 [US1] Add `POST /multas` route with middleware `auth:api, cargo:bibliotecario` in `backend/routes/api.php`
+- [x] T022 [P] [US1] Add create function to frontend multas API module in `frontend/src/api/multas.ts`
 
 **Checkpoint**: Multas can be registered via API. Status always starts as pendente.
 
@@ -96,10 +96,10 @@
 
 **Independent Test**: PUT /multas/{id}/pagar on pending fine → 200 with status=paga, data_baixa and id_bibliotecario_baixa filled. Already paid → 409. PUT /multas/pagar-lote with id_usuario → 200 paying all pending fines for that user.
 
-- [ ] T023 [US2] Add pagar method to MultaController (call MultaService.pagar, return MultaResource) in `backend/app/Http/Controllers/MultaController.php`
-- [ ] T024 [US2] Add pagarLote method to MultaController (accept id_usuario, call MultaService.pagarEmLote, return array of MultaResource) in `backend/app/Http/Controllers/MultaController.php`
-- [ ] T025 [US2] Add `PUT /multas/{id}/pagar` and `PUT /multas/pagar-lote` routes with middleware `cargo:bibliotecario` in `backend/routes/api.php`
-- [ ] T026 [P] [US2] Add pagar and pagarTodas functions to frontend multas API module in `frontend/src/api/multas.ts`
+- [x] T023 [US2] Add pagar method to MultaController (call MultaService.pagar, return MultaResource) in `backend/app/Http/Controllers/MultaController.php`
+- [x] T024 [US2] Add pagarLote method to MultaController (accept id_usuario, call MultaService.pagarEmLote, return array of MultaResource) in `backend/app/Http/Controllers/MultaController.php`
+- [x] T025 [US2] Add `PUT /multas/{id}/pagar` and `PUT /multas/pagar-lote` routes with middleware `cargo:bibliotecario` in `backend/routes/api.php`
+- [x] T026 [P] [US2] Add pagar and pagarTodas functions to frontend multas API module in `frontend/src/api/multas.ts`
 
 **Checkpoint**: Fines can be paid individually and in batch. Status transitions are irreversible.
 

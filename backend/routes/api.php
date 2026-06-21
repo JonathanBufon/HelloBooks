@@ -8,6 +8,7 @@ use App\Http\Controllers\Catalog\ExemplarController;
 use App\Http\Controllers\Catalog\LivroController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LogController;
+use App\Http\Controllers\MultaController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
@@ -60,4 +61,8 @@ Route::prefix('v1')
 
         Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
         Route::get('/logs', [LogController::class, 'index']);
+
+        Route::post('/multas', [MultaController::class, 'store']);
+        Route::put('/multas/pagar-lote', [MultaController::class, 'pagarLote']);
+        Route::put('/multas/{id}/pagar', [MultaController::class, 'pagar'])->whereNumber('id');
     });
