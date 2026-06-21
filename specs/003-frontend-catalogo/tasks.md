@@ -70,7 +70,7 @@ Reference: `frontend/Hello_Books_Design_System/components/` (source JSX + .d.ts 
 
 **Independent Test**: Navigate to /login, enter credentials, submit → redirects to Dashboard. Invalid credentials show inline error. "Lembrar de mim" persists session across browser restart.
 
-- [ ] T022 [US1] Create LoginPage with two-column layout (institutional purple panel + form), email/password fields, "Lembrar de mim" checkbox, inline error display, POST /auth/login integration, redirect to Dashboard on success in `frontend/src/features/auth/LoginPage.tsx`
+- [X] T022 [US1] Create LoginPage with two-column layout (institutional purple panel + form), email/password fields, "Lembrar de mim" checkbox, inline error display, POST /auth/login integration, redirect to Dashboard on success in `frontend/src/features/auth/LoginPage.tsx`
 
 **Checkpoint**: Login flow works end-to-end against backend
 
