@@ -1,0 +1,19 @@
+/* Hello Books — Radii & shadows */
+
+:root {
+  /* Corner radius */
+  --radius-sm: 8px;    /* badges e chips */
+  --radius-md: 12px;   /* inputs e botões */
+  --radius-lg: 16px;   /* blocos pequenos */
+  --radius-xl: 20px;   /* cards */
+  --radius-2xl: 24px;  /* cards grandes e modais */
+  --radius-full: 999px;/* avatares e badges */
+
+  /* Borders */
+  --border-width: 1px;
+
+  /* Shadows — suaves, nunca escuras. Tom roxo nas elevações maiores. */
+  --shadow-sm: 0 4px 12px rgba(17, 24, 39, 0.06);   /* botões, elementos pequenos */
+  --shadow-md: 0 12px 30px rgba(91, 0, 201, 0.08);  /* cards */
+  --shadow-lg: 0 20px 50px rgba(91, 0, 201, 0.12);  /* modais, cards em destaque */
+}

@@ -24,11 +24,11 @@
 
 **Purpose**: Scaffold Vite + React + TypeScript project and configure development environment
 
-- [ ] T001 Scaffold Vite + React 18 + TypeScript project in `frontend/` (index.html, package.json, tsconfig.json, vite-env.d.ts)
-- [ ] T002 Install dependencies: react-router-dom, axios, lucide-react; dev: vitest, @testing-library/react, @testing-library/jest-dom, jsdom
-- [ ] T003 [P] Configure `frontend/vite.config.ts` with React plugin, dev proxy to `localhost:8015`, and Vitest integration
-- [ ] T004 [P] Copy CSS token files from `Hello_Books_Design_System/tokens/` to `frontend/src/styles/` and create `frontend/src/styles/global.css` with base reset
-- [ ] T005 [P] Create TypeScript type definitions in `frontend/src/types/api.ts` (Livro, LivroDetalhe, Exemplar, Autor, Editora, Categoria, Pagination, PaginatedResponse, DashboardStats, LogEntry, ApiError) and `frontend/src/types/auth.ts` (LoginRequest, LoginResponse, Usuario, Cargo, AuthState)
+- [X] T001 Scaffold Vite + React 18 + TypeScript project in `frontend/` (index.html, package.json, tsconfig.json, vite-env.d.ts)
+- [X] T002 Install dependencies: react-router-dom, axios, lucide-react; dev: vitest, @testing-library/react, @testing-library/jest-dom, jsdom
+- [X] T003 [P] Configure `frontend/vite.config.ts` with React plugin, dev proxy to `localhost:8015`, and Vitest integration
+- [X] T004 [P] Copy CSS token files from `Hello_Books_Design_System/tokens/` to `frontend/src/styles/` and create `frontend/src/styles/global.css` with base reset
+- [X] T005 [P] Create TypeScript type definitions in `frontend/src/types/api.ts` (Livro, LivroDetalhe, Exemplar, Autor, Editora, Categoria, Pagination, PaginatedResponse, DashboardStats, LogEntry, ApiError) and `frontend/src/types/auth.ts` (LoginRequest, LoginResponse, Usuario, Cargo, AuthState)
 
 ---
 
@@ -40,25 +40,25 @@
 
 Reference: `frontend/Hello_Books_Design_System/components/` (source JSX + .d.ts interfaces)
 
-- [ ] T006 [P] Port Button and IconButton to `frontend/src/components/ds/actions/Button.tsx` and `IconButton.tsx`
-- [ ] T007 [P] Port TextInput, Textarea, Select, Checkbox, Switch, SearchInput to `frontend/src/components/ds/forms/`
-- [ ] T008 [P] Port DataTable, MetricCard, Badge, StatusBadge, Tag, Avatar to `frontend/src/components/ds/data/`
-- [ ] T009 [P] Port Card, CardHeader, PageHeader to `frontend/src/components/ds/layout/`
-- [ ] T010 [P] Port Modal and Toast to `frontend/src/components/ds/feedback/`
-- [ ] T011 [P] Port BookCard and BookCover to `frontend/src/components/ds/library/`
-- [ ] T012 [P] Port Sidebar, SidebarItem, Topbar to `frontend/src/components/ds/navigation/`
+- [X] T006 [P] Port Button and IconButton to `frontend/src/components/ds/actions/Button.tsx` and `IconButton.tsx`
+- [X] T007 [P] Port TextInput, Textarea, Select, Checkbox, Switch, SearchInput to `frontend/src/components/ds/forms/`
+- [X] T008 [P] Port DataTable, MetricCard, Badge, StatusBadge, Tag, Avatar to `frontend/src/components/ds/data/`
+- [X] T009 [P] Port Card, CardHeader, PageHeader to `frontend/src/components/ds/layout/`
+- [X] T010 [P] Port Modal and Toast to `frontend/src/components/ds/feedback/`
+- [X] T011 [P] Port BookCard and BookCover to `frontend/src/components/ds/library/`
+- [X] T012 [P] Port Sidebar, SidebarItem, Topbar to `frontend/src/components/ds/navigation/`
 
 ### Core Infrastructure
 
-- [ ] T013 [P] Create Axios client with JWT interceptors (request: attach Bearer from localStorage/sessionStorage; response 401: clear token, redirect to /login) in `frontend/src/api/client.ts`
-- [ ] T014 [P] Create AuthContext and AuthProvider with login/logout, localStorage vs sessionStorage per "Lembrar de mim", and loading state in `frontend/src/hooks/useAuth.ts`
-- [ ] T015 [P] Create ToastContext and ToastProvider with showSuccess/showError/showInfo/showWarning and auto-dismiss in `frontend/src/hooks/useToast.ts`
-- [ ] T016 [P] Create usePagination hook (page, totalPages, hasNext, hasPrev, goToPage, nextPage, prevPage) in `frontend/src/hooks/usePagination.ts`
-- [ ] T017 [P] Create auth API module (login, logout, refresh, me) in `frontend/src/api/auth.ts`
-- [ ] T018 Create ProtectedRoute component with auth check and role-based guard (bibliotecario vs leitor redirect) in `frontend/src/components/layout/ProtectedRoute.tsx`
-- [ ] T019 Create AppShell component (Sidebar with role-filtered nav items + Topbar with global search redirect to /catalogo?q= + scrollable main area with Outlet) in `frontend/src/components/layout/AppShell.tsx`
-- [ ] T020 Create route definitions (public: /login; protected: /, /catalogo, /catalogo/:id, /catalogo/novo, /catalogo/:id/editar, /autores, /editoras, /categorias, /usuarios, /auditoria) with role guards in `frontend/src/routes.tsx`
-- [ ] T021 Create app entry point with AuthProvider, ToastProvider, RouterProvider, token CSS imports in `frontend/src/main.tsx`
+- [X] T013 [P] Create Axios client with JWT interceptors (request: attach Bearer from localStorage/sessionStorage; response 401: clear token, redirect to /login) in `frontend/src/api/client.ts`
+- [X] T014 [P] Create AuthContext and AuthProvider with login/logout, localStorage vs sessionStorage per "Lembrar de mim", and loading state in `frontend/src/hooks/useAuth.ts`
+- [X] T015 [P] Create ToastContext and ToastProvider with showSuccess/showError/showInfo/showWarning and auto-dismiss in `frontend/src/hooks/useToast.ts`
+- [X] T016 [P] Create usePagination hook (page, totalPages, hasNext, hasPrev, goToPage, nextPage, prevPage) in `frontend/src/hooks/usePagination.ts`
+- [X] T017 [P] Create auth API module (login, logout, refresh, me) in `frontend/src/api/auth.ts`
+- [X] T018 Create ProtectedRoute component with auth check and role-based guard (bibliotecario vs leitor redirect) in `frontend/src/components/layout/ProtectedRoute.tsx`
+- [X] T019 Create AppShell component (Sidebar with role-filtered nav items + Topbar with global search redirect to /catalogo?q= + scrollable main area with Outlet) in `frontend/src/components/layout/AppShell.tsx`
+- [X] T020 Create route definitions (public: /login; protected: /, /catalogo, /catalogo/:id, /catalogo/novo, /catalogo/:id/editar, /autores, /editoras, /categorias, /usuarios, /auditoria) with role guards in `frontend/src/routes.tsx`
+- [X] T021 Create app entry point with AuthProvider, ToastProvider, RouterProvider, token CSS imports in `frontend/src/main.tsx`
 
 **Checkpoint**: Foundation ready — `npm run dev` loads and shows login page. All DS components available for use.
 

@@ -1,0 +1,54 @@
+/* Hello Books — Color tokens
+   Roxo institucional sobre fundo azul-claro. Cards brancos.
+   Roxo é usado apenas para hierarquia, ação e estado ativo. */
+
+:root {
+  /* Brand — roxo */
+  --color-primary: #5B00C9;       /* botões principais, links ativos, ícones ativos */
+  --color-primary-600: #6D1ED6;   /* hover, destaque, gradientes */
+  --color-primary-500: #7C3AED;   /* componentes ativos, badges, gráficos */
+  --color-primary-300: #C4B5FD;   /* bordas suaves, estados secundários */
+  --color-primary-100: #EDE9FE;   /* background de item ativo, tags e chips */
+  --color-primary-50:  #F5F3FF;   /* áreas suaves e blocos informativos */
+
+  /* Neutrals / surfaces */
+  --color-bg:           #F3F6FF;  /* fundo principal da aplicação */
+  --color-surface:      #FFFFFF;  /* cards, modais e formulários */
+  --color-surface-soft: #EEF3FF;  /* inputs, blocos auxiliares e busca */
+
+  --color-border:        #D8DDF0; /* bordas de cards, campos e tabelas */
+  --color-border-strong: #C7CEE5; /* divisores e bordas de maior contraste */
+
+  /* Text */
+  --color-text:       #111827;    /* títulos e textos principais */
+  --color-text-muted: #6B7280;    /* subtítulos, labels e descrições */
+  --color-text-soft:  #8A8FA3;    /* metadados e textos auxiliares */
+  --color-text-on-primary: #FFFFFF;
+
+  /* Semantic */
+  --color-success:    #16A34A;
+  --color-success-bg: #DCFCE7;
+  --color-warning:    #D97706;
+  --color-warning-bg: #FEF3C7;
+  --color-danger:     #DC2626;
+  --color-danger-bg:  #FEE2E2;
+  --color-danger-border: #FECACA;
+  --color-info:       #2563EB;
+  --color-info-bg:    #DBEAFE;
+
+  /* Gradiente principal — apenas em áreas de destaque (login, botão primário, CTA) */
+  --gradient-primary: linear-gradient(135deg, #5B00C9 0%, #7C3AED 100%); /* @kind color */
+
+  /* Semantic aliases */
+  --text-heading: var(--color-text);
+  --text-body: var(--color-text);
+  --text-label: var(--color-text-muted);
+  --text-meta: var(--color-text-soft);
+  --link: var(--color-primary);
+  --surface-card: var(--color-surface);
+  --surface-app: var(--color-bg);
+  --surface-input: var(--color-surface-soft);
+  --border-default: var(--color-border);
+  --border-active: var(--color-primary);
+  --focus-ring: rgba(91, 0, 201, 0.12);
+}
