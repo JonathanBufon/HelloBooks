@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { TextInput } from '../../components/ds/forms/TextInput';
@@ -23,11 +23,13 @@ export function LoginPage() {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Already logged in — redirect to dashboard
-  if (isAuthenticated) {
-    navigate('/', { replace: true });
-    return null;
-  }
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
+
+  if (isAuthenticated) return null;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();

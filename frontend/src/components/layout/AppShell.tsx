@@ -56,6 +56,7 @@ export function AppShell() {
   return (
     <div style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
       <Sidebar
+        logoHref="/"
         logo={<span style={{ fontSize: 'var(--text-lg)', fontWeight: 'var(--weight-bold)', color: 'var(--color-primary)' }}>HelloBooks</span>}
         footer={
           <SidebarItem
