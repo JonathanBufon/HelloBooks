@@ -1,0 +1,404 @@
+openapi: 3.1.0
+info:
+  title: HelloBooks — Multas e Notificacoes
+  version: 1.0.0
+  description: |
+    API REST para gestao de multas. Bibliotecario registra, da baixa e perdoa multas.
+    Leitor consulta suas proprias multas pendentes (somente leitura).
+  contact:
+    name: HelloBooks team
+servers:
+  - url: http://localhost:8015/api/v1
+    description: Dev local (Docker Compose)
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Multas
+    description: Gestao de multas (bibliotecario)
+  - name: Minhas Multas
+    description: Consulta de multas do leitor logado (somente leitura)
+
+paths:
+  /multas:
+    get:
+      tags: [Multas]
+      summary: Lista paginada de multas com filtros
+      description: Apenas bibliotecario. Filtra por status, motivo, usuario, periodo.
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+        - in: query
+          name: status
+          schema: { type: string, enum: [pendente, paga, perdoada] }
+          description: Filtrar por status da multa
+        - in: query
+          name: motivo
+          schema: { type: string, enum: [atraso, rabisco, rasgo, dobra] }
+          description: Filtrar por motivo
+        - in: query
+          name: id_usuario
+          schema: { type: integer, format: int64 }
+          description: Filtrar por usuario (leitor) do emprestimo
+        - in: query
+          name: q
+          schema: { type: string }
+          description: Busca por nome do usuario ou titulo do livro (case-insensitive)
+        - in: query
+          name: de
+          schema: { type: string, format: date }
+          description: Data inicial (inclusive)
+        - in: query
+          name: ate
+          schema: { type: string, format: date }
+          description: Data final (inclusive)
+      responses:
+        '200':
+          description: Pagina de multas
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MultaPage' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+    post:
+      tags: [Multas]
+      summary: Registra uma multa vinculada a um item de emprestimo
+      description: Apenas bibliotecario. Status inicial sempre pendente.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MultaCreate' }
+      responses:
+        '201':
+          description: Multa registrada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Multa' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404':
+          description: Item de emprestimo nao encontrado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '409':
+          description: Multa duplicada (mesmo item + motivo)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+
+  /multas/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Multas]
+      summary: Detalhe de uma multa
+      description: Apenas bibliotecario.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MultaDetalhe' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /multas/{id}/pagar:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    put:
+      tags: [Multas]
+      summary: Da baixa em multa (pagamento presencial)
+      description: |
+        Apenas bibliotecario. Marca multa pendente como paga.
+        Registra bibliotecario executor e data/hora da baixa.
+      responses:
+        '200':
+          description: Multa marcada como paga
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Multa' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409':
+          description: Multa ja paga ou perdoada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  /multas/{id}/perdoar:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    put:
+      tags: [Multas]
+      summary: Perdoa uma multa com justificativa
+      description: |
+        Apenas bibliotecario. Marca multa pendente como perdoada.
+        Justificativa obrigatoria para auditoria.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [justificativa]
+              properties:
+                justificativa:
+                  type: string
+                  minLength: 1
+                  maxLength: 1000
+                  description: Justificativa administrativa obrigatoria
+      responses:
+        '200':
+          description: Multa perdoada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Multa' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409':
+          description: Multa ja paga ou perdoada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+
+  /minhas-multas:
+    get:
+      tags: [Minhas Multas]
+      summary: Lista multas do usuario logado (leitor)
+      description: |
+        Qualquer usuario autenticado (sem restricao de cargo).
+        Retorna apenas multas do proprio usuario, com resumo de pendencias.
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+        - in: query
+          name: status
+          schema: { type: string, enum: [pendente, paga, perdoada] }
+          description: Filtrar por status
+      responses:
+        '200':
+          description: Multas do usuario logado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MinhasMultasResponse' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /minhas-multas/resumo:
+    get:
+      tags: [Minhas Multas]
+      summary: Resumo de multas pendentes do usuario logado
+      description: |
+        Retorna contagem e valor total de multas pendentes.
+        Usado pelo frontend para exibir badge de notificacao no Topbar.
+        Chamado ao montar o AppShell (boot).
+      responses:
+        '200':
+          description: Resumo de pendencias
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MultaResumo' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    Id:
+      in: path
+      name: id
+      required: true
+      schema: { type: integer, format: int64, minimum: 1 }
+    Page:
+      in: query
+      name: page
+      schema: { type: integer, minimum: 1, default: 1 }
+    PerPage:
+      in: query
+      name: per_page
+      schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+
+  responses:
+    Unauthorized:
+      description: Nao autenticado
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+          examples:
+            naoAutenticado:
+              value:
+                error:
+                  code: NAO_AUTENTICADO
+                  message: Autenticacao requerida.
+    Forbidden:
+      description: Cargo insuficiente (apenas bibliotecario)
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+          examples:
+            cargoInsuficiente:
+              value:
+                error:
+                  code: CARGO_INSUFICIENTE
+                  message: Cargo insuficiente para acessar este recurso.
+    NotFound:
+      description: Recurso nao encontrado
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+          examples:
+            recursoNaoEncontrado:
+              value:
+                error:
+                  code: RECURSO_NAO_ENCONTRADO
+                  message: Recurso nao encontrado.
+    ValidationError:
+      description: Erro de validacao
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+          examples:
+            validationError:
+              value:
+                error:
+                  code: VALIDATION_ERROR
+                  message: Os dados enviados sao invalidos.
+                  details:
+                    valor:
+                      - O campo valor deve ser maior que zero.
+
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code: { type: string, example: MULTA_DUPLICADA }
+            message: { type: string }
+            details:
+              type: object
+              additionalProperties: true
+
+    Pagination:
+      type: object
+      required: [total, per_page, current_page, last_page]
+      properties:
+        total: { type: integer }
+        per_page: { type: integer }
+        current_page: { type: integer }
+        last_page: { type: integer }
+
+    MultaCreate:
+      type: object
+      required: [id_item_emprestimo, motivo, valor]
+      properties:
+        id_item_emprestimo:
+          type: integer
+          format: int64
+          description: ID do item de emprestimo que gerou a multa
+        motivo:
+          type: string
+          enum: [atraso, rabisco, rasgo, dobra]
+        valor:
+          type: number
+          format: decimal
+          exclusiveMinimum: 0
+          description: Valor da multa em reais (> 0)
+
+    Multa:
+      type: object
+      required: [id_multa, id_item_emprestimo, motivo, valor, status, created_at]
+      properties:
+        id_multa: { type: integer, format: int64 }
+        id_item_emprestimo: { type: integer, format: int64 }
+        motivo: { type: string, enum: [atraso, rabisco, rasgo, dobra] }
+        valor: { type: number, format: decimal }
+        status: { type: string, enum: [pendente, paga, perdoada] }
+        justificativa_perdao: { type: string, nullable: true }
+        id_bibliotecario_baixa: { type: integer, format: int64, nullable: true }
+        data_baixa: { type: string, format: date-time, nullable: true }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+        usuario:
+          type: object
+          description: Leitor associado ao emprestimo
+          properties:
+            id_usuario: { type: integer, format: int64 }
+            nome_completo: { type: string }
+        livro:
+          type: object
+          description: Livro do exemplar emprestado
+          properties:
+            id_livro: { type: integer, format: int64 }
+            titulo: { type: string }
+        exemplar:
+          type: object
+          description: Exemplar emprestado
+          properties:
+            id_exemplar: { type: integer, format: int64 }
+
+    MultaDetalhe:
+      allOf:
+        - $ref: '#/components/schemas/Multa'
+        - type: object
+          properties:
+            bibliotecario_baixa:
+              type: object
+              nullable: true
+              description: Bibliotecario que deu baixa
+              properties:
+                id_usuario: { type: integer, format: int64 }
+                nome_completo: { type: string }
+            item_emprestimo:
+              type: object
+              properties:
+                id_item_emprestimo: { type: integer, format: int64 }
+                id_emprestimo: { type: integer, format: int64 }
+                id_exemplar: { type: integer, format: int64 }
+                data_devolucao_item: { type: string, format: date-time, nullable: true }
+
+    MultaPage:
+      type: object
+      required: [data, pagination]
+      properties:
+        data:
+          type: array
+          items: { $ref: '#/components/schemas/Multa' }
+        pagination: { $ref: '#/components/schemas/Pagination' }
+
+    MultaResumo:
+      type: object
+      required: [quantidade_pendente, valor_total_pendente]
+      properties:
+        quantidade_pendente:
+          type: integer
+          description: Numero de multas pendentes do usuario
+        valor_total_pendente:
+          type: number
+          format: decimal
+          description: Soma dos valores das multas pendentes
+
+    MinhasMultasResponse:
+      type: object
+      required: [data, pagination, resumo]
+      properties:
+        data:
+          type: array
+          items: { $ref: '#/components/schemas/Multa' }
+        pagination: { $ref: '#/components/schemas/Pagination' }
+        resumo: { $ref: '#/components/schemas/MultaResumo' }

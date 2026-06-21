@@ -1,0 +1,22 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Texto" subtitle="Hierarquia de texto sobre superfícies claras" -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; padding: 22px; background: var(--color-surface); font-family: var(--font-sans); }
+  .stack { display: flex; flex-direction: column; gap: 12px; }
+  .line { display: flex; align-items: baseline; gap: 14px; }
+  .lbl { font-size: 11px; color: var(--color-text-soft); width: 130px; font-weight: 600; }
+</style>
+</head>
+<body>
+  <div class="stack">
+    <div class="line"><span class="lbl">text · #111827</span><span style="color:#111827;font-size:20px;font-weight:800">Títulos e textos principais</span></div>
+    <div class="line"><span class="lbl">text-muted · #6B7280</span><span style="color:#6B7280;font-size:16px;font-weight:500">Subtítulos, labels e descrições</span></div>
+    <div class="line"><span class="lbl">text-soft · #8A8FA3</span><span style="color:#8A8FA3;font-size:14px">Metadados e textos auxiliares</span></div>
+    <div class="line"><span class="lbl">primary · #5B00C9</span><span style="color:#5B00C9;font-size:16px;font-weight:700">Links e ações</span></div>
+  </div>
+</body>
+</html>

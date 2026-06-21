@@ -1,0 +1,39 @@
+<!-- @dsCard group="Components" viewport="700x260" name="Card & PageHeader" subtitle="Superfície branca + cabeçalho de página" -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 24px; background: var(--color-bg); }
+  #root { display: flex; flex-direction: column; gap: 20px; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+  <script src="../../_ds_bundle.js"></script>
+  <script type="text/babel">
+    const { Card, CardHeader, PageHeader, Button } = window.HelloBooksDesignSystem_5c47c8;
+    function Demo() {
+      return (
+        <>
+          <PageHeader
+            title="Catálogo"
+            subtitle="Consulta e manutenção do acervo"
+            breadcrumb={["Início", "Catálogo"]}
+            actions={<Button size="sm">Cadastrar Livro</Button>}
+          />
+          <Card>
+            <CardHeader title="Atividade Recente" subtitle="Últimas operações da biblioteca" action={<Button variant="ghost" size="sm">Ver tudo</Button>} />
+            <div style={{ color: "var(--color-text-muted)", fontSize: "14px" }}>Conteúdo do card sobre superfície branca, raio 20px e sombra suave roxa.</div>
+          </Card>
+        </>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,438 @@
+openapi: 3.1.0
+info:
+  title: HelloBooks — Backend Complementar
+  version: 1.0.0
+  description: |
+    Endpoints complementares ao catalogo: autenticacao JWT, CRUD de usuarios,
+    dashboard de metricas e leitura de logs de auditoria.
+  contact:
+    name: HelloBooks team
+servers:
+  - url: http://localhost:8015/api/v1
+    description: Dev local (Docker Compose)
+
+tags:
+  - name: Auth
+  - name: Usuarios
+  - name: Dashboard
+  - name: Logs
+
+security:
+  - bearerAuth: []
+
+paths:
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Autentica usuario e retorna token JWT
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/LoginRequest' }
+      responses:
+        '200':
+          description: Autenticado com sucesso
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/LoginResponse' }
+        '401':
+          description: Credenciais invalidas
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+
+  /auth/logout:
+    post:
+      tags: [Auth]
+      summary: Revoga o token JWT corrente
+      responses:
+        '200':
+          description: Token revogado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string, example: Logout realizado com sucesso. }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /auth/refresh:
+    post:
+      tags: [Auth]
+      summary: Renova o token JWT antes de expirar
+      responses:
+        '200':
+          description: Token renovado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/LoginResponse' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /auth/me:
+    get:
+      tags: [Auth]
+      summary: Retorna dados do usuario autenticado
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Usuario' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /usuarios:
+    get:
+      tags: [Usuarios]
+      summary: Lista paginada de usuarios
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+        - in: query
+          name: q
+          schema: { type: string }
+          description: Busca por nome ou email (case-insensitive)
+      responses:
+        '200':
+          description: Pagina de usuarios
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UsuarioPage' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+    post:
+      tags: [Usuarios]
+      summary: Cria um usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UsuarioCreate' }
+      responses:
+        '201':
+          description: Usuario criado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Usuario' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+        '409':
+          description: Email ja em uso
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  /usuarios/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Usuarios]
+      summary: Detalhe de um usuario
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Usuario' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    put:
+      tags: [Usuarios]
+      summary: Atualiza dados de um usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UsuarioUpdate' }
+      responses:
+        '200':
+          description: Atualizado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Usuario' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409':
+          description: Email ja em uso por outro usuario
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+    delete:
+      tags: [Usuarios]
+      summary: Remove um usuario
+      responses:
+        '204': { description: Removido }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409':
+          description: Auto-exclusao proibida ou usuario em uso
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  /dashboard/stats:
+    get:
+      tags: [Dashboard]
+      summary: Metricas agregadas para o dashboard
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DashboardStats' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /logs:
+    get:
+      tags: [Logs]
+      summary: Lista paginada de logs de auditoria
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+        - in: query
+          name: entidade
+          schema: { type: string }
+          description: Filtrar por entidade (ex. livros, exemplares, usuarios)
+        - in: query
+          name: acao
+          schema: { type: string, enum: [created, updated, deleted] }
+          description: Filtrar por tipo de acao
+        - in: query
+          name: id_usuario
+          schema: { type: integer }
+          description: Filtrar por usuario executor
+        - in: query
+          name: de
+          schema: { type: string, format: date }
+          description: Data inicial (inclusive)
+        - in: query
+          name: ate
+          schema: { type: string, format: date }
+          description: Data final (inclusive)
+      responses:
+        '200':
+          description: Pagina de logs
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/LogPage' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    Id:
+      in: path
+      name: id
+      required: true
+      schema: { type: integer, format: int64, minimum: 1 }
+    Page:
+      in: query
+      name: page
+      schema: { type: integer, minimum: 1, default: 1 }
+    PerPage:
+      in: query
+      name: per_page
+      schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+
+  responses:
+    Unauthorized:
+      description: Nao autenticado
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+          examples:
+            naoAutenticado:
+              value:
+                error:
+                  code: NAO_AUTENTICADO
+                  message: Autenticacao requerida.
+    Forbidden:
+      description: Cargo insuficiente (apenas bibliotecario)
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+          examples:
+            cargoInsuficiente:
+              value:
+                error:
+                  code: CARGO_INSUFICIENTE
+                  message: Cargo insuficiente para acessar este recurso.
+    NotFound:
+      description: Recurso nao encontrado
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+          examples:
+            recursoNaoEncontrado:
+              value:
+                error:
+                  code: RECURSO_NAO_ENCONTRADO
+                  message: Recurso nao encontrado.
+    ValidationError:
+      description: Erro de validacao (VALIDATION_ERROR)
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+          examples:
+            validationError:
+              value:
+                error:
+                  code: VALIDATION_ERROR
+                  message: Os dados enviados sao invalidos.
+                  details:
+                    email:
+                      - The email field must be a valid email address.
+
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code: { type: string, example: CREDENCIAIS_INVALIDAS }
+            message: { type: string }
+            details:
+              type: object
+              additionalProperties: true
+
+    Pagination:
+      type: object
+      required: [total, per_page, current_page, last_page]
+      properties:
+        total: { type: integer }
+        per_page: { type: integer }
+        current_page: { type: integer }
+        last_page: { type: integer }
+
+    LoginRequest:
+      type: object
+      required: [email, senha]
+      properties:
+        email: { type: string, format: email }
+        senha: { type: string, minLength: 1 }
+
+    LoginResponse:
+      type: object
+      required: [token, token_type, expires_in, usuario]
+      properties:
+        token: { type: string }
+        token_type: { type: string, example: bearer }
+        expires_in: { type: integer, description: Segundos ate expirar }
+        usuario: { $ref: '#/components/schemas/Usuario' }
+
+    Usuario:
+      type: object
+      required: [id_usuario, nome_completo, email, cargo]
+      properties:
+        id_usuario: { type: integer, format: int64 }
+        nome_completo: { type: string }
+        email: { type: string, format: email }
+        cargo: { type: string, enum: [bibliotecario, leitor] }
+        endereco: { type: string, nullable: true }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+
+    UsuarioCreate:
+      type: object
+      required: [nome_completo, email, senha, cargo]
+      properties:
+        nome_completo: { type: string, minLength: 1, maxLength: 255 }
+        email: { type: string, format: email, maxLength: 255 }
+        senha: { type: string, minLength: 6 }
+        cargo: { type: string, enum: [bibliotecario, leitor] }
+        endereco: { type: string, maxLength: 500, nullable: true }
+
+    UsuarioUpdate:
+      type: object
+      properties:
+        nome_completo: { type: string, minLength: 1, maxLength: 255 }
+        email: { type: string, format: email, maxLength: 255 }
+        senha: { type: string, minLength: 6 }
+        cargo: { type: string, enum: [bibliotecario, leitor] }
+        endereco: { type: string, maxLength: 500, nullable: true }
+
+    UsuarioPage:
+      type: object
+      required: [data, pagination]
+      properties:
+        data:
+          type: array
+          items: { $ref: '#/components/schemas/Usuario' }
+        pagination: { $ref: '#/components/schemas/Pagination' }
+
+    DashboardStats:
+      type: object
+      required: [total_livros, total_exemplares, exemplares_por_status, total_autores, total_editoras, total_categorias, total_usuarios, livros_recentes, atividade_recente]
+      properties:
+        total_livros: { type: integer }
+        total_exemplares: { type: integer }
+        exemplares_por_status:
+          type: object
+          properties:
+            disponivel: { type: integer }
+            emprestado: { type: integer }
+            reservado: { type: integer }
+            manutencao: { type: integer }
+        total_autores: { type: integer }
+        total_editoras: { type: integer }
+        total_categorias: { type: integer }
+        total_usuarios: { type: integer }
+        livros_recentes:
+          type: array
+          maxItems: 5
+          items:
+            type: object
+            properties:
+              id_livro: { type: integer, format: int64 }
+              titulo: { type: string }
+              autores:
+                type: array
+                items: { type: string }
+              created_at: { type: string, format: date-time }
+        atividade_recente:
+          type: array
+          maxItems: 10
+          items: { $ref: '#/components/schemas/LogEntry' }
+
+    LogEntry:
+      type: object
+      required: [id_log, acao_realizada, entidade_afetada, id_registro_afetado, data_hora]
+      properties:
+        id_log: { type: integer, format: int64 }
+        acao_realizada: { type: string, enum: [created, updated, deleted] }
+        entidade_afetada: { type: string }
+        id_registro_afetado: { type: string }
+        data_hora: { type: string, format: date-time }
+        usuario:
+          type: object
+          properties:
+            id_usuario: { type: integer, format: int64 }
+            nome_completo: { type: string }
+
+    LogPage:
+      type: object
+      required: [data, pagination]
+      properties:
+        data:
+          type: array
+          items: { $ref: '#/components/schemas/LogEntry' }
+        pagination: { $ref: '#/components/schemas/Pagination' }

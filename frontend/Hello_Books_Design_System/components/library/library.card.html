@@ -1,0 +1,38 @@
+<!-- @dsCard group="Components" viewport="700x340" name="Componentes de biblioteca" subtitle="BookCard, MemberProfileCard, FineSummaryCard" -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 24px; background: var(--color-bg); }
+  #root { display: grid; grid-template-columns: 240px 1fr; gap: 18px; align-items: start; }
+  .stack { display: flex; flex-direction: column; gap: 16px; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+  <script src="../../_ds_bundle.js"></script>
+  <script type="text/babel">
+    const { BookCard, MemberProfileCard, FineSummaryCard, Button } = window.HelloBooksDesignSystem_5c47c8;
+    function Demo() {
+      return (
+        <>
+          <BookCard book={{ title: "Dom Casmurro", author: "Machado de Assis", status: "Disponível", category: "Ficção", available: 3, copies: 5 }} actionLabel="Ver Detalhes" />
+          <div className="stack">
+            <MemberProfileCard
+              member={{ name: "João Reis", id: "MB-2041", type: "Acadêmico", since: "Mar 2023", level: "Leitor Ávido", status: "Ativo" }}
+              actions={<Button variant="secondary" size="sm">Editar Perfil</Button>}
+            />
+            <FineSummaryCard amount="R$ 24,00" count={2} />
+          </div>
+        </>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+  </script>
+</body>
+</html>
