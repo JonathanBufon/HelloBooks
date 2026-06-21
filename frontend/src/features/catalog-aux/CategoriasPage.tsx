@@ -1,5 +1,7 @@
-import { PageHeader } from '../../components/ds/layout/PageHeader';
+import * as categoriasApi from '../../api/catalog/categorias';
+import type { Categoria } from '../../types/api';
+import { AuxCrudPage } from './AuxCrudPage';
 
 export function CategoriasPage() {
-  return <PageHeader title="Categorias" subtitle="Gerenciar categorias — implementação na Phase 8" />;
+  return <AuxCrudPage<Categoria> title="Categorias" singular="Categoria" idKey="id_categoria" api={categoriasApi} />;
 }

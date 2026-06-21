@@ -6,6 +6,7 @@ const STATUS_TONE: Record<string, 'neutral' | 'primary' | 'success' | 'warning' 
   // Livro
   'Disponível': 'success', 'Emprestado': 'warning', 'Reservado': 'primary',
   'Manutenção': 'info', 'Perdido': 'danger', 'Descartado': 'neutral',
+  'Disponivel': 'success', 'Manutencao': 'info',
   // Membro
   'Ativo': 'success', 'Suspenso': 'warning', 'Inadimplente': 'danger',
   'Inativo': 'neutral', 'Bloqueado': 'danger',

@@ -1,5 +1,7 @@
-import { PageHeader } from '../../components/ds/layout/PageHeader';
+import * as autoresApi from '../../api/catalog/autores';
+import type { Autor } from '../../types/api';
+import { AuxCrudPage } from './AuxCrudPage';
 
 export function AutoresPage() {
-  return <PageHeader title="Autores" subtitle="Gerenciar autores — implementação na Phase 8" />;
+  return <AuxCrudPage<Autor> title="Autores" singular="Autor" idKey="id_autor" api={autoresApi} />;
 }

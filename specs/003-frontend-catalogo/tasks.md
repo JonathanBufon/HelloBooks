@@ -95,9 +95,9 @@ Reference: `frontend/Hello_Books_Design_System/components/` (source JSX + .d.ts 
 
 **Independent Test**: Navigate to /catalogo, see book list. Toggle between grid (BookCards) and table (DataTable). Search by title/author/ISBN. Filter by category. Pagination works in both modes. Empty state shown when no books.
 
-- [ ] T025 [P] [US3] Create livros API module (list, get, create, update, delete) in `frontend/src/api/catalog/livros.ts`
-- [ ] T026 [P] [US3] Create categorias API module (list, get, create, update, delete) in `frontend/src/api/catalog/categorias.ts`
-- [ ] T027 [US3] Create CatalogoListaPage with PageHeader ("Cadastrar Livro" → /catalogo/novo), filter bar (SearchInput + category Select + status Select + grid/table toggle), BookCard grid mode, DataTable table mode, pagination, empty state, spinner loading in `frontend/src/features/catalog/CatalogoListaPage.tsx`
+- [X] T025 [P] [US3] Create livros API module (list, get, create, update, delete) in `frontend/src/api/catalog/livros.ts`
+- [X] T026 [P] [US3] Create categorias API module (list, get, create, update, delete) in `frontend/src/api/catalog/categorias.ts`
+- [X] T027 [US3] Create CatalogoListaPage with PageHeader ("Cadastrar Livro" → /catalogo/novo), filter bar (SearchInput + category Select + status Select + grid/table toggle), BookCard grid mode, DataTable table mode, pagination, empty state, spinner loading in `frontend/src/features/catalog/CatalogoListaPage.tsx`
 
 **Checkpoint**: Catalog browsing fully functional with both view modes
 
@@ -109,8 +109,8 @@ Reference: `frontend/Hello_Books_Design_System/components/` (source JSX + .d.ts 
 
 **Independent Test**: Navigate to /catalogo/:id, see book metadata (title, ISBN, year, publisher, authors as Tags, categories as Tags), exemplar count badges (4 statuses), exemplar DataTable with status/condition badges and edit/remove actions. "Registrar Exemplares" opens modal with quantity field. Exemplar status/condition editable via modal.
 
-- [ ] T028 [P] [US4] Create exemplares API module (listByLivro, create, update, delete) in `frontend/src/api/catalog/exemplares.ts`
-- [ ] T029 [US4] Create CatalogoDetalhePage with PageHeader + breadcrumb, book metadata display, exemplar count MetricCards/badges, exemplar DataTable (codigo, StatusBadge status, StatusBadge condicao, date, actions), "Editar Livro" button (→ /catalogo/:id/editar), "Registrar Exemplares" modal (quantity field, POST), exemplar edit modal (status + condicao selects, PUT), exemplar delete confirmation modal (DELETE) in `frontend/src/features/catalog/CatalogoDetalhePage.tsx`
+- [X] T028 [P] [US4] Create exemplares API module (listByLivro, create, update, delete) in `frontend/src/api/catalog/exemplares.ts`
+- [X] T029 [US4] Create CatalogoDetalhePage with PageHeader + breadcrumb, book metadata display, exemplar count MetricCards/badges, exemplar DataTable (codigo, StatusBadge status, StatusBadge condicao, date, actions), "Editar Livro" button (→ /catalogo/:id/editar), "Registrar Exemplares" modal (quantity field, POST), exemplar edit modal (status + condicao selects, PUT), exemplar delete confirmation modal (DELETE) in `frontend/src/features/catalog/CatalogoDetalhePage.tsx`
 
 **Checkpoint**: Book detail page shows all data; exemplar CRUD works via modals
 
@@ -122,10 +122,10 @@ Reference: `frontend/Hello_Books_Design_System/components/` (source JSX + .d.ts 
 
 **Independent Test**: Navigate to /catalogo/novo, fill form (title, ISBN, year, publisher select, multi-select authors, multi-select categories), submit → creates book, shows toast, redirects to detail. Navigate to /catalogo/:id/editar → form pre-filled. Inline creation of new author/publisher/category via mini modal. Validation errors shown inline (400, 409 ISBN duplicate).
 
-- [ ] T030 [P] [US5] Create autores API module (list, get, create, update, delete) in `frontend/src/api/catalog/autores.ts`
-- [ ] T031 [P] [US5] Create editoras API module (list, get, create, update, delete) in `frontend/src/api/catalog/editoras.ts`
-- [ ] T032 [US5] Create CadastrarLivroPage with PageHeader + breadcrumb, form fields (titulo TextInput, isbn TextInput with 10-13 validation, ano_publicacao number input, editora Select loaded from GET /editoras, autores multi-select from GET /autores with "Criar novo" mini modal, categorias multi-select from GET /categorias with "Criar novo" mini modal), inline error display (400/409), toast on success, POST /livros, redirect to /catalogo/:id on success in `frontend/src/features/catalog/CadastrarLivroPage.tsx`
-- [ ] T033 [US5] Create EditarLivroPage that loads book data via GET /livros/:id, pre-fills the same form as CadastrarLivroPage, submits via PUT /livros/:id, shows validation errors, toast on success, redirect to /catalogo/:id in `frontend/src/features/catalog/EditarLivroPage.tsx`
+- [X] T030 [P] [US5] Create autores API module (list, get, create, update, delete) in `frontend/src/api/catalog/autores.ts`
+- [X] T031 [P] [US5] Create editoras API module (list, get, create, update, delete) in `frontend/src/api/catalog/editoras.ts`
+- [X] T032 [US5] Create CadastrarLivroPage with PageHeader + breadcrumb, form fields (titulo TextInput, isbn TextInput with 10-13 validation, ano_publicacao number input, editora Select loaded from GET /editoras, autores multi-select from GET /autores with "Criar novo" mini modal, categorias multi-select from GET /categorias with "Criar novo" mini modal), inline error display (400/409), toast on success, POST /livros, redirect to /catalogo/:id on success in `frontend/src/features/catalog/CadastrarLivroPage.tsx`
+- [X] T033 [US5] Create EditarLivroPage that loads book data via GET /livros/:id, pre-fills the same form as CadastrarLivroPage, submits via PUT /livros/:id, shows validation errors, toast on success, redirect to /catalogo/:id in `frontend/src/features/catalog/EditarLivroPage.tsx`
 
 **Checkpoint**: Full book create/edit cycle works with inline entity creation
 
@@ -137,9 +137,9 @@ Reference: `frontend/Hello_Books_Design_System/components/` (source JSX + .d.ts 
 
 **Independent Test**: Navigate to /autores → DataTable with name, date, actions. "Cadastrar Autor" opens modal with name field. Edit opens modal with pre-filled name. Delete shows confirmation modal. 409 error (author has books) shown as toast. Same pattern for /editoras and /categorias. Pagination + search work.
 
-- [ ] T034 [P] [US6] Create AutoresPage with PageHeader, DataTable (nome, created_at, acoes), "Cadastrar Autor" button → modal with nome field, edit modal, delete confirmation modal, 409 toast, pagination, search in `frontend/src/features/catalog-aux/AutoresPage.tsx`
-- [ ] T035 [P] [US6] Create EditorasPage (same structure as AutoresPage, adapted for editoras) in `frontend/src/features/catalog-aux/EditorasPage.tsx`
-- [ ] T036 [P] [US6] Create CategoriasPage (same structure as AutoresPage, adapted for categorias, with 409 for duplicate name) in `frontend/src/features/catalog-aux/CategoriasPage.tsx`
+- [X] T034 [P] [US6] Create AutoresPage with PageHeader, DataTable (nome, created_at, acoes), "Cadastrar Autor" button → modal with nome field, edit modal, delete confirmation modal, 409 toast, pagination, search in `frontend/src/features/catalog-aux/AutoresPage.tsx`
+- [X] T035 [P] [US6] Create EditorasPage (same structure as AutoresPage, adapted for editoras) in `frontend/src/features/catalog-aux/EditorasPage.tsx`
+- [X] T036 [P] [US6] Create CategoriasPage (same structure as AutoresPage, adapted for categorias, with 409 for duplicate name) in `frontend/src/features/catalog-aux/CategoriasPage.tsx`
 
 **Checkpoint**: All three auxiliary CRUD pages functional and independently testable
 
@@ -151,8 +151,8 @@ Reference: `frontend/Hello_Books_Design_System/components/` (source JSX + .d.ts 
 
 **Independent Test**: Navigate to /usuarios → DataTable with name, email, cargo Badge, date, actions. "Cadastrar Usuario" opens modal with nome, email, senha, cargo Select. Edit modal (senha optional). Delete confirmation. 409 for self-deletion or user in use shown as toast. Pagination + search.
 
-- [ ] T037 [P] [US7] Create usuarios API module (list, get, create, update, delete) in `frontend/src/api/usuarios.ts`
-- [ ] T038 [US7] Create UsuariosPage with PageHeader, DataTable (nome, email, cargo Badge, created_at, acoes), "Cadastrar Usuario" button → modal (nome_completo, email, senha, cargo Select, endereco optional), edit modal (senha optional), delete confirmation modal, 409 toasts, pagination, search in `frontend/src/features/usuarios/UsuariosPage.tsx`
+- [X] T037 [P] [US7] Create usuarios API module (list, get, create, update, delete) in `frontend/src/api/usuarios.ts`
+- [X] T038 [US7] Create UsuariosPage with PageHeader, DataTable (nome, email, cargo Badge, created_at, acoes), "Cadastrar Usuario" button → modal (nome_completo, email, senha, cargo Select, endereco optional), edit modal (senha optional), delete confirmation modal, 409 toasts, pagination, search in `frontend/src/features/usuarios/UsuariosPage.tsx`
 
 **Checkpoint**: User management fully functional
 
@@ -164,8 +164,8 @@ Reference: `frontend/Hello_Books_Design_System/components/` (source JSX + .d.ts 
 
 **Independent Test**: Navigate to /auditoria → DataTable with data/hora, usuario, acao, entidade, ID registro. Filters: entity Select, action Select, date range inputs (de/ate), user search. Read-only. Pagination works.
 
-- [ ] T039 [P] [US8] Create logs API module (list with filters: entidade, acao, id_usuario, de, ate) in `frontend/src/api/logs.ts`
-- [ ] T040 [US8] Create LogsPage with PageHeader, filter bar (entidade Select, acao Select, date inputs de/ate, user search), DataTable (data_hora, usuario.nome_completo, acao_realizada, entidade_afetada, id_registro_afetado), pagination, read-only in `frontend/src/features/auditoria/LogsPage.tsx`
+- [X] T039 [P] [US8] Create logs API module (list with filters: entidade, acao, id_usuario, de, ate) in `frontend/src/api/logs.ts`
+- [X] T040 [US8] Create LogsPage with PageHeader, filter bar (entidade Select, acao Select, date inputs de/ate, user search), DataTable (data_hora, usuario.nome_completo, acao_realizada, entidade_afetada, id_registro_afetado), pagination, read-only in `frontend/src/features/auditoria/LogsPage.tsx`
 
 **Checkpoint**: Audit log viewing with all filters functional
 
@@ -175,11 +175,11 @@ Reference: `frontend/Hello_Books_Design_System/components/` (source JSX + .d.ts 
 
 **Purpose**: Tests for critical components and final validation
 
-- [ ] T041 [P] Write Vitest + RTL tests for Button, DataTable, Modal components in `frontend/__tests__/components/ds/`
-- [ ] T042 [P] Write Vitest + RTL tests for useAuth hook (login, logout, token storage, role check) in `frontend/__tests__/hooks/useAuth.test.ts`
-- [ ] T043 [P] Write Vitest + RTL test for LoginPage (render, submit, error display, redirect) in `frontend/__tests__/features/auth/LoginPage.test.tsx`
-- [ ] T044 [P] Write Vitest + RTL test for CatalogoListaPage (render, grid/table toggle, search, pagination) in `frontend/__tests__/features/catalog/CatalogoListaPage.test.tsx`
-- [ ] T045 Run quickstart.md smoke test validation (full flow: login → dashboard → catalog → detail → create book → edit → auxiliaries → users → audit logs)
+- [X] T041 [P] Write Vitest + RTL tests for Button, DataTable, Modal components in `frontend/__tests__/components/ds/`
+- [X] T042 [P] Write Vitest + RTL tests for useAuth hook (login, logout, token storage, role check) in `frontend/__tests__/hooks/useAuth.test.ts`
+- [X] T043 [P] Write Vitest + RTL test for LoginPage (render, submit, error display, redirect) in `frontend/__tests__/features/auth/LoginPage.test.tsx`
+- [X] T044 [P] Write Vitest + RTL test for CatalogoListaPage (render, grid/table toggle, search, pagination) in `frontend/__tests__/features/catalog/CatalogoListaPage.test.tsx`
+- [X] T045 Run quickstart.md smoke test validation (full flow: login → dashboard → catalog → detail → create book → edit → auxiliaries → users → audit logs)
 
 ---
 

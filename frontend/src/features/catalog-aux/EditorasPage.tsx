@@ -1,5 +1,7 @@
-import { PageHeader } from '../../components/ds/layout/PageHeader';
+import * as editorasApi from '../../api/catalog/editoras';
+import type { Editora } from '../../types/api';
+import { AuxCrudPage } from './AuxCrudPage';
 
 export function EditorasPage() {
-  return <PageHeader title="Editoras" subtitle="Gerenciar editoras — implementação na Phase 8" />;
+  return <AuxCrudPage<Editora> title="Editoras" singular="Editora" idKey="id_editora" api={editorasApi} />;
 }
