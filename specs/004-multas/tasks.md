@@ -25,9 +25,9 @@
 
 **Purpose**: Create database tables for emprestimos (minimal schema) and multas
 
-- [ ] T001 Create migration `create_emprestimos_table` (id_emprestimo, id_usuario FK, data_retirada, data_devolucao_prevista, data_devolucao_real nullable, status CHECK ativo/devolvido/atrasado, timestamps) in `backend/database/migrations/`
-- [ ] T002 Create migration `create_itens_emprestimo_table` (id_item_emprestimo, id_emprestimo FK, id_exemplar FK, data_devolucao_item nullable, timestamps) in `backend/database/migrations/`
-- [ ] T003 Create migration `create_multas_table` (id_multa, id_item_emprestimo FK, motivo CHECK atraso/rabisco/rasgo/dobra, valor decimal(10,2) CHECK >0, status CHECK pendente/paga/perdoada, justificativa_perdao text nullable, id_bibliotecario_baixa FK nullable, data_baixa nullable, timestamps, UNIQUE(id_item_emprestimo,motivo), CHECK perdoada requires justificativa) in `backend/database/migrations/`
+- [x] T001 Create migration `create_emprestimos_table` (id_emprestimo, id_usuario FK, data_retirada, data_devolucao_prevista, data_devolucao_real nullable, status CHECK ativo/devolvido/atrasado, timestamps) in `backend/database/migrations/`
+- [x] T002 Create migration `create_itens_emprestimo_table` (id_item_emprestimo, id_emprestimo FK, id_exemplar FK, data_devolucao_item nullable, timestamps) in `backend/database/migrations/`
+- [x] T003 Create migration `create_multas_table` (id_multa, id_item_emprestimo FK, motivo CHECK atraso/rabisco/rasgo/dobra, valor decimal(10,2) CHECK >0, status CHECK pendente/paga/perdoada, justificativa_perdao text nullable, id_bibliotecario_baixa FK nullable, data_baixa nullable, timestamps, UNIQUE(id_item_emprestimo,motivo), CHECK perdoada requires justificativa) in `backend/database/migrations/`
 
 ---
 
@@ -37,39 +37,39 @@
 
 ### Domain Objects
 
-- [ ] T004 [P] Create MotivoMulta enum (atraso, rabisco, rasgo, dobra) and StatusMulta enum (pendente, paga, perdoada) in `backend/app/Domain/Multa/MotivoMulta.php` and `backend/app/Domain/Multa/StatusMulta.php`
-- [ ] T005 [P] Create StatusMultaTransition (pendente→paga, pendente→perdoada allowed; all others blocked) following StatusTransition pattern in `backend/app/Domain/Multa/StatusMultaTransition.php`
-- [ ] T006 [P] Create MultaDuplicadaException and TransicaoMultaInvalidaException extending DomainException in `backend/app/Domain/Exceptions/`
+- [x] T004 [P] Create MotivoMulta enum (atraso, rabisco, rasgo, dobra) and StatusMulta enum (pendente, paga, perdoada) in `backend/app/Domain/Multa/MotivoMulta.php` and `backend/app/Domain/Multa/StatusMulta.php`
+- [x] T005 [P] Create StatusMultaTransition (pendente→paga, pendente→perdoada allowed; all others blocked) following StatusTransition pattern in `backend/app/Domain/Multa/StatusMultaTransition.php`
+- [x] T006 [P] Create MultaDuplicadaException and TransicaoMultaInvalidaException extending DomainException in `backend/app/Domain/Exceptions/`
 
 ### Models
 
-- [ ] T007 [P] Create Emprestimo model (belongsTo Usuario, hasMany ItemEmprestimo, timestamps) in `backend/app/Models/Emprestimo.php`
-- [ ] T008 [P] Create ItemEmprestimo model (belongsTo Emprestimo, belongsTo Exemplar, hasMany Multa, timestamps) in `backend/app/Models/ItemEmprestimo.php`
-- [ ] T009 [P] Create Multa model (AuditableTrait, belongsTo ItemEmprestimo, belongsTo bibliotecarioBaixa via Usuario, casts for enums, timestamps) in `backend/app/Models/Multa.php`
+- [x] T007 [P] Create Emprestimo model (belongsTo Usuario, hasMany ItemEmprestimo, timestamps) in `backend/app/Models/Emprestimo.php`
+- [x] T008 [P] Create ItemEmprestimo model (belongsTo Emprestimo, belongsTo Exemplar, hasMany Multa, timestamps) in `backend/app/Models/ItemEmprestimo.php`
+- [x] T009 [P] Create Multa model (AuditableTrait, belongsTo ItemEmprestimo, belongsTo bibliotecarioBaixa via Usuario, casts for enums, timestamps) in `backend/app/Models/Multa.php`
 
 ### Repositories
 
-- [ ] T010 [P] Create MultaRepositoryInterface and EloquentMultaRepository (listarPaginado with filters, buscarPorItemEMotivo, buscarPendentesDoUsuario, resumoPendentesDoUsuario) in `backend/app/Repositories/Multa/`
-- [ ] T011 [P] Create ItemEmprestimoRepositoryInterface and EloquentItemEmprestimoRepository in `backend/app/Repositories/Emprestimo/`
+- [x] T010 [P] Create MultaRepositoryInterface and EloquentMultaRepository (listarPaginado with filters, buscarPorItemEMotivo, buscarPendentesDoUsuario, resumoPendentesDoUsuario) in `backend/app/Repositories/Multa/`
+- [x] T011 [P] Create ItemEmprestimoRepositoryInterface and EloquentItemEmprestimoRepository in `backend/app/Repositories/Emprestimo/`
 
 ### Service
 
-- [ ] T012 Create MultaService with methods: registrar, pagar, pagarEmLote, perdoar, listar, detalhar, listarDoUsuario, resumoDoUsuario, temMultasPendentes (for future emprestimos feature, FR-029) in `backend/app/Services/MultaService.php`
+- [x] T012 Create MultaService with methods: registrar, pagar, pagarEmLote, perdoar, listar, detalhar, listarDoUsuario, resumoDoUsuario, temMultasPendentes (for future emprestimos feature, FR-029) in `backend/app/Services/MultaService.php`
 
 ### Resources
 
-- [ ] T013 [P] Create MultaResource (id_multa, motivo, valor, status, dates, usuario nested, livro nested, exemplar nested) in `backend/app/Http/Resources/MultaResource.php`
-- [ ] T014 [P] Create MultaDetalheResource (extends MultaResource with bibliotecario_baixa nested, item_emprestimo details) in `backend/app/Http/Resources/MultaDetalheResource.php`
-- [ ] T015 [P] Create MultaResumoResource (quantidade_pendente, valor_total_pendente) in `backend/app/Http/Resources/MultaResumoResource.php`
+- [x] T013 [P] Create MultaResource (id_multa, motivo, valor, status, dates, usuario nested, livro nested, exemplar nested) in `backend/app/Http/Resources/MultaResource.php`
+- [x] T014 [P] Create MultaDetalheResource (extends MultaResource with bibliotecario_baixa nested, item_emprestimo details) in `backend/app/Http/Resources/MultaDetalheResource.php`
+- [x] T015 [P] Create MultaResumoResource (quantidade_pendente, valor_total_pendente) in `backend/app/Http/Resources/MultaResumoResource.php`
 
 ### Frontend Types
 
-- [ ] T016 [P] Create TypeScript types (Multa, MultaCreate, MultaDetalhe, MultaResumo, MinhasMultasResponse, MotivoMulta, StatusMulta) in `frontend/src/types/multa.ts`
+- [x] T016 [P] Create TypeScript types (Multa, MultaCreate, MultaDetalhe, MultaResumo, MinhasMultasResponse, MotivoMulta, StatusMulta) in `frontend/src/types/multa.ts`
 
 ### Infrastructure
 
-- [ ] T017 Register MultaRepository and ItemEmprestimoRepository bindings in `backend/app/Providers/AppServiceProvider.php`
-- [ ] T018 Create EmprestimoTestSeeder with test emprestimos/itens for smoke testing multas in `backend/database/seeders/EmprestimoTestSeeder.php`
+- [x] T017 Register MultaRepository and ItemEmprestimoRepository bindings in `backend/app/Providers/AppServiceProvider.php`
+- [x] T018 Create EmprestimoTestSeeder with test emprestimos/itens for smoke testing multas in `backend/database/seeders/EmprestimoTestSeeder.php`
 
 **Checkpoint**: Foundation ready — models, service, repositories, resources available. User story implementation can begin.
 
