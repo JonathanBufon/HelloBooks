@@ -6,6 +6,7 @@ import { Sidebar } from '../ds/navigation/Sidebar';
 import { SidebarItem } from '../ds/navigation/SidebarItem';
 import { Topbar } from '../ds/navigation/Topbar';
 import { Toast as ToastComponent } from '../ds/feedback/Toast';
+import { NotificationBadge } from './NotificationBadge';
 import {
   LayoutDashboard,
   BookOpen,
@@ -14,6 +15,7 @@ import {
   Tag,
   UserCog,
   ClipboardList,
+  Receipt,
   LogOut,
 } from 'lucide-react';
 
@@ -24,6 +26,7 @@ const NAV_ITEMS = [
   { path: '/editoras', label: 'Editoras', icon: Building2, roles: ['bibliotecario'] },
   { path: '/categorias', label: 'Categorias', icon: Tag, roles: ['bibliotecario'] },
   { path: '/usuarios', label: 'Usuários', icon: UserCog, roles: ['bibliotecario'] },
+  { path: '/multas', label: 'Multas', icon: Receipt, roles: ['bibliotecario'] },
   { path: '/auditoria', label: 'Auditoria', icon: ClipboardList, roles: ['bibliotecario'] },
 ] as const;
 
@@ -84,6 +87,7 @@ export function AppShell() {
           searchValue={searchValue}
           onSearchChange={handleSearch}
           onSearchSubmit={handleSearchSubmit}
+          actions={cargo === 'leitor' ? <NotificationBadge /> : undefined}
         />
 
         <main style={{

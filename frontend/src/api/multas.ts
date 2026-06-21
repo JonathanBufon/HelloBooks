@@ -1,5 +1,27 @@
 import apiClient from './client';
-import type { Multa, MultaCreate } from '../types/multa';
+import type { PaginatedResponse } from '../types/api';
+import type { Multa, MultaCreate, MultaDetalhe } from '../types/multa';
+
+export interface MultaListParams {
+  page?: number;
+  per_page?: number;
+  status?: string;
+  motivo?: string;
+  id_usuario?: number;
+  q?: string;
+  de?: string;
+  ate?: string;
+}
+
+export async function list(params: MultaListParams = {}): Promise<PaginatedResponse<Multa>> {
+  const response = await apiClient.get<PaginatedResponse<Multa>>('/multas', { params });
+  return response.data;
+}
+
+export async function get(id: number): Promise<MultaDetalhe> {
+  const response = await apiClient.get<MultaDetalhe>(`/multas/${id}`);
+  return response.data;
+}
 
 export async function create(payload: MultaCreate): Promise<Multa> {
   const response = await apiClient.post<Multa>('/multas', payload);

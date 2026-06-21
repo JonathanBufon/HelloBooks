@@ -8,6 +8,7 @@ use App\Http\Controllers\Catalog\ExemplarController;
 use App\Http\Controllers\Catalog\LivroController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LogController;
+use App\Http\Controllers\MinhasMultasController;
 use App\Http\Controllers\MultaController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,8 @@ Route::prefix('v1')
             Route::post('/auth/logout', [AuthController::class, 'logout']);
             Route::post('/auth/refresh', [AuthController::class, 'refresh']);
             Route::get('/auth/me', [AuthController::class, 'me']);
+
+            Route::get('/minhas-multas/resumo', [MinhasMultasController::class, 'resumo']);
         });
     });
 
@@ -62,6 +65,8 @@ Route::prefix('v1')
         Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
         Route::get('/logs', [LogController::class, 'index']);
 
+        Route::get('/multas', [MultaController::class, 'index']);
+        Route::get('/multas/{id}', [MultaController::class, 'show'])->whereNumber('id');
         Route::post('/multas', [MultaController::class, 'store']);
         Route::put('/multas/pagar-lote', [MultaController::class, 'pagarLote']);
         Route::put('/multas/{id}/pagar', [MultaController::class, 'pagar'])->whereNumber('id');

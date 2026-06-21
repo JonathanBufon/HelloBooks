@@ -111,12 +111,12 @@
 
 **Independent Test**: GET /multas → paginated list. Filter by status=pendente → only pending. Filter by id_usuario → only that user's fines. GET /multas/{id} → detail with relationships. Frontend: navigate to /multas, see DataTable with filters, register fine via modal, pay fine via action button.
 
-- [ ] T027 [P] [US3] Create MultaIndexRequest (status optional in enum, motivo optional in enum, id_usuario optional integer, q optional string, de/ate optional date) in `backend/app/Http/Requests/Multa/MultaIndexRequest.php`
-- [ ] T028 [US3] Add index method (paginated list with filters via MultaService.listar) and show method (detail via MultaService.detalhar) to MultaController in `backend/app/Http/Controllers/MultaController.php`
-- [ ] T029 [US3] Add `GET /multas` and `GET /multas/{id}` routes with middleware `cargo:bibliotecario` in `backend/routes/api.php`
-- [ ] T030 [P] [US3] Add list and get functions to frontend multas API module in `frontend/src/api/multas.ts`
-- [ ] T031 [US3] Create MultasPage with PageHeader, filter bar (SearchInput for usuario/livro, Select for status, Select for motivo, date inputs de/ate), DataTable (usuario, livro, motivo, valor with StatusBadge, status with StatusBadge, data, acoes), "Registrar Multa" modal, "Dar Baixa" action button per row, "Pagar Todas" batch button, pagination in `frontend/src/features/multas/MultasPage.tsx`
-- [ ] T032 [US3] Add `/multas` route (bibliotecario only) and "Multas" Sidebar nav item with Lucide `Receipt` icon in `frontend/src/routes.tsx` and `frontend/src/components/layout/AppShell.tsx`
+- [x] T027 [P] [US3] Create MultaIndexRequest (status optional in enum, motivo optional in enum, id_usuario optional integer, q optional string, de/ate optional date) in `backend/app/Http/Requests/Multa/MultaIndexRequest.php`
+- [x] T028 [US3] Add index method (paginated list with filters via MultaService.listar) and show method (detail via MultaService.detalhar) to MultaController in `backend/app/Http/Controllers/MultaController.php`
+- [x] T029 [US3] Add `GET /multas` and `GET /multas/{id}` routes with middleware `cargo:bibliotecario` in `backend/routes/api.php`
+- [x] T030 [P] [US3] Add list and get functions to frontend multas API module in `frontend/src/api/multas.ts`
+- [x] T031 [US3] Create MultasPage with PageHeader, filter bar (SearchInput for usuario/livro, Select for status, Select for motivo, date inputs de/ate), DataTable (usuario, livro, motivo, valor with StatusBadge, status with StatusBadge, data, acoes), "Registrar Multa" modal, "Dar Baixa" action button per row, "Pagar Todas" batch button, pagination in `frontend/src/features/multas/MultasPage.tsx`
+- [x] T032 [US3] Add `/multas` route (bibliotecario only) and "Multas" Sidebar nav item with Lucide `Receipt` icon in `frontend/src/routes.tsx` and `frontend/src/components/layout/AppShell.tsx`
 
 **Checkpoint**: Full multas management page functional. Bibliotecario can register, pay, list, and filter fines.
 
@@ -128,11 +128,11 @@
 
 **Independent Test**: Register a fine for a leitor. Login as leitor → badge shows count in Topbar. Pay the fine as bibliotecario. Leitor refreshes → badge disappears.
 
-- [ ] T033 [P] [US4] Create MinhasMultasController with resumo method (call MultaService.resumoDoUsuario for authenticated user, return MultaResumoResource) in `backend/app/Http/Controllers/MinhasMultasController.php`
-- [ ] T034 [US4] Add `GET /minhas-multas/resumo` route with middleware `auth:api` (no cargo restriction) in `backend/routes/api.php`
-- [ ] T035 [P] [US4] Create minhas-multas API module with getResumo function in `frontend/src/api/minhas-multas.ts`
-- [ ] T036 [P] [US4] Create useMultasPendentes hook (calls getResumo on mount, exposes quantidade and valorTotal, refetch on navigation) in `frontend/src/hooks/useMultasPendentes.ts`
-- [ ] T037 [US4] Create NotificationBadge component (bell icon with count badge, click navigates to /minhas-multas, shows "Pagamento presencial com bibliotecario" tooltip) and integrate into Topbar in AppShell for leitor role in `frontend/src/components/layout/NotificationBadge.tsx` and `frontend/src/components/layout/AppShell.tsx`
+- [x] T033 [P] [US4] Create MinhasMultasController with resumo method (call MultaService.resumoDoUsuario for authenticated user, return MultaResumoResource) in `backend/app/Http/Controllers/MinhasMultasController.php`
+- [x] T034 [US4] Add `GET /minhas-multas/resumo` route with middleware `auth:api` (no cargo restriction) in `backend/routes/api.php`
+- [x] T035 [P] [US4] Create minhas-multas API module with getResumo function in `frontend/src/api/minhas-multas.ts`
+- [x] T036 [P] [US4] Create useMultasPendentes hook (calls getResumo on mount, exposes quantidade and valorTotal, refetch on navigation) in `frontend/src/hooks/useMultasPendentes.ts`
+- [x] T037 [US4] Create NotificationBadge component (bell icon with count badge, click navigates to /minhas-multas, shows "Pagamento presencial com bibliotecario" tooltip) and integrate into Topbar in AppShell for leitor role in `frontend/src/components/layout/NotificationBadge.tsx` and `frontend/src/components/layout/AppShell.tsx`
 
 **Checkpoint**: Leitor sees badge with pending fine count after login. Badge updates when fines are paid.
 

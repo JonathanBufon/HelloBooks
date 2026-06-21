@@ -12,6 +12,7 @@ import { EditorasPage } from './features/catalog-aux/EditorasPage';
 import { CategoriasPage } from './features/catalog-aux/CategoriasPage';
 import { UsuariosPage } from './features/usuarios/UsuariosPage';
 import { LogsPage } from './features/auditoria/LogsPage';
+import { MultasPage } from './features/multas/MultasPage';
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +37,11 @@ export const router = createBrowserRouter([
             path: 'usuarios',
             element: <ProtectedRoute allowedRoles={['bibliotecario']} />,
             children: [{ index: true, element: <UsuariosPage /> }],
+          },
+          {
+            path: 'multas',
+            element: <ProtectedRoute allowedRoles={['bibliotecario']} />,
+            children: [{ index: true, element: <MultasPage /> }],
           },
           {
             path: 'auditoria',
