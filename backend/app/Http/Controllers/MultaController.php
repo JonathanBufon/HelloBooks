@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Multa\MultaCreateRequest;
 use App\Http\Requests\Multa\MultaIndexRequest;
+use App\Http\Requests\Multa\MultaPerdoarRequest;
 use App\Http\Resources\MultaDetalheResource;
 use App\Http\Resources\MultaResource;
 use App\Services\MultaService;
@@ -69,5 +70,16 @@ class MultaController extends Controller
                 ->map(fn ($multa): array => (new MultaResource($multa))->resolve($request))
                 ->all(),
         );
+    }
+
+    public function perdoar(MultaPerdoarRequest $request, int $id): JsonResponse
+    {
+        $multa = $this->multas->perdoar(
+            $id,
+            $request->validated('justificativa'),
+            $request->user()->id_usuario,
+        );
+
+        return new JsonResponse((new MultaResource($multa))->resolve($request));
     }
 }

@@ -144,11 +144,11 @@
 
 **Independent Test**: Login as leitor with pending and paid fines. Navigate to /minhas-multas → see all own fines with details. Total pendente highlighted. No edit/pay buttons. Cannot see other users' fines.
 
-- [ ] T038 [US5] Add index method to MinhasMultasController (call MultaService.listarDoUsuario for authenticated user, paginated, return MinhasMultasResponse with data + pagination + resumo) in `backend/app/Http/Controllers/MinhasMultasController.php`
-- [ ] T039 [US5] Add `GET /minhas-multas` route with middleware `auth:api` (no cargo restriction, optional status filter) in `backend/routes/api.php`
-- [ ] T040 [P] [US5] Add list function to frontend minhas-multas API module in `frontend/src/api/minhas-multas.ts`
-- [ ] T041 [US5] Create MinhasMultasPage with PageHeader, MetricCard showing valor total pendente, DataTable (livro, motivo, valor, StatusBadge status, data de registro, data_baixa), "Pagamento presencial" info banner, pagination, read-only (no action buttons) in `frontend/src/features/minhas-multas/MinhasMultasPage.tsx`
-- [ ] T042 [US5] Add `/minhas-multas` route (leitor + bibliotecario) and "Minhas Multas" Sidebar nav item with Lucide `AlertCircle` icon for leitor role in `frontend/src/routes.tsx` and `frontend/src/components/layout/AppShell.tsx`
+- [x] T038 [US5] Add index method to MinhasMultasController (call MultaService.listarDoUsuario for authenticated user, paginated, return MinhasMultasResponse with data + pagination + resumo) in `backend/app/Http/Controllers/MinhasMultasController.php`
+- [x] T039 [US5] Add `GET /minhas-multas` route with middleware `auth:api` (no cargo restriction, optional status filter) in `backend/routes/api.php`
+- [x] T040 [P] [US5] Add list function to frontend minhas-multas API module in `frontend/src/api/minhas-multas.ts`
+- [x] T041 [US5] Create MinhasMultasPage with PageHeader, MetricCard showing valor total pendente, DataTable (livro, motivo, valor, StatusBadge status, data de registro, data_baixa), "Pagamento presencial" info banner, pagination, read-only (no action buttons) in `frontend/src/features/minhas-multas/MinhasMultasPage.tsx`
+- [x] T042 [US5] Add `/minhas-multas` route (leitor + bibliotecario) and "Minhas Multas" Sidebar nav item with Lucide `AlertCircle` icon for leitor role in `frontend/src/routes.tsx` and `frontend/src/components/layout/AppShell.tsx`
 
 **Checkpoint**: Leitor can see all own fines with total pending. Page is read-only. Bibliotecario cannot access this page (uses /multas instead).
 
@@ -160,11 +160,11 @@
 
 **Independent Test**: PUT /multas/{id}/perdoar with justificativa → 200 with status=perdoada. Without justificativa → 422. Already paid/forgiven → 409. Leitor notification updates.
 
-- [ ] T043 [P] [US6] Create MultaPerdoarRequest (justificativa required string min:1 max:1000) in `backend/app/Http/Requests/Multa/MultaPerdoarRequest.php`
-- [ ] T044 [US6] Add perdoar method to MultaController (call MultaService.perdoar, return MultaResource) in `backend/app/Http/Controllers/MultaController.php`
-- [ ] T045 [US6] Add `PUT /multas/{id}/perdoar` route with middleware `cargo:bibliotecario` in `backend/routes/api.php`
-- [ ] T046 [P] [US6] Add perdoar function to frontend multas API module in `frontend/src/api/multas.ts`
-- [ ] T047 [US6] Add perdoar modal with justificativa Textarea field (required) and confirmation button to MultasPage in `frontend/src/features/multas/MultasPage.tsx`
+- [x] T043 [P] [US6] Create MultaPerdoarRequest (justificativa required string min:1 max:1000) in `backend/app/Http/Requests/Multa/MultaPerdoarRequest.php`
+- [x] T044 [US6] Add perdoar method to MultaController (call MultaService.perdoar, return MultaResource) in `backend/app/Http/Controllers/MultaController.php`
+- [x] T045 [US6] Add `PUT /multas/{id}/perdoar` route with middleware `cargo:bibliotecario` in `backend/routes/api.php`
+- [x] T046 [P] [US6] Add perdoar function to frontend multas API module in `frontend/src/api/multas.ts`
+- [x] T047 [US6] Add perdoar modal with justificativa Textarea field (required) and confirmation button to MultasPage in `frontend/src/features/multas/MultasPage.tsx`
 
 **Checkpoint**: Bibliotecario can forgive fines with justification. Forgiven fines disappear from leitor notifications.
 

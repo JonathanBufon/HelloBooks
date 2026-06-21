@@ -22,6 +22,7 @@ Route::prefix('v1')
             Route::post('/auth/refresh', [AuthController::class, 'refresh']);
             Route::get('/auth/me', [AuthController::class, 'me']);
 
+            Route::get('/minhas-multas', [MinhasMultasController::class, 'index']);
             Route::get('/minhas-multas/resumo', [MinhasMultasController::class, 'resumo']);
         });
     });
@@ -70,4 +71,5 @@ Route::prefix('v1')
         Route::post('/multas', [MultaController::class, 'store']);
         Route::put('/multas/pagar-lote', [MultaController::class, 'pagarLote']);
         Route::put('/multas/{id}/pagar', [MultaController::class, 'pagar'])->whereNumber('id');
+        Route::put('/multas/{id}/perdoar', [MultaController::class, 'perdoar'])->whereNumber('id');
     });

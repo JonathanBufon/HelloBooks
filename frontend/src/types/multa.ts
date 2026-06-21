@@ -1,3 +1,5 @@
+import type { Pagination } from './api';
+
 export type MotivoMulta = 'atraso' | 'rabisco' | 'rasgo' | 'dobra';
 export type StatusMulta = 'pendente' | 'paga' | 'perdoada';
 
@@ -48,9 +50,6 @@ export interface MultaResumo {
 
 export interface MinhasMultasResponse {
   data: Multa[];
+  pagination: Pagination;
   resumo: MultaResumo;
-  current_page: number;
-  last_page: number;
-  per_page: number;
-  total: number;
 }

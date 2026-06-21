@@ -7,6 +7,7 @@ export interface TextareaProps {
   hint?: string;
   error?: string;
   rows?: number;
+  maxLength?: number;
   disabled?: boolean;
   required?: boolean;
   id?: string;

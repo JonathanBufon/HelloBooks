@@ -39,3 +39,8 @@ export async function pagarTodas(idUsuario: number): Promise<Multa[]> {
   });
   return response.data;
 }
+
+export async function perdoar(id: number, justificativa: string): Promise<Multa> {
+  const response = await apiClient.put<Multa>(`/multas/${id}/perdoar`, { justificativa });
+  return response.data;
+}

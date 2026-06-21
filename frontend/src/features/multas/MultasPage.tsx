@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Plus, DollarSign } from 'lucide-react';
+import { Plus, DollarSign, ShieldCheck } from 'lucide-react';
 import * as multasApi from '../../api/multas';
 import type { MultaListParams } from '../../api/multas';
 import { Button } from '../../components/ds/actions/Button';
@@ -9,6 +9,7 @@ import { DataTable, type DataColumn } from '../../components/ds/data/DataTable';
 import { Modal } from '../../components/ds/feedback/Modal';
 import { SearchInput } from '../../components/ds/forms/SearchInput';
 import { Select } from '../../components/ds/forms/Select';
+import { Textarea } from '../../components/ds/forms/Textarea';
 import { TextInput } from '../../components/ds/forms/TextInput';
 import { Card } from '../../components/ds/layout/Card';
 import { PageHeader } from '../../components/ds/layout/PageHeader';
@@ -68,6 +69,10 @@ export function MultasPage() {
 
   // Pay confirm
   const [paying, setPaying] = useState<Multa | null>(null);
+
+  // Forgive modal
+  const [forgiving, setForgiving] = useState<Multa | null>(null);
+  const [justificativa, setJustificativa] = useState('');
 
   const load = async () => {
     setIsLoading(true);
@@ -133,6 +138,19 @@ export function MultasPage() {
     }
   };
 
+  const handlePerdoar = async () => {
+    if (!forgiving || !justificativa.trim()) return;
+    try {
+      await multasApi.perdoar(forgiving.id_multa, justificativa.trim());
+      showSuccess('Multa perdoada.');
+      setForgiving(null);
+      setJustificativa('');
+      await load();
+    } catch (error) {
+      showError(getErrorMessage(error, 'Nao foi possivel perdoar a multa.'));
+    }
+  };
+
   const columns: DataColumn[] = [
     {
       key: 'usuario',
@@ -175,9 +193,19 @@ export function MultasPage() {
       render: (_value, row: Multa) => (
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
           {row.status === 'pendente' && (
-            <Button size="sm" variant="secondary" onClick={() => setPaying(row)}>
-              Dar Baixa
-            </Button>
+            <>
+              <Button size="sm" variant="secondary" onClick={() => setPaying(row)}>
+                Dar Baixa
+              </Button>
+              <Button
+                size="sm"
+                variant="ghost"
+                icon={<ShieldCheck size={16} />}
+                onClick={() => { setForgiving(row); setJustificativa(''); }}
+              >
+                Perdoar
+              </Button>
+            </>
           )}
         </div>
       ),
@@ -333,6 +361,39 @@ export function MultasPage() {
             {' '}({MOTIVO_LABELS[paying.motivo]}) de <strong>{paying.usuario?.nome_completo ?? 'usuario'}</strong>?
           </p>
         )}
+      </Modal>
+
+      {/* Forgive modal */}
+      <Modal
+        open={!!forgiving}
+        title="Perdoar Multa"
+        description="Informe a justificativa administrativa obrigatoria."
+        onClose={() => { setForgiving(null); setJustificativa(''); }}
+        width={520}
+        footer={
+          <>
+            <Button variant="ghost" onClick={() => { setForgiving(null); setJustificativa(''); }}>Cancelar</Button>
+            <Button onClick={handlePerdoar} disabled={!justificativa.trim()}>Confirmar Perdao</Button>
+          </>
+        }
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          {forgiving && (
+            <p style={{ margin: 0 }}>
+              Confirma perdoar a multa de <strong>R$ {parseFloat(forgiving.valor).toFixed(2)}</strong>
+              {' '}({MOTIVO_LABELS[forgiving.motivo]}) de <strong>{forgiving.usuario?.nome_completo ?? 'usuario'}</strong>?
+            </p>
+          )}
+          <Textarea
+            label="Justificativa"
+            value={justificativa}
+            required
+            rows={5}
+            maxLength={1000}
+            placeholder="Ex.: Isencao por primeiro incidente do leitor"
+            onChange={(e) => setJustificativa(e.target.value)}
+          />
+        </div>
       </Modal>
     </>
   );

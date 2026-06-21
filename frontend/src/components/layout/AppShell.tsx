@@ -16,6 +16,7 @@ import {
   UserCog,
   ClipboardList,
   Receipt,
+  AlertCircle,
   LogOut,
 } from 'lucide-react';
 
@@ -27,6 +28,7 @@ const NAV_ITEMS = [
   { path: '/categorias', label: 'Categorias', icon: Tag, roles: ['bibliotecario'] },
   { path: '/usuarios', label: 'Usuários', icon: UserCog, roles: ['bibliotecario'] },
   { path: '/multas', label: 'Multas', icon: Receipt, roles: ['bibliotecario'] },
+  { path: '/minhas-multas', label: 'Minhas Multas', icon: AlertCircle, roles: ['leitor'] },
   { path: '/auditoria', label: 'Auditoria', icon: ClipboardList, roles: ['bibliotecario'] },
 ] as const;
 
