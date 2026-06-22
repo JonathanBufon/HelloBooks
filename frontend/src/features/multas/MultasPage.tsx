@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Plus, DollarSign, ShieldCheck } from 'lucide-react';
+import { Plus, DollarSign, Bell } from 'lucide-react';
 import * as multasApi from '../../api/multas';
 import type { MultaListParams } from '../../api/multas';
+import * as usuariosApi from '../../api/usuarios';
 import { Button } from '../../components/ds/actions/Button';
 import { PaginationControls } from '../../components/common/PaginationControls';
 import { Badge } from '../../components/ds/data/Badge';
@@ -9,13 +10,13 @@ import { DataTable, type DataColumn } from '../../components/ds/data/DataTable';
 import { Modal } from '../../components/ds/feedback/Modal';
 import { SearchInput } from '../../components/ds/forms/SearchInput';
 import { Select } from '../../components/ds/forms/Select';
-import { Textarea } from '../../components/ds/forms/Textarea';
 import { TextInput } from '../../components/ds/forms/TextInput';
 import { Card } from '../../components/ds/layout/Card';
 import { PageHeader } from '../../components/ds/layout/PageHeader';
 import { useToast } from '../../hooks/useToast';
 import type { Pagination } from '../../types/api';
-import type { Multa, MultaCreate, MotivoMulta, StatusMulta } from '../../types/multa';
+import type { Usuario } from '../../types/auth';
+import type { ItemEmprestimoMulta, Multa, MultaCreate, MotivoMulta, StatusMulta } from '../../types/multa';
 import { formatDate, getErrorMessage } from '../../utils/format';
 
 const MOTIVO_LABELS: Record<MotivoMulta, string> = {
@@ -38,12 +39,14 @@ const STATUS_LABEL: Record<StatusMulta, string> = {
 };
 
 interface CreateFormState {
+  id_usuario: string;
   id_item_emprestimo: string;
   motivo: MotivoMulta | '';
   valor: string;
 }
 
 const emptyCreateForm: CreateFormState = {
+  id_usuario: '',
   id_item_emprestimo: '',
   motivo: '',
   valor: '',
@@ -58,21 +61,16 @@ export function MultasPage() {
   const [statusFilter, setStatusFilter] = useState('');
   const [motivoFilter, setMotivoFilter] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-
-  // Create modal
   const [createOpen, setCreateOpen] = useState(false);
   const [createForm, setCreateForm] = useState<CreateFormState>(emptyCreateForm);
-
-  // Batch pay modal
+  const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+  const [itensUsuario, setItensUsuario] = useState<ItemEmprestimoMulta[]>([]);
+  const [isLoadingUsuarios, setIsLoadingUsuarios] = useState(false);
+  const [isLoadingItens, setIsLoadingItens] = useState(false);
   const [batchPayOpen, setBatchPayOpen] = useState(false);
   const [batchPayUserId, setBatchPayUserId] = useState('');
-
-  // Pay confirm
   const [paying, setPaying] = useState<Multa | null>(null);
-
-  // Forgive modal
-  const [forgiving, setForgiving] = useState<Multa | null>(null);
-  const [justificativa, setJustificativa] = useState('');
+  const [notifying, setNotifying] = useState<Multa | null>(null);
 
   const load = async () => {
     setIsLoading(true);
@@ -95,6 +93,28 @@ export function MultasPage() {
     void load();
   }, [page, query, statusFilter, motivoFilter]);
 
+  useEffect(() => {
+    if (!createOpen) return;
+    setIsLoadingUsuarios(true);
+    usuariosApi.list({ per_page: 100 })
+      .then((response) => setUsuarios(response.data.filter((usuario) => usuario.cargo === 'leitor')))
+      .catch((error) => showError(getErrorMessage(error, 'Nao foi possivel carregar usuarios.')))
+      .finally(() => setIsLoadingUsuarios(false));
+  }, [createOpen, showError]);
+
+  useEffect(() => {
+    if (!createForm.id_usuario) {
+      setItensUsuario([]);
+      return;
+    }
+
+    setIsLoadingItens(true);
+    multasApi.listItensEmprestimoUsuario(parseInt(createForm.id_usuario, 10))
+      .then(setItensUsuario)
+      .catch((error) => showError(getErrorMessage(error, 'Nao foi possivel carregar emprestimos do usuario.')))
+      .finally(() => setIsLoadingItens(false));
+  }, [createForm.id_usuario, showError]);
+
   const handleCreate = async () => {
     if (!createForm.id_item_emprestimo || !createForm.motivo || !createForm.valor) return;
     try {
@@ -104,9 +124,10 @@ export function MultasPage() {
         valor: parseFloat(createForm.valor),
       };
       await multasApi.create(payload);
-      showSuccess('Multa registrada.');
+      showSuccess('Multa registrada. Use Notificar para avisar o leitor.');
       setCreateOpen(false);
       setCreateForm(emptyCreateForm);
+      setItensUsuario([]);
       await load();
     } catch (error) {
       showError(getErrorMessage(error, 'Nao foi possivel registrar multa.'));
@@ -138,54 +159,26 @@ export function MultasPage() {
     }
   };
 
-  const handlePerdoar = async () => {
-    if (!forgiving || !justificativa.trim()) return;
+  const handleNotificar = async () => {
+    if (!notifying) return;
     try {
-      await multasApi.perdoar(forgiving.id_multa, justificativa.trim());
-      showSuccess('Multa perdoada.');
-      setForgiving(null);
-      setJustificativa('');
+      await multasApi.notificar(notifying.id_multa);
+      showSuccess('Leitor notificado na aplicacao.');
+      setNotifying(null);
       await load();
     } catch (error) {
-      showError(getErrorMessage(error, 'Nao foi possivel perdoar a multa.'));
+      showError(getErrorMessage(error, 'Nao foi possivel notificar a multa.'));
     }
   };
 
   const columns: DataColumn[] = [
-    {
-      key: 'usuario',
-      label: 'Usuario',
-      render: (_value, row: Multa) => row.usuario?.nome_completo ?? '-',
-    },
-    {
-      key: 'livro',
-      label: 'Livro',
-      render: (_value, row: Multa) => row.livro?.titulo ?? '-',
-    },
-    {
-      key: 'motivo',
-      label: 'Motivo',
-      render: (value: MotivoMulta) => MOTIVO_LABELS[value] ?? value,
-    },
-    {
-      key: 'valor',
-      label: 'Valor',
-      render: (value: string) => (
-        <Badge tone="neutral">R$ {parseFloat(value).toFixed(2)}</Badge>
-      ),
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      render: (value: StatusMulta) => (
-        <Badge tone={STATUS_TONE[value]} dot>{STATUS_LABEL[value]}</Badge>
-      ),
-    },
-    {
-      key: 'created_at',
-      label: 'Data',
-      render: (value?: string) => formatDate(value),
-    },
+    { key: 'usuario', label: 'Usuario', render: (_value, row: Multa) => row.usuario?.nome_completo ?? '-' },
+    { key: 'livro', label: 'Livro', render: (_value, row: Multa) => row.livro?.titulo ?? '-' },
+    { key: 'motivo', label: 'Motivo', render: (value: MotivoMulta) => MOTIVO_LABELS[value] ?? value },
+    { key: 'valor', label: 'Valor', render: (value: string) => <Badge tone="neutral">R$ {parseFloat(value).toFixed(2)}</Badge> },
+    { key: 'status', label: 'Status', render: (value: StatusMulta) => <Badge tone={STATUS_TONE[value]} dot>{STATUS_LABEL[value]}</Badge> },
+    { key: 'notificado_em', label: 'Notificacao', render: (value?: string | null) => value ? formatDate(value) : '-' },
+    { key: 'created_at', label: 'Data', render: (value?: string) => formatDate(value) },
     {
       key: 'acoes',
       label: 'Acoes',
@@ -194,20 +187,52 @@ export function MultasPage() {
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
           {row.status === 'pendente' && (
             <>
-              <Button size="sm" variant="secondary" onClick={() => setPaying(row)}>
-                Dar Baixa
-              </Button>
-              <Button
-                size="sm"
-                variant="ghost"
-                icon={<ShieldCheck size={16} />}
-                onClick={() => { setForgiving(row); setJustificativa(''); }}
-              >
-                Perdoar
+              <Button size="sm" variant="secondary" onClick={() => setPaying(row)}>Dar Baixa</Button>
+              <Button size="sm" variant="ghost" icon={<Bell size={16} />} disabled={!!row.notificado_em} onClick={() => setNotifying(row)}>
+                {row.notificado_em ? 'Notificada' : 'Notificar'}
               </Button>
             </>
           )}
         </div>
+      ),
+    },
+  ];
+
+  const userColumns: DataColumn[] = [
+    { key: 'nome_completo', label: 'Usuario' },
+    { key: 'email', label: 'Email' },
+    {
+      key: 'acao',
+      label: 'Acao',
+      align: 'right',
+      render: (_value, row: Usuario) => (
+        <Button
+          size="sm"
+          variant={createForm.id_usuario === String(row.id_usuario) ? 'primary' : 'secondary'}
+          onClick={() => setCreateForm({ ...createForm, id_usuario: String(row.id_usuario), id_item_emprestimo: '' })}
+        >
+          {createForm.id_usuario === String(row.id_usuario) ? 'Selecionado' : 'Selecionar'}
+        </Button>
+      ),
+    },
+  ];
+
+  const itemColumns: DataColumn[] = [
+    { key: 'id_item_emprestimo', label: 'Item', render: (value) => `#${value}` },
+    { key: 'livro', label: 'Livro', render: (_value, row: ItemEmprestimoMulta) => row.livro?.titulo ?? '-' },
+    { key: 'emprestimo', label: 'Emprestimo', render: (_value, row: ItemEmprestimoMulta) => row.emprestimo ? `#${row.emprestimo.id_emprestimo} (${row.emprestimo.status})` : '-' },
+    {
+      key: 'acao',
+      label: 'Acao',
+      align: 'right',
+      render: (_value, row: ItemEmprestimoMulta) => (
+        <Button
+          size="sm"
+          variant={createForm.id_item_emprestimo === String(row.id_item_emprestimo) ? 'primary' : 'secondary'}
+          onClick={() => setCreateForm({ ...createForm, id_item_emprestimo: String(row.id_item_emprestimo) })}
+        >
+          {createForm.id_item_emprestimo === String(row.id_item_emprestimo) ? 'Selecionado' : 'Selecionar'}
+        </Button>
       ),
     },
   ];
@@ -217,36 +242,24 @@ export function MultasPage() {
       <PageHeader
         title="Multas"
         subtitle="Registre, consulte e de baixa em multas"
-        actions={
+        actions={(
           <div style={{ display: 'flex', gap: '8px' }}>
-            <Button variant="secondary" icon={<DollarSign size={18} />} onClick={() => setBatchPayOpen(true)}>
-              Pagar Todas
-            </Button>
-            <Button icon={<Plus size={18} />} onClick={() => { setCreateForm(emptyCreateForm); setCreateOpen(true); }}>
-              Registrar Multa
-            </Button>
+            <Button variant="secondary" icon={<DollarSign size={18} />} onClick={() => setBatchPayOpen(true)}>Pagar Todas</Button>
+            <Button icon={<Plus size={18} />} onClick={() => { setCreateForm(emptyCreateForm); setItensUsuario([]); setCreateOpen(true); }}>Registrar Multa</Button>
           </div>
-        }
+        )}
       />
 
       <Card style={{ marginBottom: 'var(--section-gap)' }}>
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
           <div style={{ flex: '1 1 240px' }}>
-            <SearchInput
-              value={query}
-              placeholder="Buscar por usuario ou livro"
-              onChange={(e) => { setPage(1); setQuery(e.target.value); }}
-            />
+            <SearchInput value={query} placeholder="Buscar por usuario ou livro" onChange={(e) => { setPage(1); setQuery(e.target.value); }} />
           </div>
           <div style={{ flex: '0 0 180px' }}>
             <Select
               label="Status"
               value={statusFilter}
-              options={[
-                { value: 'pendente', label: 'Pendente' },
-                { value: 'paga', label: 'Paga' },
-                { value: 'perdoada', label: 'Perdoada' },
-              ]}
+              options={[{ value: 'pendente', label: 'Pendente' }, { value: 'paga', label: 'Paga' }]}
               placeholder="Todos"
               onChange={(e) => { setPage(1); setStatusFilter(e.target.value); }}
             />
@@ -255,12 +268,7 @@ export function MultasPage() {
             <Select
               label="Motivo"
               value={motivoFilter}
-              options={[
-                { value: 'atraso', label: 'Atraso' },
-                { value: 'rabisco', label: 'Rabisco' },
-                { value: 'rasgo', label: 'Rasgo' },
-                { value: 'dobra', label: 'Dobra' },
-              ]}
+              options={[{ value: 'atraso', label: 'Atraso' }, { value: 'rabisco', label: 'Rabisco' }, { value: 'rasgo', label: 'Rasgo' }, { value: 'dobra', label: 'Dobra' }]}
               placeholder="Todos"
               onChange={(e) => { setPage(1); setMotivoFilter(e.target.value); }}
             />
@@ -268,132 +276,66 @@ export function MultasPage() {
         </div>
       </Card>
 
-      {isLoading ? (
-        <Card>Carregando multas...</Card>
-      ) : (
-        <DataTable columns={columns} rows={multas} rowKey="id_multa" />
-      )}
+      {isLoading ? <Card>Carregando multas...</Card> : <DataTable columns={columns} rows={multas} rowKey="id_multa" />}
       <PaginationControls pagination={pagination} page={page} onPageChange={setPage} />
 
-      {/* Register modal */}
-      <Modal
-        open={createOpen}
-        title="Registrar Multa"
-        onClose={() => setCreateOpen(false)}
-        width={480}
-        footer={
-          <>
-            <Button variant="ghost" onClick={() => setCreateOpen(false)}>Cancelar</Button>
-            <Button onClick={handleCreate}>Registrar</Button>
-          </>
-        }
-      >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-          <TextInput
-            label="ID Item Emprestimo"
-            type="number"
-            value={createForm.id_item_emprestimo}
-            required
-            onChange={(e) => setCreateForm({ ...createForm, id_item_emprestimo: e.target.value })}
-          />
+      <Modal open={createOpen} title="Registrar Multa" onClose={() => setCreateOpen(false)} width={860} footer={(
+        <>
+          <Button variant="ghost" onClick={() => setCreateOpen(false)}>Cancelar</Button>
+          <Button onClick={handleCreate} disabled={!createForm.id_item_emprestimo || !createForm.motivo || !createForm.valor}>Registrar</Button>
+        </>
+      )}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+          <div>
+            <strong>1. Selecione o usuario</strong>
+            <div style={{ marginTop: '10px' }}>
+              {isLoadingUsuarios ? <Card>Carregando usuarios...</Card> : <DataTable columns={userColumns} rows={usuarios} rowKey="id_usuario" emptyText="Nenhum leitor encontrado." />}
+            </div>
+          </div>
+          {createForm.id_usuario && (
+            <div>
+              <strong>2. Selecione o emprestimo</strong>
+              <div style={{ marginTop: '10px' }}>
+                {isLoadingItens ? <Card>Carregando emprestimos...</Card> : <DataTable columns={itemColumns} rows={itensUsuario} rowKey="id_item_emprestimo" emptyText="Este leitor nao possui emprestimos." />}
+              </div>
+            </div>
+          )}
           <Select
             label="Motivo"
             value={createForm.motivo}
             required
-            options={[
-              { value: 'atraso', label: 'Atraso' },
-              { value: 'rabisco', label: 'Rabisco' },
-              { value: 'rasgo', label: 'Rasgo' },
-              { value: 'dobra', label: 'Dobra' },
-            ]}
+            options={[{ value: 'atraso', label: 'Atraso' }, { value: 'rabisco', label: 'Rabisco' }, { value: 'rasgo', label: 'Rasgo' }, { value: 'dobra', label: 'Dobra' }]}
             onChange={(e) => setCreateForm({ ...createForm, motivo: e.target.value as MotivoMulta | '' })}
           />
-          <TextInput
-            label="Valor (R$)"
-            type="number"
-            value={createForm.valor}
-            placeholder="0.00"
-            required
-            onChange={(e) => setCreateForm({ ...createForm, valor: e.target.value })}
-          />
+          <TextInput label="Valor (R$)" type="number" value={createForm.valor} placeholder="0.00" required onChange={(e) => setCreateForm({ ...createForm, valor: e.target.value })} />
         </div>
       </Modal>
 
-      {/* Batch pay modal */}
-      <Modal
-        open={batchPayOpen}
-        title="Pagar Todas as Multas"
-        description="Pague todas as multas pendentes de um usuario."
-        onClose={() => setBatchPayOpen(false)}
-        width={420}
-        footer={
-          <>
-            <Button variant="ghost" onClick={() => setBatchPayOpen(false)}>Cancelar</Button>
-            <Button onClick={handleBatchPay}>Pagar Todas</Button>
-          </>
-        }
-      >
-        <TextInput
-          label="ID do Usuario"
-          type="number"
-          value={batchPayUserId}
-          required
-          onChange={(e) => setBatchPayUserId(e.target.value)}
-        />
+      <Modal open={batchPayOpen} title="Pagar Todas as Multas" description="Pague todas as multas pendentes de um usuario." onClose={() => setBatchPayOpen(false)} width={420} footer={(
+        <>
+          <Button variant="ghost" onClick={() => setBatchPayOpen(false)}>Cancelar</Button>
+          <Button onClick={handleBatchPay}>Pagar Todas</Button>
+        </>
+      )}>
+        <TextInput label="ID do Usuario" type="number" value={batchPayUserId} required onChange={(e) => setBatchPayUserId(e.target.value)} />
       </Modal>
 
-      {/* Pay confirm modal */}
-      <Modal
-        open={!!paying}
-        title="Dar Baixa em Multa"
-        onClose={() => setPaying(null)}
-        width={420}
-        footer={
-          <>
-            <Button variant="ghost" onClick={() => setPaying(null)}>Cancelar</Button>
-            <Button onClick={handlePagar}>Confirmar Pagamento</Button>
-          </>
-        }
-      >
-        {paying && (
-          <p>
-            Confirma dar baixa na multa de <strong>R$ {parseFloat(paying.valor).toFixed(2)}</strong>
-            {' '}({MOTIVO_LABELS[paying.motivo]}) de <strong>{paying.usuario?.nome_completo ?? 'usuario'}</strong>?
-          </p>
-        )}
+      <Modal open={!!paying} title="Dar Baixa em Multa" onClose={() => setPaying(null)} width={420} footer={(
+        <>
+          <Button variant="ghost" onClick={() => setPaying(null)}>Cancelar</Button>
+          <Button onClick={handlePagar}>Confirmar Pagamento</Button>
+        </>
+      )}>
+        {paying && <p>Confirma dar baixa na multa de <strong>R$ {parseFloat(paying.valor).toFixed(2)}</strong> ({MOTIVO_LABELS[paying.motivo]}) de <strong>{paying.usuario?.nome_completo ?? 'usuario'}</strong>?</p>}
       </Modal>
 
-      {/* Forgive modal */}
-      <Modal
-        open={!!forgiving}
-        title="Perdoar Multa"
-        description="Informe a justificativa administrativa obrigatoria."
-        onClose={() => { setForgiving(null); setJustificativa(''); }}
-        width={520}
-        footer={
-          <>
-            <Button variant="ghost" onClick={() => { setForgiving(null); setJustificativa(''); }}>Cancelar</Button>
-            <Button onClick={handlePerdoar} disabled={!justificativa.trim()}>Confirmar Perdao</Button>
-          </>
-        }
-      >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-          {forgiving && (
-            <p style={{ margin: 0 }}>
-              Confirma perdoar a multa de <strong>R$ {parseFloat(forgiving.valor).toFixed(2)}</strong>
-              {' '}({MOTIVO_LABELS[forgiving.motivo]}) de <strong>{forgiving.usuario?.nome_completo ?? 'usuario'}</strong>?
-            </p>
-          )}
-          <Textarea
-            label="Justificativa"
-            value={justificativa}
-            required
-            rows={5}
-            maxLength={1000}
-            placeholder="Ex.: Isencao por primeiro incidente do leitor"
-            onChange={(e) => setJustificativa(e.target.value)}
-          />
-        </div>
+      <Modal open={!!notifying} title="Notificar Leitor" description="A notificacao sera exibida somente dentro da aplicacao, no perfil do leitor." onClose={() => setNotifying(null)} width={460} footer={(
+        <>
+          <Button variant="ghost" onClick={() => setNotifying(null)}>Cancelar</Button>
+          <Button icon={<Bell size={18} />} onClick={handleNotificar}>Notificar</Button>
+        </>
+      )}>
+        {notifying && <p>Confirma notificar <strong>{notifying.usuario?.nome_completo ?? 'usuario'}</strong> sobre a multa de <strong>R$ {parseFloat(notifying.valor).toFixed(2)}</strong> ({MOTIVO_LABELS[notifying.motivo]})?</p>}
       </Modal>
     </>
   );

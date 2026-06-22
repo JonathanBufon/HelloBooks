@@ -16,6 +16,7 @@ import { MultasPage } from './features/multas/MultasPage';
 import { MinhasMultasPage } from './features/minhas-multas/MinhasMultasPage';
 import { MinhasSolicitacoesEmprestimoPage } from './features/solicitacoes/MinhasSolicitacoesEmprestimoPage';
 import { SolicitacoesEmprestimoPage } from './features/solicitacoes/SolicitacoesEmprestimoPage';
+import { PerfilPage } from './features/perfil/PerfilPage';
 
 export const router = createBrowserRouter([
   {
@@ -73,6 +74,7 @@ export const router = createBrowserRouter([
           },
           { path: 'minhas-multas', element: <MinhasMultasPage /> },
           { path: 'minhas-solicitacoes', element: <MinhasSolicitacoesEmprestimoPage /> },
+          { path: 'perfil', element: <PerfilPage /> },
           {
             path: 'auditoria',
             element: <ProtectedRoute allowedRoles={['bibliotecario']} />,

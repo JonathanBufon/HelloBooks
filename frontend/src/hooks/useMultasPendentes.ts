@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import * as minhasMultasApi from '../api/minhas-multas';
+import * as minhasNotificacoesApi from '../api/minhas-notificacoes';
 
 export function useMultasPendentes() {
   const [quantidade, setQuantidade] = useState(0);
@@ -9,7 +9,7 @@ export function useMultasPendentes() {
 
   const fetch = useCallback(async () => {
     try {
-      const resumo = await minhasMultasApi.getResumo();
+      const resumo = await minhasNotificacoesApi.getResumo();
       setQuantidade(resumo.quantidade_pendente);
       setValorTotal(resumo.valor_total_pendente);
     } catch {

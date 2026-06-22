@@ -23,7 +23,10 @@ class Multa extends Model
         'status',
         'justificativa_perdao',
         'id_bibliotecario_baixa',
+        'id_bibliotecario_notificacao',
         'data_baixa',
+        'notificado_em',
+        'notificacao_lida_em',
     ];
 
     /**
@@ -43,6 +46,14 @@ class Multa extends Model
     }
 
     /**
+     * @return BelongsTo<Usuario, Multa>
+     */
+    public function bibliotecarioNotificacao(): BelongsTo
+    {
+        return $this->belongsTo(Usuario::class, 'id_bibliotecario_notificacao', 'id_usuario');
+    }
+
+    /**
      * @return array<string, string>
      */
     protected function casts(): array
@@ -52,6 +63,8 @@ class Multa extends Model
             'status' => StatusMulta::class,
             'valor' => 'decimal:2',
             'data_baixa' => 'datetime',
+            'notificado_em' => 'datetime',
+            'notificacao_lida_em' => 'datetime',
         ];
     }
 }

@@ -48,4 +48,5 @@ export interface AuthState {
 export interface AuthContextValue extends AuthState {
   login: (email: string, senha: string, lembrar: boolean) => Promise<void>;
   logout: () => Promise<void>;
+  updateUsuario?: (usuario: Usuario) => void;
 }

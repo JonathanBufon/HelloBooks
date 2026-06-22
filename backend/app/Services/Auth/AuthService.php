@@ -4,6 +4,8 @@ namespace App\Services\Auth;
 
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class AuthService
 {
@@ -48,6 +50,32 @@ class AuthService
     public function me(): Usuario
     {
         return Auth::guard('api')->user();
+    }
+
+    /**
+     * @param  array<string, mixed>  $dados
+     */
+    public function atualizarPerfil(array $dados): Usuario
+    {
+        $usuario = $this->me();
+
+        if (array_key_exists('nome_completo', $dados)) {
+            $usuario->nome_completo = $dados['nome_completo'];
+        }
+
+        if (array_key_exists('nova_senha', $dados)) {
+            if (! Hash::check($dados['senha_atual'] ?? '', $usuario->senha_hash)) {
+                throw ValidationException::withMessages([
+                    'senha_atual' => ['Senha atual incorreta.'],
+                ]);
+            }
+
+            $usuario->senha_hash = $dados['nova_senha'];
+        }
+
+        $usuario->save();
+
+        return $usuario->refresh();
     }
 
     public function expiresIn(): int

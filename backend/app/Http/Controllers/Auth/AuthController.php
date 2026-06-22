@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\ProfileUpdateRequest;
 use App\Http\Resources\UsuarioResource;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\JsonResponse;
@@ -46,6 +47,11 @@ class AuthController extends Controller
     public function me(Request $request): JsonResponse
     {
         return new JsonResponse((new UsuarioResource($this->auth->me()))->resolve($request));
+    }
+
+    public function updateProfile(ProfileUpdateRequest $request): JsonResponse
+    {
+        return new JsonResponse((new UsuarioResource($this->auth->atualizarPerfil($request->validated())))->resolve($request));
     }
 
     private function tokenResponse(Request $request, string $token, mixed $usuario): JsonResponse

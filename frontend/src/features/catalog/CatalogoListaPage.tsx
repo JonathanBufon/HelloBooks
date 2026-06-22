@@ -7,6 +7,7 @@ import { Button } from '../../components/ds/actions/Button';
 import { IconButton } from '../../components/ds/actions/IconButton';
 import { PaginationControls } from '../../components/common/PaginationControls';
 import { DataTable, type DataColumn } from '../../components/ds/data/DataTable';
+import { StatusBadge } from '../../components/ds/data/StatusBadge';
 import { Select } from '../../components/ds/forms/Select';
 import { SearchInput } from '../../components/ds/forms/SearchInput';
 import { BookCover } from '../../components/ds/library/BookCover';
@@ -16,7 +17,7 @@ import { PageHeader } from '../../components/ds/layout/PageHeader';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
 import type { Categoria, Livro, PaginatedResponse } from '../../types/api';
-import { getErrorMessage, joinNames } from '../../utils/format';
+import { getErrorMessage, joinNames, STATUS_LABELS } from '../../utils/format';
 
 type ViewMode = 'grid' | 'table';
 
@@ -47,6 +48,11 @@ const columns: DataColumn[] = [
     key: 'editora',
     label: 'Editora',
     render: (_value, row: Livro) => row.editora?.nome ?? '-',
+  },
+  {
+    key: 'status_disponibilidade',
+    label: 'Status',
+    render: (_value, row: Livro) => <StatusBadge status={STATUS_LABELS[statusDisponibilidade(row)]} />,
   },
 ];
 
@@ -97,8 +103,9 @@ export function CatalogoListaPage() {
   }, [showError]);
 
   const livros = (response?.data ?? []).filter((livro) => {
-    if (!categoriaId) return true;
-    return livro.categorias?.some((categoria) => String(categoria.id_categoria) === categoriaId) ?? false;
+    const matchesCategoria = !categoriaId || (livro.categorias?.some((categoria) => String(categoria.id_categoria) === categoriaId) ?? false);
+    const matchesStatus = !status || statusDisponibilidade(livro) === status;
+    return matchesCategoria && matchesStatus;
   });
   const isBibliotecario = usuario?.cargo === 'bibliotecario';
 
@@ -128,7 +135,10 @@ export function CatalogoListaPage() {
             label="Status"
             value={status}
             placeholder="Todos"
-            options={['Disponivel', 'Emprestado', 'Reservado', 'Manutencao']}
+            options={[
+              { value: 'disponivel', label: 'Disponivel' },
+              { value: 'indisponivel', label: 'Indisponivel' },
+            ]}
             onChange={(event) => setStatus(event.target.value)}
           />
           <div style={{ display: 'flex', gap: '8px', height: 48, alignItems: 'center' }}>
@@ -140,11 +150,6 @@ export function CatalogoListaPage() {
             </IconButton>
           </div>
         </div>
-        {status && (
-          <p style={{ margin: '12px 0 0', color: 'var(--color-text-soft)', fontSize: 'var(--text-xs)' }}>
-            O contrato atual de listagem nao retorna status agregado por livro; o filtro sera aplicado quando esse dado existir na API.
-          </p>
-        )}
       </Card>
 
       {isLoading ? (
@@ -164,8 +169,8 @@ export function CatalogoListaPage() {
                 title: livro.titulo,
                 author: joinNames(livro.autores),
                 category: livro.categorias?.[0]?.nome ?? '-',
-                status: 'Disponivel',
-              }}
+                status: STATUS_LABELS[statusDisponibilidade(livro)],
+                }}
               onAction={() => navigate(`/catalogo/${livro.id_livro}`)}
             />
           ))}
@@ -183,4 +188,9 @@ export function CatalogoListaPage() {
       <PaginationControls pagination={response?.pagination} page={page} onPageChange={setPage} />
     </>
   );
+}
+
+function statusDisponibilidade(livro: Livro): 'disponivel' | 'indisponivel' {
+  if (livro.status_disponibilidade) return livro.status_disponibilidade;
+  return (livro.contagem_exemplares?.disponivel ?? 0) > 0 ? 'disponivel' : 'indisponivel';
 }

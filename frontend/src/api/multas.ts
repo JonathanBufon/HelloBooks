@@ -1,6 +1,6 @@
 import apiClient from './client';
 import type { PaginatedResponse } from '../types/api';
-import type { Multa, MultaCreate, MultaDetalhe } from '../types/multa';
+import type { ItemEmprestimoMulta, Multa, MultaCreate, MultaDetalhe } from '../types/multa';
 
 export interface MultaListParams {
   page?: number;
@@ -40,7 +40,12 @@ export async function pagarTodas(idUsuario: number): Promise<Multa[]> {
   return response.data;
 }
 
-export async function perdoar(id: number, justificativa: string): Promise<Multa> {
-  const response = await apiClient.put<Multa>(`/multas/${id}/perdoar`, { justificativa });
+export async function notificar(id: number): Promise<Multa> {
+  const response = await apiClient.put<Multa>(`/multas/${id}/notificar`);
+  return response.data;
+}
+
+export async function listItensEmprestimoUsuario(idUsuario: number): Promise<ItemEmprestimoMulta[]> {
+  const response = await apiClient.get<ItemEmprestimoMulta[]>(`/multas/usuarios/${idUsuario}/itens-emprestimo`);
   return response.data;
 }

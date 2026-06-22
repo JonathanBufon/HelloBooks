@@ -19,3 +19,15 @@ export async function me(): Promise<Usuario> {
   const response = await apiClient.get<Usuario>('/auth/me');
   return response.data;
 }
+
+export interface ProfileUpdatePayload {
+  nome_completo?: string;
+  senha_atual?: string;
+  nova_senha?: string;
+  nova_senha_confirmation?: string;
+}
+
+export async function updateProfile(payload: ProfileUpdatePayload): Promise<Usuario> {
+  const response = await apiClient.put<Usuario>('/auth/profile', payload);
+  return response.data;
+}

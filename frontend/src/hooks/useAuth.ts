@@ -71,6 +71,12 @@ export function useAuthProvider(): AuthContextValue {
     setUsuario(null);
   }, []);
 
+  const updateUsuario = useCallback((novoUsuario: Usuario) => {
+    const storage = localStorage.getItem('token') ? localStorage : sessionStorage;
+    storage.setItem('usuario', JSON.stringify(novoUsuario));
+    setUsuario(novoUsuario);
+  }, []);
+
   return useMemo(() => ({
     usuario,
     token,
@@ -78,7 +84,8 @@ export function useAuthProvider(): AuthContextValue {
     isLoading,
     login,
     logout,
-  }), [usuario, token, isAuthenticated, isLoading, login, logout]);
+    updateUsuario,
+  }), [usuario, token, isAuthenticated, isLoading, login, logout, updateUsuario]);
 }
 
 export function useAuth(): AuthContextValue {

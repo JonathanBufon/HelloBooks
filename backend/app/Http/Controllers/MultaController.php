@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Multa\MultaCreateRequest;
 use App\Http\Requests\Multa\MultaIndexRequest;
-use App\Http\Requests\Multa\MultaPerdoarRequest;
+use App\Http\Resources\ItemEmprestimoResource;
 use App\Http\Resources\MultaDetalheResource;
 use App\Http\Resources\MultaResource;
 use App\Services\MultaService;
@@ -72,14 +72,17 @@ class MultaController extends Controller
         );
     }
 
-    public function perdoar(MultaPerdoarRequest $request, int $id): JsonResponse
+    public function notificar(Request $request, int $id): JsonResponse
     {
-        $multa = $this->multas->perdoar(
-            $id,
-            $request->validated('justificativa'),
-            $request->user()->id_usuario,
-        );
+        $multa = $this->multas->notificar($id, $request->user()->id_usuario);
 
         return new JsonResponse((new MultaResource($multa))->resolve($request));
+    }
+
+    public function itensPorUsuario(Request $request, int $idUsuario): JsonResponse
+    {
+        return new JsonResponse(
+            ItemEmprestimoResource::collection($this->multas->listarItensDoUsuario($idUsuario))->resolve($request),
+        );
     }
 }

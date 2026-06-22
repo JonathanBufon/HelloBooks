@@ -22,9 +22,21 @@ interface MultaRepositoryInterface
     public function buscarPendentesDoUsuario(int $idUsuario): \Illuminate\Database\Eloquent\Collection;
 
     /**
+     * @return \Illuminate\Database\Eloquent\Collection<int, Multa>
+     */
+    public function buscarNotificacoesNaoLidasDoUsuario(int $idUsuario): \Illuminate\Database\Eloquent\Collection;
+
+    /**
      * @return array{quantidade_pendente: int, valor_total_pendente: string}
      */
     public function resumoPendentesDoUsuario(int $idUsuario): array;
+
+    /**
+     * @return array{quantidade_pendente: int, valor_total_pendente: string}
+     */
+    public function resumoNotificacoesNaoLidasDoUsuario(int $idUsuario): array;
+
+    public function marcarNotificacoesComoLidas(int $idUsuario): void;
 
     /**
      * @param  array<string, mixed>  $dados

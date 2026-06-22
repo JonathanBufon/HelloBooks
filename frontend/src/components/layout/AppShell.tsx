@@ -92,6 +92,7 @@ export function AppShell() {
           searchValue={searchValue}
           onSearchChange={handleSearch}
           onSearchSubmit={handleSearchSubmit}
+          onUserClick={() => navigate('/perfil')}
           actions={cargo === 'leitor' ? <NotificationBadge /> : undefined}
         />
 

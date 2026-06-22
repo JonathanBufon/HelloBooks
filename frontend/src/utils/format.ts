@@ -16,6 +16,7 @@ const dateTimeFormatter = new Intl.DateTimeFormat('pt-BR', {
 
 export const STATUS_LABELS = {
   disponivel: 'Disponivel',
+  indisponivel: 'Indisponivel',
   emprestado: 'Emprestado',
   reservado: 'Reservado',
   manutencao: 'Manutencao',

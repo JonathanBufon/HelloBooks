@@ -25,6 +25,8 @@ class MultaResource extends JsonResource
             'valor' => $this->valor,
             'status' => $this->status instanceof BackedEnum ? $this->status->value : $this->status,
             'data_baixa' => $this->data_baixa?->toISOString(),
+            'notificado_em' => $this->notificado_em?->toISOString(),
+            'notificacao_lida_em' => $this->notificacao_lida_em?->toISOString(),
             'created_at' => $this->created_at?->toISOString(),
             'updated_at' => $this->updated_at?->toISOString(),
             'usuario' => $usuario ? [

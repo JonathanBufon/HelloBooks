@@ -42,6 +42,17 @@ class LivroController extends Controller
         return new JsonResponse((new LivroDetalheResource($livro))->resolve($request));
     }
 
+    public function disponibilidade(Request $request, int $id): JsonResponse
+    {
+        $dados = $request->validate([
+            'status_disponibilidade' => ['required', 'string', 'in:disponivel,indisponivel'],
+        ]);
+
+        $livro = $this->livros->definirDisponibilidade($id, $dados['status_disponibilidade'] === 'disponivel');
+
+        return new JsonResponse((new LivroDetalheResource($livro))->resolve($request));
+    }
+
     public function destroy(int $id): JsonResponse
     {
         $this->livros->remover($id);

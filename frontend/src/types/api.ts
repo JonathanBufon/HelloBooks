@@ -23,6 +23,15 @@ export interface Livro {
   titulo: string;
   isbn: string;
   ano_publicacao: number;
+  status_disponibilidade?: 'disponivel' | 'indisponivel';
+  contagem_exemplares?: {
+    disponivel: number;
+    emprestado: number;
+    reservado: number;
+    manutencao: number;
+  };
+  possui_movimentacoes?: boolean;
+  pode_excluir?: boolean;
   id_editora: number;
   editora?: Editora;
   autores?: Autor[];
@@ -33,12 +42,6 @@ export interface Livro {
 
 export interface LivroDetalhe extends Livro {
   exemplares: Exemplar[];
-  contagem_exemplares: {
-    disponivel: number;
-    emprestado: number;
-    reservado: number;
-    manutencao: number;
-  };
 }
 
 export interface LivroCreate {

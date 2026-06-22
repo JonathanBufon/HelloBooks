@@ -9,6 +9,8 @@ export interface Multa {
   valor: string;
   status: StatusMulta;
   data_baixa: string | null;
+  notificado_em?: string | null;
+  notificacao_lida_em?: string | null;
   created_at: string;
   updated_at: string;
   usuario: {
@@ -36,11 +38,34 @@ export interface MultaDetalhe extends Multa {
     id_usuario: number;
     nome_completo: string;
   } | null;
+  bibliotecario_notificacao: {
+    id_usuario: number;
+    nome_completo: string;
+  } | null;
   item_emprestimo: {
     id_item_emprestimo: number;
     id_emprestimo: number;
     data_devolucao_item: string | null;
   };
+}
+
+export interface ItemEmprestimoMulta {
+  id_item_emprestimo: number;
+  id_emprestimo: number;
+  data_devolucao_item: string | null;
+  emprestimo: {
+    id_emprestimo: number;
+    data_retirada: string;
+    data_devolucao_prevista: string;
+    status: string;
+  } | null;
+  livro: {
+    id_livro: number;
+    titulo: string;
+  } | null;
+  exemplar: {
+    id_exemplar: number;
+  } | null;
 }
 
 export interface MultaResumo {

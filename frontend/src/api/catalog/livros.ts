@@ -27,6 +27,13 @@ export async function update(id: number, payload: LivroUpdate): Promise<Livro> {
   return response.data;
 }
 
+export async function updateDisponibilidade(id: number, status: Livro['status_disponibilidade']): Promise<LivroDetalhe> {
+  const response = await apiClient.put<LivroDetalhe>(`/livros/${id}/disponibilidade`, {
+    status_disponibilidade: status,
+  });
+  return response.data;
+}
+
 export async function remove(id: number): Promise<void> {
   await apiClient.delete(`/livros/${id}`);
 }

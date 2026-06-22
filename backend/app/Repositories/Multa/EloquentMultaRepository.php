@@ -23,6 +23,7 @@ class EloquentMultaRepository implements MultaRepositoryInterface
             ->when(isset($filtros['status']), fn ($q) => $q->where('multas.status', $filtros['status']))
             ->when(isset($filtros['motivo']), fn ($q) => $q->where('multas.motivo', $filtros['motivo']))
             ->when(isset($filtros['id_usuario']), fn ($q) => $q->whereHas('itemEmprestimo.emprestimo', fn ($sub) => $sub->where('id_usuario', $filtros['id_usuario'])))
+            ->when(($filtros['apenas_notificadas'] ?? false) === true, fn ($q) => $q->whereNotNull('multas.notificado_em'))
             ->when($busca !== '', fn ($q) => $q->whereHas('itemEmprestimo.emprestimo.usuario', fn ($sub) => $sub->where('nome_completo', $operador, "%{$busca}%")->orWhere('email', $operador, "%{$busca}%"))
             )
             ->when(isset($filtros['de']), fn ($q) => $q->where('multas.created_at', '>=', $filtros['de']))
@@ -34,7 +35,7 @@ class EloquentMultaRepository implements MultaRepositoryInterface
     public function acharPorId(int $id): ?Multa
     {
         return Multa::query()
-            ->with(['itemEmprestimo.emprestimo.usuario', 'itemEmprestimo.exemplar.livro', 'bibliotecarioBaixa'])
+            ->with(['itemEmprestimo.emprestimo.usuario', 'itemEmprestimo.exemplar.livro', 'bibliotecarioBaixa', 'bibliotecarioNotificacao'])
             ->find($id);
     }
 
@@ -57,6 +58,50 @@ class EloquentMultaRepository implements MultaRepositoryInterface
             ->whereHas('itemEmprestimo.emprestimo', fn ($q) => $q->where('id_usuario', $idUsuario))
             ->orderByDesc('multas.id_multa')
             ->get();
+    }
+
+    /**
+     * @return Collection<int, Multa>
+     */
+    public function buscarNotificacoesNaoLidasDoUsuario(int $idUsuario): Collection
+    {
+        return Multa::query()
+            ->with(['itemEmprestimo.emprestimo.usuario', 'itemEmprestimo.exemplar.livro'])
+            ->where('multas.status', 'pendente')
+            ->whereNotNull('multas.notificado_em')
+            ->whereNull('multas.notificacao_lida_em')
+            ->whereHas('itemEmprestimo.emprestimo', fn ($q) => $q->where('id_usuario', $idUsuario))
+            ->orderByDesc('multas.notificado_em')
+            ->get();
+    }
+
+    /**
+     * @return array{quantidade_pendente: int, valor_total_pendente: string}
+     */
+    public function resumoNotificacoesNaoLidasDoUsuario(int $idUsuario): array
+    {
+        $resultado = Multa::query()
+            ->where('multas.status', 'pendente')
+            ->whereNotNull('multas.notificado_em')
+            ->whereNull('multas.notificacao_lida_em')
+            ->whereHas('itemEmprestimo.emprestimo', fn ($q) => $q->where('id_usuario', $idUsuario))
+            ->selectRaw('COUNT(*) as quantidade_pendente, COALESCE(SUM(valor), 0) as valor_total_pendente')
+            ->first();
+
+        return [
+            'quantidade_pendente' => (int) $resultado->quantidade_pendente,
+            'valor_total_pendente' => number_format((float) $resultado->valor_total_pendente, 2, '.', ''),
+        ];
+    }
+
+    public function marcarNotificacoesComoLidas(int $idUsuario): void
+    {
+        Multa::query()
+            ->where('multas.status', 'pendente')
+            ->whereNotNull('multas.notificado_em')
+            ->whereNull('multas.notificacao_lida_em')
+            ->whereHas('itemEmprestimo.emprestimo', fn ($q) => $q->where('id_usuario', $idUsuario))
+            ->update(['notificacao_lida_em' => now()]);
     }
 
     /**

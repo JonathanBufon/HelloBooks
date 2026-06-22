@@ -6,9 +6,11 @@ use App\Domain\Exceptions\MultaDuplicadaException;
 use App\Domain\Multa\StatusMulta;
 use App\Domain\Multa\StatusMultaTransition;
 use App\Models\Multa;
+use App\Models\ItemEmprestimo;
 use App\Repositories\Emprestimo\ItemEmprestimoRepositoryInterface;
 use App\Repositories\Multa\MultaRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class MultaService
@@ -75,20 +77,26 @@ class MultaService
         });
     }
 
-    public function perdoar(int $id, string $justificativa, int $idBibliotecario): Multa
+    public function notificar(int $id, int $idBibliotecario): Multa
     {
-        return DB::transaction(function () use ($id, $justificativa, $idBibliotecario): Multa {
+        return DB::transaction(function () use ($id, $idBibliotecario): Multa {
             $multa = $this->detalhar($id);
 
-            StatusMultaTransition::validar($multa->status, StatusMulta::Perdoada);
+            abort_if($multa->status !== StatusMulta::Pendente, 422, 'Somente multas pendentes podem ser notificadas.');
 
             return $this->multas->atualizar($multa, [
-                'status' => StatusMulta::Perdoada,
-                'justificativa_perdao' => $justificativa,
-                'id_bibliotecario_baixa' => $idBibliotecario,
-                'data_baixa' => now(),
+                'notificado_em' => now(),
+                'id_bibliotecario_notificacao' => $idBibliotecario,
             ]);
         });
+    }
+
+    /**
+     * @return Collection<int, ItemEmprestimo>
+     */
+    public function listarItensDoUsuario(int $idUsuario): Collection
+    {
+        return $this->itensEmprestimo->listarPorUsuario($idUsuario);
     }
 
     /**
@@ -113,6 +121,7 @@ class MultaService
     public function listarDoUsuario(int $idUsuario, array $filtros = []): LengthAwarePaginator
     {
         $filtros['id_usuario'] = $idUsuario;
+        $filtros['apenas_notificadas'] = true;
 
         return $this->multas->listarPaginado($filtros);
     }
@@ -123,6 +132,27 @@ class MultaService
     public function resumoDoUsuario(int $idUsuario): array
     {
         return $this->multas->resumoPendentesDoUsuario($idUsuario);
+    }
+
+    /**
+     * @return Collection<int, Multa>
+     */
+    public function listarNotificacoesNaoLidas(int $idUsuario): Collection
+    {
+        return $this->multas->buscarNotificacoesNaoLidasDoUsuario($idUsuario);
+    }
+
+    /**
+     * @return array{quantidade_pendente: int, valor_total_pendente: string}
+     */
+    public function resumoNotificacoesNaoLidas(int $idUsuario): array
+    {
+        return $this->multas->resumoNotificacoesNaoLidasDoUsuario($idUsuario);
+    }
+
+    public function marcarNotificacoesComoLidas(int $idUsuario): void
+    {
+        $this->multas->marcarNotificacoesComoLidas($idUsuario);
     }
 
     public function temMultasPendentes(int $idUsuario): bool

@@ -104,7 +104,7 @@ export function MinhasMultasPage() {
     <>
       <PageHeader
         title="Minhas Multas"
-        subtitle="Consulte suas multas pendentes, pagas e perdoadas"
+        subtitle="Consulte as multas notificadas pelo bibliotecario"
       />
 
       <div style={{ display: 'grid', gridTemplateColumns: 'minmax(260px, 360px) 1fr', gap: '16px', marginBottom: 'var(--section-gap)' }}>
@@ -141,8 +141,7 @@ export function MinhasMultasPage() {
             options={[
               { value: 'pendente', label: 'Pendente' },
               { value: 'paga', label: 'Paga' },
-              { value: 'perdoada', label: 'Perdoada' },
-            ]}
+              ]}
             placeholder="Todos"
             onChange={(e) => { setPage(1); setStatusFilter(e.target.value); }}
           />

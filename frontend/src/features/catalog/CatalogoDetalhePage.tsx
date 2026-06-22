@@ -140,6 +140,8 @@ export function CatalogoDetalhePage() {
 
   if (isLoading) return <Card>Carregando livro...</Card>;
   if (!livro) return <Card>Livro nao encontrado.</Card>;
+  const disponiveis = livro.contagem_exemplares?.disponivel ?? 0;
+  const statusDisponibilidade = livro.status_disponibilidade ?? (disponiveis > 0 ? 'disponivel' : 'indisponivel');
 
   return (
     <>
@@ -159,10 +161,10 @@ export function CatalogoDetalhePage() {
         ) : (
           <Button
             icon={<BookOpenIcon />}
-            disabled={requestingLoan || livro.contagem_exemplares.disponivel < 1}
+            disabled={requestingLoan || disponiveis < 1}
             onClick={requestLoan}
           >
-            {livro.contagem_exemplares.disponivel < 1 ? 'Indisponivel' : 'Solicitar Emprestimo'}
+            {disponiveis < 1 ? 'Indisponivel' : 'Solicitar Emprestimo'}
           </Button>
         )}
       />
@@ -174,6 +176,7 @@ export function CatalogoDetalhePage() {
         <Card>
           <CardHeader title="Metadados" />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '18px' }}>
+            <Info label="Status" value={STATUS_LABELS[statusDisponibilidade]} />
             <Info label="ISBN" value={livro.isbn} />
             <Info label="Ano" value={String(livro.ano_publicacao)} />
             <Info label="Editora" value={livro.editora?.nome ?? '-'} />
@@ -190,10 +193,10 @@ export function CatalogoDetalhePage() {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: '18px', marginBottom: 'var(--section-gap)' }}>
-        <MetricCard label="Disponiveis" value={livro.contagem_exemplares.disponivel} tone="success" />
-        <MetricCard label="Emprestados" value={livro.contagem_exemplares.emprestado} tone="info" />
-        <MetricCard label="Reservados" value={livro.contagem_exemplares.reservado} tone="primary" />
-        <MetricCard label="Manutencao" value={livro.contagem_exemplares.manutencao} tone="warning" />
+        <MetricCard label="Disponiveis" value={livro.contagem_exemplares?.disponivel ?? 0} tone="success" />
+        <MetricCard label="Emprestados" value={livro.contagem_exemplares?.emprestado ?? 0} tone="info" />
+        <MetricCard label="Reservados" value={livro.contagem_exemplares?.reservado ?? 0} tone="primary" />
+        <MetricCard label="Manutencao" value={livro.contagem_exemplares?.manutencao ?? 0} tone="warning" />
       </div>
 
       <Card>
