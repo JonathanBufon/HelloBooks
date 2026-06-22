@@ -30,13 +30,13 @@ docker compose exec backend php artisan jwt:secret
 
 ## Smoke test
 
-Os comandos abaixo assumem que a API esta disponivel em `http://localhost:8015` e que
+Os comandos abaixo assumem que a API esta disponivel em `http://localhost:28157` e que
 `jq` esta instalado.
 
 ### 1. Login
 
 ```bash
-LOGIN_RESPONSE=$(curl -s -X POST http://localhost:8015/api/v1/auth/login \
+LOGIN_RESPONSE=$(curl -s -X POST http://localhost:28157/api/v1/auth/login \
   -H 'Content-Type: application/json' \
   -d '{"email":"biblio@hello.local","senha":"secret123"}')
 
@@ -62,7 +62,7 @@ Resposta esperada:
 ### 2. Me (com token)
 
 ```bash
-curl -s http://localhost:8015/api/v1/auth/me \
+curl -s http://localhost:28157/api/v1/auth/me \
   -H "Authorization: Bearer $TOKEN" | jq .
 ```
 
@@ -71,7 +71,7 @@ Resposta esperada: objeto do usuario autenticado, sem `senha` ou `senha_hash`.
 ### 3. Dashboard stats
 
 ```bash
-curl -s http://localhost:8015/api/v1/dashboard/stats \
+curl -s http://localhost:28157/api/v1/dashboard/stats \
   -H "Authorization: Bearer $TOKEN" | jq .
 ```
 
@@ -81,7 +81,7 @@ Resposta esperada: objeto com contagens, `exemplares_por_status`, `livros_recent
 ### 4. Listar usuarios
 
 ```bash
-curl -s 'http://localhost:8015/api/v1/usuarios?per_page=10' \
+curl -s 'http://localhost:28157/api/v1/usuarios?per_page=10' \
   -H "Authorization: Bearer $TOKEN" | jq .
 ```
 
@@ -90,7 +90,7 @@ Resposta esperada: `{ "data": [...], "pagination": {...} }`, sem `senha_hash`.
 ### 5. Listar logs
 
 ```bash
-curl -s 'http://localhost:8015/api/v1/logs?per_page=10' \
+curl -s 'http://localhost:28157/api/v1/logs?per_page=10' \
   -H "Authorization: Bearer $TOKEN" | jq .
 ```
 
@@ -100,7 +100,7 @@ quando houver logs.
 ### 6. Logout
 
 ```bash
-curl -s -X POST http://localhost:8015/api/v1/auth/logout \
+curl -s -X POST http://localhost:28157/api/v1/auth/logout \
   -H "Authorization: Bearer $TOKEN" | jq .
 ```
 
@@ -114,7 +114,7 @@ Resposta esperada:
 ### 7. Confirmar token revogado
 
 ```bash
-curl -s -i http://localhost:8015/api/v1/auth/me \
+curl -s -i http://localhost:28157/api/v1/auth/me \
   -H "Authorization: Bearer $TOKEN"
 ```
 

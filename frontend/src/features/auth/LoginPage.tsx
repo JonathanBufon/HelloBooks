@@ -34,23 +34,24 @@ export function LoginPage() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
+    const emailValue = email.trim();
 
-    if (!email.trim() || !senha.trim()) {
+    if (!emailValue || !senha.trim()) {
       setError('Preencha todos os campos.');
       return;
     }
 
     setIsSubmitting(true);
     try {
-      await login(email, senha, lembrar);
+      await login(emailValue, senha, lembrar);
       navigate('/', { replace: true });
     } catch (err: unknown) {
       const msg =
         err instanceof Error ? err.message : 'Credenciais inválidas. Verifique seu e-mail e senha.';
-      // API returns 401 with a message — use it, otherwise fallback
+      // API returns errors in the REST envelope: { error: { message } }.
       if (typeof err === 'object' && err !== null && 'response' in err) {
-        const resp = (err as { response?: { data?: { message?: string } } }).response;
-        setError(resp?.data?.message ?? msg);
+        const resp = (err as { response?: { data?: { error?: { message?: string } } } }).response;
+        setError(resp?.data?.error?.message ?? msg);
       } else {
         setError(msg);
       }
@@ -139,7 +140,7 @@ export function LoginPage() {
             <TextInput
               label="E-mail"
               type="email"
-              placeholder="marina@biblioteca.edu"
+              placeholder="biblio@hello.local"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               icon={<Mail size={18} />}
@@ -153,6 +154,7 @@ export function LoginPage() {
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
               icon={<Lock size={18} />}
+              hint="Senha demo: secret123"
               required
               error={error && !senha.trim() ? 'Campo obrigatório' : undefined}
             />

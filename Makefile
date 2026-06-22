@@ -11,7 +11,7 @@ help:
 	@printf "  make restart         Restart containers\n"
 	@printf "  make ps              Show container status\n"
 	@printf "  make logs            Follow all logs\n"
-	@printf "  make logs-backend    Follow backend logs\n"
+	@printf "  make logs-backend    Follow backend PHP-FPM and Nginx logs\n"
 	@printf "  make build           Build containers\n"
 	@printf "  make shell-backend   Open sh in backend container\n"
 	@printf "  make shell-postgres  Open psql in postgres container\n"
@@ -41,7 +41,7 @@ logs:
 	$(COMPOSE) logs -f
 
 logs-backend:
-	$(COMPOSE) logs -f backend
+	$(COMPOSE) logs -f backend backend-web
 
 build:
 	$(COMPOSE) build

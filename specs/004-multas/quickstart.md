@@ -30,7 +30,7 @@ npm run dev
 
 ```
 POST /api/v1/auth/login
-{ "email": "biblio@hello.local", "senha": "password" }
+{ "email": "biblio@hello.local", "senha": "secret123" }
 ```
 
 ### 2. Registrar multa
@@ -104,7 +104,7 @@ Esperado: 409 — multa duplicada (mesmo item + motivo)
 
 ```
 POST /api/v1/auth/login
-{ "email": "leitor@hello.local", "senha": "password" }
+{ "email": "leitor@hello.local", "senha": "secret123" }
 
 GET /api/v1/minhas-multas/resumo
 ```
