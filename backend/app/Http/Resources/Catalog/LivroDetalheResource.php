@@ -13,7 +13,6 @@ class LivroDetalheResource extends LivroResource
     {
         return array_merge(parent::toArray($request), [
             'exemplares' => ExemplarResource::collection($this->whenLoaded('exemplares')),
-            'contagem_exemplares' => $this->contagem_exemplares,
         ]);
     }
 }

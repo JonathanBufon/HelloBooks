@@ -5,6 +5,7 @@ namespace App\Services\Catalog;
 use App\Domain\Exceptions\IsbnDuplicadoException;
 use App\Domain\Exceptions\RecursoEmUsoException;
 use App\Models\Livro;
+use App\Models\ItemEmprestimo;
 use App\Repositories\Catalog\AutorRepositoryInterface;
 use App\Repositories\Catalog\CategoriaRepositoryInterface;
 use App\Repositories\Catalog\EditoraRepositoryInterface;
@@ -130,21 +131,35 @@ class LivroService
         });
     }
 
+    public function definirDisponibilidade(int $id, bool $disponivel): Livro
+    {
+        return DB::transaction(function () use ($id, $disponivel): Livro {
+            $livro = $this->livros->comDetalhes($id);
+            abort_if($livro === null, 404, 'Livro nao encontrado.');
+
+            $livro->exemplares()
+                ->where('status', $disponivel ? 'manutencao' : 'disponivel')
+                ->update(['status' => $disponivel ? 'disponivel' : 'manutencao']);
+
+            return $this->detalhe($id);
+        });
+    }
+
     public function remover(int $id): void
     {
         DB::transaction(function () use ($id): void {
             $livro = $this->livros->comDetalhes($id);
             abort_if($livro === null, 404, 'Livro nao encontrado.');
 
-            $totalExemplares = $livro->exemplares()->count();
-            if ($totalExemplares > 0) {
+            if ($livro->solicitacoesEmprestimo()->exists() || ItemEmprestimo::query()->whereHas('exemplar', fn ($query) => $query->where('id_livro', $id))->exists()) {
                 throw new RecursoEmUsoException(
-                    'Livro possui exemplares vinculados.',
-                    ['exemplares' => $totalExemplares],
-                    'LIVRO_COM_EXEMPLARES',
+                    'Livro possui movimentacoes de emprestimo vinculadas.',
+                    ['id_livro' => $id],
+                    'LIVRO_COM_MOVIMENTACOES',
                 );
             }
 
+            $livro->exemplares()->delete();
             $livro->delete();
         });
     }

@@ -10,13 +10,23 @@ class UsuarioSeeder extends Seeder
 {
     public function run(): void
     {
-        Usuario::query()->updateOrCreate(
-            ['email' => 'biblio@hello.local'],
-            [
-                'nome_completo' => 'Bibliotecario HelloBooks',
-                'cargo' => CargoUsuario::Bibliotecario,
-                'senha_hash' => 'secret123',
-            ],
-        );
+        $usuarios = [
+            ['Bibliotecario HelloBooks', 'biblio@hello.local', CargoUsuario::Bibliotecario, 'secret123'],
+            ['Leitor HelloBooks', 'leitor@hello.local', CargoUsuario::Leitor, 'secret123'],
+            ['Ana Leitora', 'ana.leitora@hello.local', CargoUsuario::Leitor, 'secret123'],
+            ['Bruno Atrasado', 'bruno.atrasado@hello.local', CargoUsuario::Leitor, 'secret123'],
+            ['Carla Sem Pendencias', 'carla.sem-pendencias@hello.local', CargoUsuario::Leitor, 'secret123'],
+        ];
+
+        foreach ($usuarios as [$nome, $email, $cargo, $senha]) {
+            Usuario::query()->updateOrCreate(
+                ['email' => $email],
+                [
+                    'nome_completo' => $nome,
+                    'cargo' => $cargo,
+                    'senha_hash' => $senha,
+                ],
+            );
+        }
     }
 }

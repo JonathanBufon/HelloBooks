@@ -1,11 +1,11 @@
 # HelloBooks
 
-HelloBooks e um sistema backend de biblioteca. O projeto entrega uma API Laravel e infraestrutura local com Docker Compose para desenvolver o catalogo de livros, autores, editoras, categorias e exemplares.
+HelloBooks e um sistema de biblioteca com API Laravel, frontend React e infraestrutura local com Docker Compose.
 
 ## Stack
 
 - Backend: PHP 8.3, Laravel 12, PostgreSQL, Redis, JWT Auth.
-- Infra local: Docker Compose.
+- Infra local: Docker Compose com Nginx, PHP-FPM, PostgreSQL e Redis.
 - Collection Postman: `backend/postman/HelloBooks.postman_collection.json`.
 
 ## Como Rodar
@@ -26,13 +26,13 @@ docker compose -f docker/docker-compose.yml exec backend php artisan migrate --s
 Se `backend/.env` ja existir de uma geracao anterior do Laravel, confirme que ele usa
 `DB_CONNECTION=pgsql`, `DB_HOST=postgres` e um `JWT_SECRET` com pelo menos 32 caracteres.
 
-Rode o backend em modo desenvolvimento, se preferir executar fora do Compose:
+Para acompanhar os logs em primeiro plano, tambem e possivel usar:
 
 ```bash
 npm run dev
 ```
 
-A API fica em `http://localhost:8015/api/v1`.
+A API fica em `http://localhost:28157/api/v1`.
 
 ## Estrutura
 
@@ -41,8 +41,9 @@ A API fica em `http://localhost:8015/api/v1`.
 ├── backend/                         # API Laravel
 ├── frontend/                        # Reservado; vazio por enquanto
 ├── docker/                          # Infra local
-│   ├── backend/Dockerfile           # Imagem PHP da API
-│   ├── docker-compose.yml           # Postgres, Redis e backend
+│   ├── backend/Dockerfile           # Imagem PHP-FPM da API
+│   ├── nginx/default.conf           # Virtual host HTTP da API
+│   ├── docker-compose.yml           # Nginx, PHP-FPM, Postgres, Redis e frontend
 │   └── .env.example                 # Variaveis do Compose
 ├── docs/                            # Documentacao do projeto (modelo de dados, etc.)
 ├── Makefile                         # Atalhos de desenvolvimento
@@ -52,6 +53,8 @@ A API fica em `http://localhost:8015/api/v1`.
 ## Backend
 
 O backend fica em `backend/` e segue a arquitetura `Controller -> Service -> Repository -> Eloquent Model`.
+
+Spec ativa em desenvolvimento: `specs/002-backend-complementar/`. Ela complementa o backend com autenticacao JWT, CRUD de usuarios, dashboard de metricas agregadas e leitura dos logs de auditoria, sem alterar os endpoints de catalogo entregues na feature `001-gestao-catalogo`.
 
 Principais pastas:
 
@@ -78,7 +81,7 @@ Rotas principais implementadas nesta etapa:
 - `GET|PUT|DELETE /api/v1/editoras/{id}`
 - `GET|PUT|DELETE /api/v1/categorias/{id}`
 
-O endpoint de login/JWT ainda nao faz parte desta feature. Para testes manuais, gere o token via `php artisan tinker`, conforme a secao abaixo.
+Na feature `001-gestao-catalogo`, o endpoint de login/JWT ainda nao fazia parte do escopo. Enquanto a spec `002-backend-complementar` estiver em desenvolvimento, gere o token via `php artisan tinker` para testar rotas ja protegidas, conforme a secao abaixo.
 
 ## Bearer Token Para Testes
 
@@ -221,17 +224,15 @@ npm run gen:postman
 
 ## Infra Local
 
-As portas expostas foram deslocadas 15 acima das padroes para evitar conflito com servicos locais.
+As portas expostas usam numeros altos e nao convencionais para evitar conflito com outros projetos locais.
 
-| Servico | Porta local | Porta container |
-|---------|-------------|-----------------|
-| Postgres | `5447` | `5432` |
-| Redis | `6394` | `6379` |
-| Backend | `8015` | `8015` |
-
-URLs locais:
-
-- API: `http://localhost:8015/api/v1`
+| Servico | Container Compose | Porta local | Porta container | URL local |
+|---------|-------------------|-------------|-----------------|-----------|
+| Frontend | `frontend` | `29173` | `5173` | `http://localhost:29173` |
+| Backend API HTTP | `backend-web` | `28157` | `80` | `http://localhost:28157/api/v1` |
+| Backend PHP-FPM/CLI | `backend` | n/a | `9000` | interno ao Compose |
+| PostgreSQL | `postgres` | `25447` | `5432` | `localhost:25447` |
+| Redis | `redis` | `26394` | `6379` | `localhost:26394` |
 
 ## Comandos
 
@@ -292,7 +293,7 @@ make artisan CMD='route:list --path=api/v1'
 
 ## Status Atual
 
-A feature de gestao de catalogo cobre cadastro, consulta, edicao e remocao protegida de livros, exemplares, autores, editoras e categorias. A collection Postman versionada para uso fica em `backend/postman/HelloBooks.postman_collection.json`.
+A feature `001-gestao-catalogo` cobre cadastro, consulta, edicao e remocao protegida de livros, exemplares, autores, editoras e categorias. A feature ativa agora e `002-backend-complementar`, que adiciona auth JWT, CRUD de usuarios, dashboard e consulta de logs para suportar o frontend do MVP. A collection Postman versionada para uso fica em `backend/postman/HelloBooks.postman_collection.json`.
 
 ## Observacoes
 

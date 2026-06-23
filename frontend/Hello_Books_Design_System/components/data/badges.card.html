@@ -1,0 +1,43 @@
+<!-- @dsCard group="Components" viewport="700x230" name="Badges, status & tags" subtitle="StatusBadge mapeia status do domínio · Tag para categorias" -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 24px; background: var(--color-bg); }
+  #root { display: flex; flex-direction: column; gap: 16px; }
+  .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .lbl { font-family: var(--font-sans); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #7A7F91; width: 96px; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+  <script src="../../_ds_bundle.js"></script>
+  <script type="text/babel">
+    const { Badge, StatusBadge, Tag, Avatar } = window.HelloBooksDesignSystem_5c47c8;
+    function Demo() {
+      return (
+        <>
+          <div className="row"><span className="lbl">Livro</span>
+            <StatusBadge status="Disponível" /><StatusBadge status="Emprestado" /><StatusBadge status="Reservado" /><StatusBadge status="Manutenção" /><StatusBadge status="Perdido" />
+          </div>
+          <div className="row"><span className="lbl">Empréstimo</span>
+            <StatusBadge status="Ativo" /><StatusBadge status="Atrasado" /><StatusBadge status="Devolvido" /><StatusBadge status="Renovado" />
+          </div>
+          <div className="row"><span className="lbl">Tags</span>
+            <Tag>Acadêmico</Tag><Tag>Referência</Tag><Tag>Ficção Histórica</Tag><Tag onRemove={() => {}}>Mistério</Tag>
+          </div>
+          <div className="row"><span className="lbl">Avatar</span>
+            <Avatar name="Marina Costa" size="sm" /><Avatar name="João Reis" size="md" /><Avatar name="Ana Lima" size="lg" />
+          </div>
+        </>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+  </script>
+</body>
+</html>

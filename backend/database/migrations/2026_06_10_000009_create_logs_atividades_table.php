@@ -21,7 +21,9 @@ return new class extends Migration
             $table->index(['id_usuario', 'data_hora']);
         });
 
-        DB::statement("ALTER TABLE logs_atividades ADD CONSTRAINT logs_atividades_acao_realizada_check CHECK (acao_realizada in ('created', 'updated', 'deleted'))");
+        if (DB::connection()->getDriverName() === 'pgsql') {
+            DB::statement("ALTER TABLE logs_atividades ADD CONSTRAINT logs_atividades_acao_realizada_check CHECK (acao_realizada in ('created', 'updated', 'deleted'))");
+        }
     }
 
     public function down(): void

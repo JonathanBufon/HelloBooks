@@ -1,0 +1,34 @@
+<!-- @dsCard group="Brand" viewport="700x180" name="Iconografia" subtitle="Lucide — lineares, stroke 2px, por módulo" -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; padding: 22px; background: var(--color-surface); font-family: var(--font-sans); }
+  .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+  .item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .ic { width: 46px; height: 46px; border-radius: var(--radius-md); background: var(--color-primary-50); color: var(--color-primary); display: flex; align-items: center; justify-content: center; }
+  .l { font-size: 11px; color: var(--color-text-muted); font-weight: 600; }
+  .ic svg { width: 22px; height: 22px; }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div class="item"><span class="ic" data-lucide="layout-grid"></span><span class="l">Dashboard</span></div>
+    <div class="item"><span class="ic" data-lucide="book-open"></span><span class="l">Catálogo</span></div>
+    <div class="item"><span class="ic" data-lucide="users"></span><span class="l">Membros</span></div>
+    <div class="item"><span class="ic" data-lucide="arrow-left-right"></span><span class="l">Circulação</span></div>
+    <div class="item"><span class="ic" data-lucide="bar-chart-3"></span><span class="l">Relatórios</span></div>
+    <div class="item"><span class="ic" data-lucide="settings"></span><span class="l">Configurações</span></div>
+    <div class="item"><span class="ic" data-lucide="clipboard-list"></span><span class="l">Empréstimo</span></div>
+    <div class="item"><span class="ic" data-lucide="rotate-ccw"></span><span class="l">Devolução</span></div>
+    <div class="item"><span class="ic" data-lucide="alert-circle"></span><span class="l">Multa</span></div>
+    <div class="item"><span class="ic" data-lucide="book"></span><span class="l">Livro</span></div>
+    <div class="item"><span class="ic" data-lucide="search"></span><span class="l">Busca</span></div>
+    <div class="item"><span class="ic" data-lucide="bookmark"></span><span class="l">Reserva</span></div>
+  </div>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

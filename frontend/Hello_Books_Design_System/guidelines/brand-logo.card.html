@@ -1,0 +1,29 @@
+<!-- @dsCard group="Brand" viewport="700x180" name="Logo & lockup" subtitle="Marca + wordmark sobre superfície e roxo" -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; padding: 26px; background: var(--color-bg); font-family: var(--font-sans); }
+  .row { display: flex; gap: 20px; }
+  .lockup { display: flex; align-items: center; gap: 14px; padding: 20px 26px; border-radius: var(--radius-xl); flex: 1; }
+  .on-light { background: var(--color-surface); border: 1px solid var(--color-border); }
+  .on-purple { background: var(--gradient-primary); }
+  .name { font-size: 20px; font-weight: 800; line-height: 1.1; }
+  .sub { font-size: 12px; font-weight: 500; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="lockup on-light">
+      <img src="../assets/logo.svg" width="46" height="46" alt="Hello Books" />
+      <div><div class="name" style="color:var(--color-text)">Hello Books</div><div class="sub" style="color:var(--color-text-soft)">Academic Management</div></div>
+    </div>
+    <div class="lockup on-purple">
+      <img src="../assets/logo-mono.svg" width="46" height="46" alt="Hello Books" />
+      <div><div class="name" style="color:#fff">Hello Books</div><div class="sub" style="color:rgba(255,255,255,.8)">Central Library</div></div>
+    </div>
+  </div>
+</body>
+</html>

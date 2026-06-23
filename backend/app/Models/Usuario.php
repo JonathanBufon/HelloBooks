@@ -3,14 +3,16 @@
 namespace App\Models;
 
 use App\Domain\Usuario\CargoUsuario;
+use App\Models\Concerns\AuditableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
 class Usuario extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable;
+    use AuditableTrait, HasFactory, Notifiable;
 
     protected $table = 'usuarios';
 
@@ -46,6 +48,22 @@ class Usuario extends Authenticatable implements JWTSubject
         return [
             'cargo' => $this->cargo instanceof CargoUsuario ? $this->cargo->value : $this->cargo,
         ];
+    }
+
+    /**
+     * @return HasMany<Emprestimo>
+     */
+    public function emprestimos(): HasMany
+    {
+        return $this->hasMany(Emprestimo::class, 'id_usuario', 'id_usuario');
+    }
+
+    /**
+     * @return HasMany<SolicitacaoEmprestimo>
+     */
+    public function solicitacoesEmprestimo(): HasMany
+    {
+        return $this->hasMany(SolicitacaoEmprestimo::class, 'id_usuario', 'id_usuario');
     }
 
     /**

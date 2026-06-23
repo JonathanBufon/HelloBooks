@@ -1,0 +1,26 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Neutros e superfícies" subtitle="Fundo azul-claro, cards brancos, bordas suaves" -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; padding: 20px; background: var(--color-bg); }
+  .row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .sw { width: 118px; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--color-border); background: var(--color-surface); }
+  .chip { height: 56px; }
+  .meta { padding: 8px 10px; font-family: var(--font-sans); }
+  .name { font-size: 12px; font-weight: 700; color: var(--color-text); }
+  .hex { font-size: 11px; color: var(--color-text-soft); margin-top: 2px; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="sw"><div class="chip" style="background:#F3F6FF"></div><div class="meta"><div class="name">bg</div><div class="hex">#F3F6FF</div></div></div>
+    <div class="sw"><div class="chip" style="background:#FFFFFF"></div><div class="meta"><div class="name">surface</div><div class="hex">#FFFFFF</div></div></div>
+    <div class="sw"><div class="chip" style="background:#EEF3FF"></div><div class="meta"><div class="name">surface-soft</div><div class="hex">#EEF3FF</div></div></div>
+    <div class="sw"><div class="chip" style="background:#D8DDF0"></div><div class="meta"><div class="name">border</div><div class="hex">#D8DDF0</div></div></div>
+    <div class="sw"><div class="chip" style="background:#C7CEE5"></div><div class="meta"><div class="name">border-strong</div><div class="hex">#C7CEE5</div></div></div>
+  </div>
+</body>
+</html>

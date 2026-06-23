@@ -2,11 +2,13 @@
 
 use App\Domain\Exceptions\DomainException;
 use App\Http\Middleware\EnsureCargo;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -42,5 +44,23 @@ return Application::configure(basePath: dirname(__DIR__))
                     'details' => $exception->errors(),
                 ],
             ], 422);
+        });
+
+        $exceptions->render(function (AuthenticationException $exception): JsonResponse {
+            return new JsonResponse([
+                'error' => [
+                    'code' => 'NAO_AUTENTICADO',
+                    'message' => 'Autenticacao requerida.',
+                ],
+            ], 401);
+        });
+
+        $exceptions->render(function (NotFoundHttpException $exception): JsonResponse {
+            return new JsonResponse([
+                'error' => [
+                    'code' => 'RECURSO_NAO_ENCONTRADO',
+                    'message' => 'Recurso nao encontrado.',
+                ],
+            ], 404);
         });
     })->create();

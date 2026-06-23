@@ -20,7 +20,9 @@ return new class extends Migration
 
         });
 
-        DB::statement("ALTER TABLE usuarios ADD CONSTRAINT usuarios_cargo_check CHECK (cargo in ('bibliotecario', 'leitor'))");
+        if (DB::connection()->getDriverName() === 'pgsql') {
+            DB::statement("ALTER TABLE usuarios ADD CONSTRAINT usuarios_cargo_check CHECK (cargo in ('bibliotecario', 'leitor'))");
+        }
     }
 
     public function down(): void

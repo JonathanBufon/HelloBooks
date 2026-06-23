@@ -49,4 +49,12 @@ class Livro extends Model
     {
         return $this->hasMany(Exemplar::class, 'id_livro', 'id_livro');
     }
+
+    /**
+     * @return HasMany<SolicitacaoEmprestimo>
+     */
+    public function solicitacoesEmprestimo(): HasMany
+    {
+        return $this->hasMany(SolicitacaoEmprestimo::class, 'id_livro', 'id_livro');
+    }
 }
