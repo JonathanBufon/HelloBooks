@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Plus, DollarSign, Bell } from 'lucide-react';
+import { Plus, DollarSign, Bell, ChevronLeft, ChevronRight } from 'lucide-react';
 import * as multasApi from '../../api/multas';
 import type { MultaListParams } from '../../api/multas';
 import * as usuariosApi from '../../api/usuarios';
@@ -38,6 +38,14 @@ const STATUS_LABEL: Record<StatusMulta, string> = {
   perdoada: 'Perdoada',
 };
 
+type CreateStep = 1 | 2 | 3;
+
+const CREATE_STEPS: { step: CreateStep; title: string; description: string }[] = [
+  { step: 1, title: 'Leitor', description: 'Escolha o usuario' },
+  { step: 2, title: 'Emprestimo', description: 'Escolha o item' },
+  { step: 3, title: 'Detalhes', description: 'Informe motivo e valor' },
+];
+
 interface CreateFormState {
   id_usuario: string;
   id_item_emprestimo: string;
@@ -62,6 +70,7 @@ export function MultasPage() {
   const [motivoFilter, setMotivoFilter] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [createOpen, setCreateOpen] = useState(false);
+  const [createStep, setCreateStep] = useState<CreateStep>(1);
   const [createForm, setCreateForm] = useState<CreateFormState>(emptyCreateForm);
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [itensUsuario, setItensUsuario] = useState<ItemEmprestimoMulta[]>([]);
@@ -133,6 +142,26 @@ export function MultasPage() {
       showError(getErrorMessage(error, 'Nao foi possivel registrar multa.'));
     }
   };
+
+  const openCreateModal = () => {
+    setCreateForm(emptyCreateForm);
+    setItensUsuario([]);
+    setCreateStep(1);
+    setCreateOpen(true);
+  };
+
+  const closeCreateModal = () => {
+    setCreateOpen(false);
+  };
+
+  const canAdvanceCreate = createStep === 1
+    ? !!createForm.id_usuario
+    : createStep === 2
+      ? !!createForm.id_item_emprestimo
+      : !!createForm.motivo && !!createForm.valor;
+
+  const selectedUsuario = usuarios.find((usuario) => String(usuario.id_usuario) === createForm.id_usuario);
+  const selectedItem = itensUsuario.find((item) => String(item.id_item_emprestimo) === createForm.id_item_emprestimo);
 
   const handlePagar = async () => {
     if (!paying) return;
@@ -237,6 +266,83 @@ export function MultasPage() {
     },
   ];
 
+  const renderCreateStep = () => {
+    if (createStep === 1) {
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div>
+            <h3 style={{ margin: '0 0 6px', fontSize: 'var(--text-lg)', color: 'var(--color-text)' }}>Escolha o leitor</h3>
+            <p style={{ margin: 0, color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)' }}>
+              Selecione quem recebera a multa. Depois avance para escolher o emprestimo.
+            </p>
+          </div>
+          {isLoadingUsuarios ? <Card>Carregando usuarios...</Card> : <DataTable columns={userColumns} rows={usuarios} rowKey="id_usuario" emptyText="Nenhum leitor encontrado." style={{ maxHeight: '320px', overflowY: 'auto' }} />}
+        </div>
+      );
+    }
+
+    if (createStep === 2) {
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div>
+            <h3 style={{ margin: '0 0 6px', fontSize: 'var(--text-lg)', color: 'var(--color-text)' }}>Escolha o emprestimo</h3>
+            <p style={{ margin: 0, color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)' }}>
+              {selectedUsuario ? `Leitor selecionado: ${selectedUsuario.nome_completo}` : 'Selecione um leitor antes de continuar.'}
+            </p>
+          </div>
+          {isLoadingItens ? <Card>Carregando emprestimos...</Card> : <DataTable columns={itemColumns} rows={itensUsuario} rowKey="id_item_emprestimo" emptyText="Este leitor nao possui emprestimos." style={{ maxHeight: '320px', overflowY: 'auto' }} />}
+        </div>
+      );
+    }
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+        <div>
+          <h3 style={{ margin: '0 0 6px', fontSize: 'var(--text-lg)', color: 'var(--color-text)' }}>Revise e informe os detalhes</h3>
+          <p style={{ margin: 0, color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)' }}>
+            Confirme os dados selecionados e preencha o motivo e o valor da multa.
+          </p>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px' }}>
+          <div style={{ border: '1px solid var(--color-border)', borderRadius: 'var(--radius-xl)', padding: '14px', background: 'var(--color-surface-soft)' }}>
+            <span style={{ display: 'block', color: 'var(--color-text-soft)', fontSize: 'var(--text-xs)', textTransform: 'uppercase', letterSpacing: 'var(--tracking-label)', marginBottom: '6px' }}>Leitor</span>
+            <strong>{selectedUsuario?.nome_completo ?? '-'}</strong>
+          </div>
+          <div style={{ border: '1px solid var(--color-border)', borderRadius: 'var(--radius-xl)', padding: '14px', background: 'var(--color-surface-soft)' }}>
+            <span style={{ display: 'block', color: 'var(--color-text-soft)', fontSize: 'var(--text-xs)', textTransform: 'uppercase', letterSpacing: 'var(--tracking-label)', marginBottom: '6px' }}>Item</span>
+            <strong>{selectedItem ? `#${selectedItem.id_item_emprestimo} - ${selectedItem.livro?.titulo ?? 'Livro'}` : '-'}</strong>
+          </div>
+        </div>
+        <Select
+          label="Motivo"
+          value={createForm.motivo}
+          required
+          options={[{ value: 'atraso', label: 'Atraso' }, { value: 'rabisco', label: 'Rabisco' }, { value: 'rasgo', label: 'Rasgo' }, { value: 'dobra', label: 'Dobra' }]}
+          onChange={(e) => setCreateForm({ ...createForm, motivo: e.target.value as MotivoMulta | '' })}
+        />
+        <TextInput label="Valor (R$)" type="number" value={createForm.valor} placeholder="0.00" required onChange={(e) => setCreateForm({ ...createForm, valor: e.target.value })} />
+      </div>
+    );
+  };
+
+  const createFooter = (
+    <>
+      <Button variant="ghost" onClick={closeCreateModal}>Cancelar</Button>
+      {createStep > 1 && (
+        <Button variant="secondary" icon={<ChevronLeft size={16} />} onClick={() => setCreateStep((createStep - 1) as CreateStep)}>
+          Voltar
+        </Button>
+      )}
+      {createStep < 3 ? (
+        <Button iconRight={<ChevronRight size={16} />} onClick={() => setCreateStep((createStep + 1) as CreateStep)} disabled={!canAdvanceCreate}>
+          Continuar
+        </Button>
+      ) : (
+        <Button onClick={handleCreate} disabled={!canAdvanceCreate}>Registrar</Button>
+      )}
+    </>
+  );
+
   return (
     <>
       <PageHeader
@@ -245,7 +351,7 @@ export function MultasPage() {
         actions={(
           <div style={{ display: 'flex', gap: '8px' }}>
             <Button variant="secondary" icon={<DollarSign size={18} />} onClick={() => setBatchPayOpen(true)}>Pagar Todas</Button>
-            <Button icon={<Plus size={18} />} onClick={() => { setCreateForm(emptyCreateForm); setItensUsuario([]); setCreateOpen(true); }}>Registrar Multa</Button>
+            <Button icon={<Plus size={18} />} onClick={openCreateModal}>Registrar Multa</Button>
           </div>
         )}
       />
@@ -279,35 +385,47 @@ export function MultasPage() {
       {isLoading ? <Card>Carregando multas...</Card> : <DataTable columns={columns} rows={multas} rowKey="id_multa" />}
       <PaginationControls pagination={pagination} page={page} onPageChange={setPage} />
 
-      <Modal open={createOpen} title="Registrar Multa" onClose={() => setCreateOpen(false)} width={860} footer={(
-        <>
-          <Button variant="ghost" onClick={() => setCreateOpen(false)}>Cancelar</Button>
-          <Button onClick={handleCreate} disabled={!createForm.id_item_emprestimo || !createForm.motivo || !createForm.valor}>Registrar</Button>
-        </>
-      )}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-          <div>
-            <strong>1. Selecione o usuario</strong>
-            <div style={{ marginTop: '10px' }}>
-              {isLoadingUsuarios ? <Card>Carregando usuarios...</Card> : <DataTable columns={userColumns} rows={usuarios} rowKey="id_usuario" emptyText="Nenhum leitor encontrado." />}
-            </div>
+      <Modal open={createOpen} title="Registrar Multa" description={`Etapa ${createStep} de 3`} onClose={closeCreateModal} width={860} footer={createFooter}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '10px' }}>
+            {CREATE_STEPS.map((item) => {
+              const isActive = item.step === createStep;
+              const isDone = item.step < createStep;
+
+              return (
+                <div
+                  key={item.step}
+                  style={{
+                    border: `1px solid ${isActive ? 'var(--color-primary)' : 'var(--color-border)'}`,
+                    borderRadius: 'var(--radius-xl)',
+                    padding: '12px',
+                    background: isActive ? 'var(--color-primary-50)' : 'var(--color-surface-soft)',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <span style={{
+                      width: 28,
+                      height: 28,
+                      borderRadius: 'var(--radius-full)',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: isDone || isActive ? 'var(--color-primary)' : 'var(--color-surface)',
+                      color: isDone || isActive ? 'var(--color-text-on-primary)' : 'var(--color-text-muted)',
+                      fontWeight: 'var(--weight-bold)',
+                    }}>
+                      {item.step}
+                    </span>
+                    <div>
+                      <strong style={{ display: 'block', color: 'var(--color-text)' }}>{item.title}</strong>
+                      <span style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-xs)' }}>{item.description}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-          {createForm.id_usuario && (
-            <div>
-              <strong>2. Selecione o emprestimo</strong>
-              <div style={{ marginTop: '10px' }}>
-                {isLoadingItens ? <Card>Carregando emprestimos...</Card> : <DataTable columns={itemColumns} rows={itensUsuario} rowKey="id_item_emprestimo" emptyText="Este leitor nao possui emprestimos." />}
-              </div>
-            </div>
-          )}
-          <Select
-            label="Motivo"
-            value={createForm.motivo}
-            required
-            options={[{ value: 'atraso', label: 'Atraso' }, { value: 'rabisco', label: 'Rabisco' }, { value: 'rasgo', label: 'Rasgo' }, { value: 'dobra', label: 'Dobra' }]}
-            onChange={(e) => setCreateForm({ ...createForm, motivo: e.target.value as MotivoMulta | '' })}
-          />
-          <TextInput label="Valor (R$)" type="number" value={createForm.valor} placeholder="0.00" required onChange={(e) => setCreateForm({ ...createForm, valor: e.target.value })} />
+          {renderCreateStep()}
         </div>
       </Modal>
 

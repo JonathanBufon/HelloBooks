@@ -32,10 +32,14 @@ export function Modal({ open = true, title, description, children, footer, onClo
         role="dialog" aria-modal="true"
         style={{
           width: '100%', maxWidth: width,
+          maxHeight: 'calc(100vh - 48px)',
           background: 'var(--color-surface)',
           borderRadius: 'var(--radius-2xl)',
           boxShadow: 'var(--shadow-lg)',
           padding: '28px',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
         }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px', marginBottom: description ? '8px' : '20px' }}>
           <h2 style={{ margin: 0, fontSize: 'var(--text-xl)', fontWeight: 'var(--weight-bold)', color: danger ? 'var(--color-danger)' : 'var(--color-text)' }}>{title}</h2>
@@ -46,8 +50,8 @@ export function Modal({ open = true, title, description, children, footer, onClo
           )}
         </div>
         {description && <p style={{ margin: '0 0 20px', fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 1.5 }}>{description}</p>}
-        {children && <div style={{ marginBottom: footer ? '24px' : 0 }}>{children}</div>}
-        {footer && <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>{footer}</div>}
+        {children && <div style={{ minHeight: 0, overflowY: 'auto', marginBottom: footer ? '24px' : 0 }}>{children}</div>}
+        {footer && <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', flexShrink: 0 }}>{footer}</div>}
       </div>
     </div>
   );

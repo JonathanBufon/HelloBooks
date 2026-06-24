@@ -140,7 +140,7 @@ export function LoginPage() {
             <TextInput
               label="E-mail"
               type="email"
-              placeholder="biblio@hello.local"
+              placeholder="example@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               icon={<Mail size={18} />}
@@ -154,7 +154,6 @@ export function LoginPage() {
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
               icon={<Lock size={18} />}
-              hint="Senha demo: secret123"
               required
               error={error && !senha.trim() ? 'Campo obrigatório' : undefined}
             />

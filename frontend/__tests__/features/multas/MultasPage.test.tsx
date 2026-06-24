@@ -90,14 +90,15 @@ describe('MultasPage', () => {
     );
   });
 
-  it('opens and submits register modal', async () => {
+  it('opens register wizard modal', async () => {
     vi.mocked(multasApi.create).mockResolvedValue(sampleMulta);
     renderPage();
 
     await screen.findByText('Ana Leitora');
     await userEvent.click(screen.getByRole('button', { name: /Registrar Multa/i }));
 
-    expect(await screen.findByText('1. Selecione o usuario')).toBeInTheDocument();
+    expect(await screen.findByText('Etapa 1 de 3')).toBeInTheDocument();
+    expect(await screen.findByText('Escolha o leitor')).toBeInTheDocument();
   });
 
   it('opens pay confirm modal on Dar Baixa click', async () => {
